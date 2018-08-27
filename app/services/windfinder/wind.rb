@@ -1,4 +1,4 @@
-module WindfinderForecasts
+module Windfinder
   class Wind
     attr_accessor :direction_deg, :direction_dir, :speed, :gusts
 

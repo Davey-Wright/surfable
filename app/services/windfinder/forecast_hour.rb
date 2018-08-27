@@ -1,9 +1,8 @@
-module WindfinderForecasts
+module Windfinder
   class ForecastHour < ApplicationService
-    attr_accessor :value, :wave, :wind, :tide
+    attr_accessor :wave, :wind, :tide
 
     def initialize(hour)
-      @value = hour
       @wave = Wave.new(hour)
       @wind = Wind.new(hour)
       @tide = Tide.new(hour)
@@ -12,4 +11,4 @@ module WindfinderForecasts
 end
 
 
-# WindfinderForecasts::ForecastHour
+# Windfinder::ForecastHour

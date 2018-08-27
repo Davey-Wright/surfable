@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root 'static_pages#index'
-  get '/api/forecasts/long_term', to: 'api/forecasts#long_term'
-  get '/api/forecasts/short_term', to: 'api/forecasts#short_term'
-  get '/forecast', to: 'forecasts#index'
+  namespace :forecasts do
+    get 'windfinder/long_term', to: 'windfinder#long_term'
+    get 'windfinder/short_term', to: 'windfinder#short_term'
+  end
   devise_for :users
 end

@@ -1,4 +1,4 @@
-module WindfinderForecasts
+module Windfinder
   class Tide
     attr_accessor :type, :time, :height
 

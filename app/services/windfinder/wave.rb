@@ -1,4 +1,4 @@
-module WindfinderForecasts
+module Windfinder
   class Wave
     attr_accessor :direction_deg, :direction_dir, :height, :period
 

@@ -1,0 +1,2 @@
+module Forecasts::WindfinderHelper
+end
