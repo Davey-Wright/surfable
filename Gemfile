@@ -36,6 +36,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'slim'
 gem 'devise'
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
+gem 'simple_form'
+gem 'bootstrap', '~> 4.1.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -44,6 +46,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
+  gem 'html2slim'
 end
 
 group :development do
@@ -60,7 +63,6 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem "rspec-rails"
-  gem 'cucumber-rails', require: false
   gem 'factory_bot_rails'
   gem 'database_cleaner'
   gem 'selenium-webdriver'

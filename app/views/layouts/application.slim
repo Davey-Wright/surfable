@@ -10,5 +10,5 @@ html
   body
     p.notice= notice
     p.alert= alert
-    / = link_to 'Sign In', new_user_session_path
+    = link_to 'Sign Up', new_user_registration_path, id: 'sign_up'
     = yield

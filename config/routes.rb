@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     get 'windfinder/long_term', to: 'windfinder#long_term'
     get 'windfinder/short_term', to: 'windfinder#short_term'
   end
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
+  resources :users, only: :show
 end
