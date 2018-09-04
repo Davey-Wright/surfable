@@ -10,5 +10,10 @@ html
   body
     p.notice= notice
     p.alert= alert
-    = link_to 'Sign Up', new_user_registration_path, id: 'sign_up'
+    - if user_signed_in?
+      = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
+    - else
+      = link_to 'Sign Up', new_user_registration_path, id: 'sign_up'
+      = link_to 'Sign In', new_user_session_path, id: 'sign_in'
+
     = yield

@@ -1,3 +1,0 @@
-Services
-  - create forecasts folder
-  - refactor scraper Struct days method
