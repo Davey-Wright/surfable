@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
+  after_create :send_welcome_message
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[facebook google_oauth2]
@@ -28,6 +29,10 @@ class User < ApplicationRecord
     else
       auth.info.last_name
     end
+  end
+
+  def send_welcome_message
+    UserMailer.welcome_message(self).deliver
   end
 
 end
