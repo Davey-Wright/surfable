@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  after_create :send_welcome_message
+  after_create :send_sign_up_confirmation
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -9,8 +9,8 @@ class User < ApplicationRecord
     UserAuthentication::Omniauth.call(self, auth)
   end
 
-  def send_welcome_message
-    UserMailer.welcome_message(self).deliver
+  def send_sign_up_confirmation
+    UserMailer.sign_up_confirmation(self).deliver
   end
 
 end
