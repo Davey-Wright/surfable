@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   after_create :send_sign_up_confirmation
 
   devise :database_authenticatable, :registerable,

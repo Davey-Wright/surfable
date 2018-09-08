@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence :email do |n|
       "saltydog#{n}@test.com"
     end
-    password {'password'}
+    password {'saltysender'}
     first_name {'salty'}
     last_name {'dog'}
   end
