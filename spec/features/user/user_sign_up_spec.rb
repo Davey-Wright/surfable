@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/omniauth'
+require 'support/omniauth_stub'
 
 describe 'user sign up', type: :feature do
 

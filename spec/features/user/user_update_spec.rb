@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'update user account', type: :feature do
   context 'user has registered with OAuth and is on dashboard' do
     it 'should not display edit button' do
-
+      
     end
   end
 
