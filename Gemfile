@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+git_source(:github) { |repo| 'https://github.com/#{repo}.git' }
 
 ruby '2.4.1'
 
@@ -69,7 +69,8 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'launchy', '>= 2.4.3'
   gem 'database_cleaner'
-  gem "rspec-rails"
+  gem 'rspec-rails'
+  gem 'timecop'
   gem 'factory_bot_rails'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
