@@ -47,6 +47,15 @@ feature 'user sign up' do
     click_on('Sign in with Facebook')
     user_sign_up_expectations(page)
   end
+
+  scenario 'with facebook auth using existing email' do
+    FactoryBot.create(:user, {email: 'saltydog@test.com'})
+    visit new_user_registration_path
+    omniauth_stub(provider: :facebook)
+    click_on('Sign in with Facebook')
+    expect(page).to have_content('Email has already been taken')
+  end
+
 end
 
 feature 'clear sign up form', js: true do
@@ -65,7 +74,7 @@ def fill_sign_up_form
   fill_in 'user_last_name', with: 'dog'
   fill_in 'user_email', with: 'saltydog@test.com'
   fill_in 'user_password', with: 'saltysender'
-  fill_in 'user_password_confirmation', with: 'saltydogtest'
+  fill_in 'user_password_confirmation', with: 'saltysender'
 end
 
 def expect_user_count_to_be(n)

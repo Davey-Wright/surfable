@@ -2,9 +2,9 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  after_commit :send_sign_up_confirmation, on: :create
-  after_commit :send_update_confirmation, on: :update
-  after_commit :send_delete_confirmation, on: :destroy
+  after_create_commit   :send_sign_up_confirmation
+  after_update_commit   :send_update_confirmation
+  after_destroy_commit  :send_delete_confirmation
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable,

@@ -16,6 +16,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       session["devise.#{provider.downcase}_data"] = request.env['omniauth.auth']
       redirect_to new_user_registration_path
+      notices = flash[:notice].to_a.concat resource.errors.full_messages
+      notices.each { |n| flash[:notice] = n }
     end
   end
 
