@@ -25,9 +25,10 @@ class UsersController < ApplicationController
     @user = get_user
     if @user.provider
       if session[:confirmation_code] == delete_confirmation_params[:value]
-        @user.destroy
-        flash[:notice] = 'Your account has been deleted successfully'
-        redirect_to root_path
+        if @user.destroy
+          flash[:notice] = 'Your account has been deleted successfully'
+          redirect_to root_path
+        end
       else
         flash[:alert] = "Sorry your confirmation code did not match please try again"
         redirect_to user_confirm_destroy_path
