@@ -34,7 +34,7 @@ class UsersController < ApplicationController
         redirect_to user_confirm_destroy_path
       end
     else
-      if user.destroy_with_password(user_params[:current_password])
+      if @user.destroy_with_password(user_params[:current_password])
         flash[:notice] = 'Your account has been deleted successfully'
         redirect_to root_path
       else

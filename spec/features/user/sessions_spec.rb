@@ -34,11 +34,6 @@ feature 'user sessions' do
     expect(page).to have_content('Sign In')
   end
 
-  # scenario 'user session timeout' do
-  #   user = FactoryBot.create(:user)
-  #   login(user)
-  # end
-
   scenario 'user tries login with incorrect details' do
     user = FactoryBot.create(:user)
     visit new_user_session_path

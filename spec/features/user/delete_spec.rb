@@ -2,28 +2,28 @@ require 'rails_helper'
 require 'support/omniauth_stub'
 
 feature 'User tries deleting account', js: true do
-  # scenario 'user deletes account' do
-  #   user = create_and_login_user
-  #   click_on_delete_my_account(user)
-  #   confirm_password(user.password)
-  #   delete_user_expectations
-  # end
-  #
-  # scenario 'user cancels delete confirmation' do
-  #   user = create_and_login_user
-  #   click_on_delete_my_account(user)
-  #   click_on('Cancel')
-  #   expect(page).to have_current_path(user_path(user))
-  #   expect(User.count).to eq(1)
-  # end
-  #
-  # scenario 'user enters wrong password' do
-  #   user = create_and_login_user
-  #   click_on_delete_my_account(user)
-  #   confirm_password('wrongpassword')
-  #   expect(page).to have_current_path(user_confirm_destroy_path(user))
-  #   expect(page).to have_content('Your password is invalid')
-  # end
+  scenario 'user deletes account' do
+    user = create_and_login_user
+    click_on_delete_my_account(user)
+    confirm_password(user.password)
+    delete_user_expectations
+  end
+
+  scenario 'user cancels delete confirmation' do
+    user = create_and_login_user
+    click_on_delete_my_account(user)
+    click_on('Cancel')
+    expect(page).to have_current_path(user_path(user))
+    expect(User.count).to eq(1)
+  end
+
+  scenario 'user enters wrong password' do
+    user = create_and_login_user
+    click_on_delete_my_account(user)
+    confirm_password('wrongpassword')
+    expect(page).to have_current_path(user_confirm_destroy_path(user))
+    expect(page).to have_content('Your password is invalid')
+  end
 
   scenario 'delete omniauth user registered account' do
     user = sign_in_OAuth_user(:facebook)
@@ -37,16 +37,25 @@ feature 'User tries deleting account', js: true do
     delete_user_expectations
   end
 
-  # scenario 'omniauth user enters wrong confirmation code' do
-  #   user = sign_in_OAuth_user(:facebook)
-  # end
+  scenario 'omniauth user enters wrong confirmation code' do
+    user = sign_in_OAuth_user(:facebook)
+    click_on_delete_my_account(user)
+    confirmation_code = find('#confirmation_code').text
+    within('#user_confirm_code') do
+      expect(find_field('confirmation_code_value').value).to eq('')
+      fill_in 'confirmation_code_value', with: 'wrongcode'
+      click_on('Delete')
+    end
+    expect(page).not_to have_content(confirmation_code)
+    expect(page).to have_content('Sorry your confirmation code did not match please try again')
+  end
 
 end
 
 def create_and_login_user
   user = FactoryBot.create(:user)
   login_as(user, scope: :user)
-  click_on('Settings')
+  visit edit_user_registration_path(user)
   user
 end
 
