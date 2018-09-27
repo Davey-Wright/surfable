@@ -1,0 +1,20 @@
+h2 Enter your password to delete your account
+
+- if @user.provider
+  h2#confirmation_code = session[:confirmation_code]
+  = simple_form_for(@user_confirmation, url: user_path(@user),
+  html: { id: 'user_confirm_code', method: :delete, autocomplete: 'off' }) do |f|
+    = f.input :value,
+      required: true
+    .form-actions
+      = f.button :submit, "Delete"
+    = link_to "Cancel", user_path(@user)
+
+- else
+  = simple_form_for(@user, url: user_path(@user),
+  html: { id: 'user_password_confirmation', method: :delete, autocomplete: 'off' }) do |f|
+    = f.input :current_password,
+      required: true
+    .form-actions
+      = f.button :submit, "Delete"
+    = link_to "Cancel", user_path(@user)

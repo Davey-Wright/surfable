@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     registrations: 'registrations',
     sessions: 'sessions',
     omniauth_callbacks: 'omniauth_callbacks'}
-  resources :users, only: :show
+  resources :users, only: [:show, :destroy]
+  get 'users/:id/confirm_destroy', to: 'users#confirm_destroy', as: 'user_confirm_destroy'
 end
