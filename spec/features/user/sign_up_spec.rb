@@ -56,6 +56,21 @@ feature 'user sign up' do
     expect(page).to have_content('Email has already been taken')
   end
 
+  scenario 'user fills form and clicks clear', js: true do
+    visit new_user_registration_path
+    within('#new_user') do
+      fill_sign_up_form
+      click_on('Clear')
+      expect(find_field('user_first_name').value).to eq('')
+    end
+  end
+
+  scenario 'visitor clicks sign up button' do
+    visit root_path
+    click_on('Sign Up')
+    expect(page).to have_current_path(new_user_registration_path)
+  end
+
   def fill_sign_up_form
     fill_in 'user_first_name', with: 'salty'
     fill_in 'user_last_name', with: 'dog'
@@ -79,15 +94,4 @@ feature 'user sign up' do
     expect(page).to have_content("Shwmae #{User.first.first_name}")
   end
 
-end
-
-feature 'clear sign up form', js: true do
-  scenario 'user fills form and clicks clear' do
-    visit new_user_registration_path
-    within('#new_user') do
-      fill_sign_up_form
-      click_on('Clear')
-      expect(find_field('user_first_name').value).to eq('')
-    end
-  end
 end
