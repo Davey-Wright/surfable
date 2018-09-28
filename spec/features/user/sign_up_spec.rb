@@ -56,6 +56,29 @@ feature 'user sign up' do
     expect(page).to have_content('Email has already been taken')
   end
 
+  def fill_sign_up_form
+    fill_in 'user_first_name', with: 'salty'
+    fill_in 'user_last_name', with: 'dog'
+    fill_in 'user_email', with: 'saltydog@test.com'
+    fill_in 'user_password', with: 'saltysender'
+    fill_in 'user_password_confirmation', with: 'saltysender'
+  end
+
+  def expect_user_count_to_be(n)
+    user = User.all
+    expect(user.count).to eq(n)
+  end
+
+  def user_sign_up_expectations(page)
+    user = User.first
+    expect(user.first_name).to eq('salty')
+    expect(user.last_name).to eq('dog')
+    expect(user.email).to eq('saltydog@test.com')
+
+    expect(page).to have_current_path(user_path(user))
+    expect(page).to have_content("Shwmae #{User.first.first_name}")
+  end
+
 end
 
 feature 'clear sign up form', js: true do
@@ -67,27 +90,4 @@ feature 'clear sign up form', js: true do
       expect(find_field('user_first_name').value).to eq('')
     end
   end
-end
-
-def fill_sign_up_form
-  fill_in 'user_first_name', with: 'salty'
-  fill_in 'user_last_name', with: 'dog'
-  fill_in 'user_email', with: 'saltydog@test.com'
-  fill_in 'user_password', with: 'saltysender'
-  fill_in 'user_password_confirmation', with: 'saltysender'
-end
-
-def expect_user_count_to_be(n)
-  user = User.all
-  expect(user.count).to eq(n)
-end
-
-def user_sign_up_expectations(page)
-  user = User.first
-  expect(user.first_name).to eq('salty')
-  expect(user.last_name).to eq('dog')
-  expect(user.email).to eq('saltydog@test.com')
-
-  expect(page).to have_current_path(user_path(user))
-  expect(page).to have_content("Shwmae #{User.first.first_name}")
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/omniauth_stub'
 
 feature 'update user account', type: :feature do
-  
+
   scenario 'user has registered with OAuth and is on dashboard' do
     visit new_user_registration_path
     omniauth_stub(provider: :facebook)
@@ -57,10 +57,10 @@ feature 'update user account', type: :feature do
     expect(page).to have_current_path(user_path(user))
   end
 
-end
+  def create_and_login_user
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+    user
+  end
 
-def create_and_login_user
-  user = FactoryBot.create(:user)
-  login_as(user, scope: :user)
-  user
 end
