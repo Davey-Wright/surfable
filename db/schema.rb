@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_104753) do
+ActiveRecord::Schema.define(version: 2018_09_28_142148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "spots", force: :cascade do |t|
+    t.string "name"
+    t.string "wave_break_type"
+    t.string "wave_shape", default: [], array: true
+    t.string "wave_length", default: [], array: true
+    t.string "wave_speed", default: [], array: true
+    t.string "wave_direction", default: [], array: true
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_spots_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
