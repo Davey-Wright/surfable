@@ -11,6 +11,14 @@ require 'capybara/rspec'
 
 require "selenium/webdriver"
 
+Shoulda::Matchers.configure do |config|
+   config.integrate do |with|
+     with.test_framework :rspec
+     with.library :rails
+   end
+ end
+
+
 Timecop.safe_mode = true
 
 Capybara.register_driver :chrome do |app|
