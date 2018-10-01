@@ -1,0 +1,17 @@
+= link_to 'Add new spot', new_spot_path
+
+- @spots.each do |spot|
+  ul.spot
+    li
+      h2
+        = link_to spot.name, spot_path(spot)
+    li
+      p = spot.wave_break_type
+    li
+      p = spot.wave_direction
+    li
+      p = spot.wave_length
+    li
+      p = spot.wave_shape
+    li
+      p = spot.wave_speed

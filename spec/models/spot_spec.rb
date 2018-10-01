@@ -4,7 +4,13 @@ RSpec.describe Spot, type: :model do
   let(:user) { FactoryBot.create(:user) }
 
   subject {
-    described_class.new(user: user, name: 'Hardies')
+    described_class.new(user: user, name: 'Hardies Bay',
+        wave_break_type: ['beach', 'reef'],
+        wave_shape: ['crumbling', 'steep'],
+        wave_length: ['short', 'average'],
+        wave_speed: ['average'],
+        wave_direction: ['left', 'right']
+      )
   }
 
   describe 'Associations' do

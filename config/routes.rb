@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     sessions: 'sessions',
     omniauth_callbacks: 'omniauth_callbacks'}
   resources :users, only: [:show, :destroy]
+  resources :spots
   get 'users/:id/confirm_destroy', to: 'users#confirm_destroy', as: 'user_confirm_destroy'
 end
