@@ -20,26 +20,17 @@ class SpotsController < ApplicationController
 
   def show
     @spot = current_spot
-    if @spot.blank?
-      return render file: 'public/404.html', status: :not_found, layout: false
-    end
-    require_authorized_for_current_spot
+    return render_404_template if @spot.blank?
   end
 
   def edit
     @spot = current_spot
-    if @spot.blank?
-      return render file: 'public/404.html', status: :not_found, layout: false
-    end
-    require_authorized_for_current_spot
+    return render_404_template if @spot.blank?
   end
 
   def update
     @spot = current_spot
-    if @spot.blank?
-      return render file: 'public/404.html', status: :not_found, layout: false
-    end
-    require_authorized_for_current_spot
+    return render_404_template if @spot.blank?
 
     @spot.update_attributes(spot_params)
     if @spot.valid?
@@ -50,28 +41,29 @@ class SpotsController < ApplicationController
   end
 
   def destroy
-
+    @spot = current_spot
+    return render_404_template if @spot.blank?
+    @spot.destroy
+    redirect_to user_path(current_user)
   end
 
   private
 
-  def spot_params
-    params.require(:spot).permit(:name,
-      { wave_break_type: [] },
-      { wave_shape: [] },
-      { wave_length: [] },
-      { wave_speed: [] },
-      { wave_direction: [] })
-  end
+    def spot_params
+      params.require(:spot).permit(:name,
+        { wave_break_type: [] },
+        { wave_shape: [] },
+        { wave_length: [] },
+        { wave_speed: [] },
+        { wave_direction: [] })
+    end
 
-  def current_spot
-    current_user.spots.find_by_id(params[:id])
-  end
+    def current_spot
+      current_user.spots.find_by_id(params[:id])
+    end
 
-  def require_authorized_for_current_spot
-		if current_user != current_spot.user
-			return render file: 'public/404.html', status: :forbidden, layout: false
-		end
-	end
+    def render_404_template
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
 
 end

@@ -85,7 +85,7 @@ RSpec.describe SpotsController, type: :controller do
       user2 = FactoryBot.create(:user)
       sign_in user2
       get :show, params: { id: spot }
-      expect(response).to have_http_status(:forbidden)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'Should return a 404 message if the spot is not found' do
@@ -111,7 +111,7 @@ RSpec.describe SpotsController, type: :controller do
       user2 = FactoryBot.create(:user)
       sign_in user2
       get :edit, params: { id: spot }
-      expect(response).to have_http_status(:forbidden)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'Should return a 404 message if the spot is not found' do
@@ -138,7 +138,6 @@ RSpec.describe SpotsController, type: :controller do
       sign_in user2
       patch :update, params: { id: spot, spot: { name: 'Monkies' } }
       expect(response).to have_http_status(:not_found)
-
     end
 
     it 'Should return a 404 message if the spot is not found' do
@@ -160,19 +159,38 @@ RSpec.describe SpotsController, type: :controller do
       sign_in user
       spot_name = spot.name
       patch :update, params: { id: spot, spot: { name: 'Monkies' } }
-      expect(response).to be_successful
+      spot = assigns(:spot)
+      expect(response).to redirect_to spot_path(spot)
       expect(spot.name).to_not eq(spot_name)
     end
   end
 
   context 'DELETE #destroy' do
     it 'Should redirect unauthenticated user to login page' do
-      get :new
+      delete :destroy, params: { id: spot }
       expect(response).to redirect_to new_user_session_path
     end
-    it 'Should not let a user who did not create the spot edit the spot'
-    it 'Should return a 404 message if the spot is not found'
-    it 'Should render validation errors'
-    it 'Should display the edit form if the spot is found'
+
+    it 'Should not let a user who did not create the spot delete the spot' do
+      user2 = FactoryBot.create(:user)
+      sign_in user2
+      delete :destroy, params: { id: spot }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'Should return a 404 message if the spot is not found' do
+      sign_in user
+      delete :destroy, params: { id: 1000 }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'Should successfully delete spot' do
+      sign_in user
+      user_spots = user.spots.count
+      delete :destroy, params: { id: spot }
+      expect(response).to redirect_to user_path(user)
+      expect(user.spots.count).to eq(user_spots - 1)
+    end
+
   end
 end
