@@ -15,6 +15,8 @@ RSpec.describe Spot, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:sessions).dependent(:delete_all) }
+    it { is_expected.to have_many(:conditions).through(:sessions) }
     it { is_expected.to validate_presence_of(:user) }
   end
 

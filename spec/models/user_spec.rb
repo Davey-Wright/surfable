@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
+  # describe 'Associations' do
+  #   it { is_expected.to have_many(:spots).dependent(:delete_all) }
+  # end
+
   describe 'create new user' do
     context 'with missing required properties' do
       it 'should not add user to db' do

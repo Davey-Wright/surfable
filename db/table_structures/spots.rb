@@ -1,3 +1,6 @@
+belongs_to :users
+has_many :surf_conditions
+
 spot: {
   name: string,
   wave_break_type: ['beach', 'point', 'reef'],

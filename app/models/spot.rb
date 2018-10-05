@@ -1,5 +1,7 @@
 class Spot < ApplicationRecord
   belongs_to :user
+  has_many :sessions, dependent: :delete_all
+  has_many :conditions, through: :sessions
 
   validates_presence_of :user
   validates_presence_of :name

@@ -10,10 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_28_142148) do
+ActiveRecord::Schema.define(version: 2018_10_04_133412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conditions", force: :cascade do |t|
+    t.jsonb "tide", default: "{}"
+    t.jsonb "wind", default: "{}"
+    t.jsonb "wave", default: "{}"
+    t.bigint "session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_conditions_on_session_id"
+    t.index ["tide"], name: "index_conditions_on_tide"
+    t.index ["wave"], name: "index_conditions_on_wave"
+    t.index ["wind"], name: "index_conditions_on_wind"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "name"
+    t.string "board_type", default: [], array: true
+    t.bigint "spot_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spot_id"], name: "index_sessions_on_spot_id"
+  end
 
   create_table "spots", force: :cascade do |t|
     t.string "name"
