@@ -20,14 +20,13 @@ def add_spot_sessions(user)
   end
 end
 
-def add_session_conditions(user)
-  user.spots.each do |spot|
-    spot.sessions.each do |session|
-      binding.pry
-      session.create_conditions
-    end
-  end
-end
+# def add_session_conditions(user)
+#   user.spots.each do |spot|
+#     spot.sessions.each do |session|
+#       session.create_conditions
+#     end
+#   end
+# end
 
 def create_spots(user)
   user.spots.create({
@@ -39,7 +38,7 @@ def create_spots(user)
     wave_direction: ['left', 'right']
   })
   add_spot_sessions user
-  add_session_conditions user
+  # add_session_conditions user
 end
 
 create_spots user1

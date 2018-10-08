@@ -1,23 +1,44 @@
 require 'rails_helper'
 
 RSpec.describe Session, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:spot) { FactoryBot.create(:spot, user: user ) }
+  let(:spot) { FactoryBot.create(:spot) }
+  let(:swell) { FactoryBot.create(:swell) }
 
   subject {
     described_class.new( spot: spot,
       name: 'Longboard greasing',
       conditions_attributes: {
-        tide: {},
-        wind: {},
-        wave: {}
-      })
+        swell_attributes: {
+          min_height: 3,
+          max_height: 15,
+          min_period: 9,
+          direction: ['w', 'sw', 's']
+        },
+        tide_attributes: {
+          position: {
+            min: 5,
+            max: 12,
+            basic: ['low', 'mid', 'high']
+          },
+          movement: ['rising', 'slack', 'dropping'],
+          size: {
+            min: 10,
+            max: 12,
+            basic: ['small', 'medium', 'large']
+          }
+        },
+        wind_attributes: {
+          direction: ['n', 'nw', 'w'],
+          speed: 10
+        }
+      }
+    )
   }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }
-    it { is_expected.to have_one(:conditions).class_name('Condition') }
-    it { is_expected.to accept_nested_attributes_for :conditions}
+    it { is_expected.to have_one(:conditions).class_name('Condition::Condition').dependent(:delete)  }
+    it { is_expected.to accept_nested_attributes_for(:conditions) }
   end
 
   describe 'Validations' do

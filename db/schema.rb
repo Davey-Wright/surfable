@@ -10,27 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_04_133412) do
+ActiveRecord::Schema.define(version: 2018_10_05_225605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "conditions", force: :cascade do |t|
-    t.jsonb "tide", default: "{}"
-    t.jsonb "wind", default: "{}"
-    t.jsonb "wave", default: "{}"
-    t.bigint "session_id"
+  create_table "condition_conditions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["session_id"], name: "index_conditions_on_session_id"
-    t.index ["tide"], name: "index_conditions_on_tide"
-    t.index ["wave"], name: "index_conditions_on_wave"
-    t.index ["wind"], name: "index_conditions_on_wind"
+    t.bigint "session_id"
+    t.index ["session_id"], name: "index_condition_conditions_on_session_id"
+  end
+
+  create_table "condition_swells", force: :cascade do |t|
+    t.integer "min_height"
+    t.integer "max_height"
+    t.integer "min_period"
+    t.string "direction", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "condition_id"
+    t.index ["condition_id"], name: "index_condition_swells_on_condition_id"
+  end
+
+  create_table "condition_tides", force: :cascade do |t|
+    t.jsonb "position", default: {}, null: false
+    t.jsonb "movement", default: [], array: true
+    t.jsonb "size", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "condition_id"
+    t.index ["condition_id"], name: "index_condition_tides_on_condition_id"
+  end
+
+  create_table "condition_winds", force: :cascade do |t|
+    t.string "direction", default: [], array: true
+    t.integer "speed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "condition_id"
+    t.index ["condition_id"], name: "index_condition_winds_on_condition_id"
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.string "name"
-    t.string "board_type", default: [], array: true
+    t.string "name", null: false
+    t.string "board_type", default: [], null: false, array: true
     t.bigint "spot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -66,4 +90,5 @@ ActiveRecord::Schema.define(version: 2018_10_04_133412) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "condition_conditions", "sessions"
 end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :spot do
-    user
+    association :user, factory: :user, strategy: :build
     name { 'Hardies Bay' }
     wave_break_type { 'beach' }
     wave_shape { ['crumbling', 'steep'] }

@@ -1,5 +1,5 @@
-class Condition < ApplicationRecord
-  belongs_to :session
-
-  validates_presence_of :session
+module Condition
+  def self.table_name_prefix
+    'condition_'
+  end
 end
