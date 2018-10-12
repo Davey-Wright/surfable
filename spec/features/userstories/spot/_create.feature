@@ -2,7 +2,7 @@ Feature: create a new spot
   A registered logged in user can create new spots
 
   Scenario: Visitor tries to visit create spot page
-    Given I'm a visitor
+    Given I'm not a signed in user
     When I try to visit a new spot page
     Then I should be redirected to the log in page
 

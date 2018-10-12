@@ -1,26 +1,12 @@
-user1 = User.create({
-  email: 'saltydog@test.com',
-  password: 'saltysender',
-  first_name: 'Salty',
-  last_name: 'Dog',
-})
-
-user2 = User.create({
-  email: 'riktersender@test.com',
-  password: 'riktersender',
-  first_name: 'Rikter',
-  last_name: 'Sender',
-})
-
-def create_spots_for(user)
-  user.spots.create({
-    name: 'Hardies Bay',
+def spot_stub
+  {
+    name: 'Morfa',
     wave_break_type: ['beach', 'reef'],
     wave_shape: ['crumbling', 'steep'],
     wave_length: ['short', 'average'],
     wave_speed: ['average'],
     wave_direction: ['left', 'right'],
-    sessions_attributes: [
+    sessions_attributes: [ {
       name: 'Longboard greasing',
       board_type: ['longboard'],
       conditions_attributes: {
@@ -48,9 +34,6 @@ def create_spots_for(user)
           speed: 10
         }
       }
-    ]
-  })
+    } ]
+  }
 end
-
-create_spots_for user1
-create_spots_for user2

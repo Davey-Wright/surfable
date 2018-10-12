@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'User tries deleting account', js: true do
+feature 'delete', js: true do
   scenario 'user deletes account' do
     user = create_and_login_user
     click_on_delete_my_account(user)

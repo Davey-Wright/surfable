@@ -4,7 +4,7 @@ class Session < ApplicationRecord
     class_name: 'Condition::Condition',
     foreign_key: 'session_id',
     inverse_of: :session,
-    dependent: :delete
+    dependent: :destroy
 
   accepts_nested_attributes_for :conditions
 

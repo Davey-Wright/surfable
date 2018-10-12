@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'user sign up' do
+feature 'sign up' do
   scenario 'cancel new registration' do
     visit new_user_registration_path
     within('#new_user') do

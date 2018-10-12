@@ -48,14 +48,44 @@ class SpotsController < ApplicationController
   end
 
   private
-
     def spot_params
-      params.require(:spot).permit(:name,
-        { wave_break_type: [] },
-        { wave_shape: [] },
-        { wave_length: [] },
-        { wave_speed: [] },
-        { wave_direction: [] })
+      params.require(:spot).permit(
+        :name,
+        wave_break_type: [],
+        wave_shape: [],
+        wave_length: [],
+        wave_speed: [],
+        wave_direction: [],
+        sessions_attributes: [
+          :name,
+          board_type: [],
+          conditions_attributes: {
+            swell_attributes: [
+              :min_height,
+              :max_height,
+              :min_period,
+              direction: []
+            ],
+            tide_attributes: {
+              position: [
+                :min,
+                :max,
+                basic: []
+              ],
+              movement: [],
+              size: [
+                :min,
+                :max,
+                basic: []
+              ]
+            },
+            wind_attributes: [
+              { direction: [] },
+              :speed
+            ]
+          }
+        ]
+      )
     end
 
     def current_spot

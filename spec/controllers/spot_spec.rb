@@ -1,195 +1,193 @@
 require 'rails_helper'
+require 'support/spot_stub'
 
 RSpec.describe SpotsController, type: :controller do
 
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:spot) { FactoryBot.create(:spot, user: user) }
+  let(:logged_out_user) { FactoryBot.create(:user_with_complete_spot) }
 
-  context 'GET #index' do
-    it 'Should redirect unauthenticated user to login page' do
-      get :index
-      expect(response).to redirect_to new_user_session_path
-    end
-
-    it 'Should not display spots to other users' do
-      user2 = FactoryBot.create(:user)
-      new_spot = FactoryBot.create(:spot, { name: 'Nash point', user: user2 })
-      sign_in user
-      get :index
-      shaka = assigns(:spots)
-      spots = assigns(:spots)
-      expect(spots.count).to eq(1)
-      expect(spots.first.user).to eq(user)
-    end
-
-    it 'Should successfully display the page' do
-      sign_in user
-      get :index
-      expect(response).to be_successful
-      expect(response).to render_template :index
+  context 'when user is logged out' do
+    describe 'spots controller authentication' do
+      it { expect(get :index).to redirect_to new_user_session_path }
+      it { expect(get :new).to redirect_to new_user_session_path }
+      it { expect(post :create, params: { spot: { name: 'Hardies' } }).to redirect_to new_user_session_path }
+      it { expect(get :show, params: { id: logged_out_user.spots.first }).to redirect_to new_user_session_path }
+      it { expect(get :edit, params: { id: logged_out_user.spots.first }).to redirect_to new_user_session_path }
+      it { expect(patch :update, params: { id: logged_out_user.spots.first }).to redirect_to new_user_session_path }
+      it { expect(delete :destroy, params: { id: logged_out_user.spots.first }).to redirect_to new_user_session_path }
     end
   end
 
-  context 'GET #new' do
-    it 'Should redirect unauthenticated user to login page' do
-      get :new
-      expect(response).to redirect_to new_user_session_path
+
+  context 'when user is logged in' do
+
+    before(:each) do
+      @logged_in_user = FactoryBot.create(:user_with_complete_spot)
+      sign_in @logged_in_user
     end
 
-    it 'Should successfully display the page' do
-      sign_in user
-      get :new
-      expect(response).to be_successful
-      expect(response).to render_template :new
-    end
-  end
+    context 'GET' do
+      describe '#index' do
+        it 'Should render spots/index' do
+          get :index
+          expect(response).to be_successful
+          expect(response).to render_template :index
+        end
+      end
 
-  context 'POST #create' do
-    it 'Should redirect unauthenticated user to login page' do
-      post :create
-      expect(response).to redirect_to new_user_session_path
-    end
+      describe '#new' do
+        it 'Should render spots/new' do
+          get :new
+          expect(response).to be_successful
+          expect(response).to render_template :new
+        end
+      end
 
-    it 'Should render validation errors' do
-      sign_in user
-      spot_count = user.spots.count
-      post :create, params: { spot: { name: '' } }
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(user.spots.count).to eq(spot_count)
-    end
+      describe '#show' do
+        it 'Should only return the logged in users spot' do
+          get :show, params: { id: logged_out_user.spots.first }
+          expect(response).to have_http_status(:not_found)
+        end
 
-    it 'Should successfully create a spot and store it in our database' do
-      sign_in user
-      spot_count = user.spots.count
-      post :create, params: { spot: {
-        name: 'Hardies Bay',
-        wave_break_type: ['beach', 'reef'],
-        wave_shape: ['crumbling', 'steep'],
-        wave_length: ['short', 'average'],
-        wave_speed: ['average'],
-        wave_direction: ['left', 'right']
-      } }
-      spot = assigns(:spot)
-      expect(response).to redirect_to spot_path(spot)
-      expect(user.spots.count).to eq(spot_count + 1)
-    end
-  end
+        it 'Should return a 404 message if the spot is not found' do
+          get :show, params: { id: 'fake_id' }
+          expect(response).to have_http_status(:not_found)
+        end
 
-  context 'GET #show' do
-    it 'Should redirect unauthenticated user to login page' do
-      get :show, params: { id: spot }
-      expect(response).to redirect_to new_user_session_path
-    end
+        it 'Should render template show if spot is found' do
+          get :show, params: { id: @logged_in_user.spots.first }
+          expect(response).to be_successful
+          expect(response).to render_template :show
+        end
+      end
 
-    it 'Should not display spot to other users and render 404 page' do
-      user2 = FactoryBot.create(:user)
-      sign_in user2
-      get :show, params: { id: spot }
-      expect(response).to have_http_status(:not_found)
-    end
+      describe '#edit' do
+        it 'Should only return the logged in users spot' do
+          get :edit, params: { id: logged_out_user.spots.first }
+          expect(response).to have_http_status(:not_found)
+        end
 
-    it 'Should return a 404 message if the spot is not found' do
-      sign_in user
-      get :show, params: { id: 1000 }
-      expect(response).to have_http_status(:not_found)
+        it 'Should return a 404 message if the spot is not found' do
+          get :edit, params: { id: 'fake_id' }
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'Should return ' do
+          get :edit, params: { id: @logged_in_user.spots.first }
+          expect(response).to be_successful
+          expect(response).to render_template :edit
+        end
+      end
     end
 
-    it 'Should display the page if the spot is found' do
-      sign_in user
-      get :show, params: { id: spot }
-      expect(response).to be_successful
-    end
-  end
 
-  context 'GET #edit' do
-    it 'Should redirect unauthenticated user to login page' do
-      get :edit, params: { id: spot }
-      expect(response).to redirect_to new_user_session_path
-    end
+    context 'POST' do
+      describe '#create' do
+        it 'Should not create spot with invalid attributes' do
+          spots = @logged_in_user.spots
+          expect { post :create, params: { spot: { name: '' } } }
+            .to_not change{ spots.count }
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
 
-    it 'Should not let a user who did not create the spot view edit form' do
-      user2 = FactoryBot.create(:user)
-      sign_in user2
-      get :edit, params: { id: spot }
-      expect(response).to have_http_status(:not_found)
-    end
+        it 'Should permit nested params' do
+          spots = @logged_in_user.spots
+          expect { post :create, params: { spot: spot_stub } }
+            .to change{ spots.count }.by(+1)
 
-    it 'Should return a 404 message if the spot is not found' do
-      sign_in user
-      get :edit, params: { id: 1000 }
-      expect(response).to have_http_status(:not_found)
-    end
+          session = spots.last.sessions.first
+          expect(session).to_not eq(nil)
+          expect(session.conditions).to be_instance_of Condition::Condition
+          expect(session.conditions.swell).to be_instance_of Condition::Swell
+          expect(session.conditions.tide).to be_instance_of Condition::Tide
+          expect(session.conditions.wind).to be_instance_of Condition::Wind
+        end
 
-    it 'Should display the edit form if the spot is found' do
-      sign_in user
-      get :edit, params: { id: spot }
-      expect(response).to be_successful
-    end
-  end
-
-  context 'PATCH #update' do
-    it 'Should redirect unauthenticated user to login page' do
-      patch :update, params: { id: spot }
-      expect(response).to redirect_to new_user_session_path
+        it 'Should create a spot with valid attributes' do
+          spots = @logged_in_user.spots
+          expect { post :create, params: { spot: spot_stub } }
+            .to change{ spots.count }.by(+1)
+          expect(response).to redirect_to spot_path(spots.last)
+        end
+      end
     end
 
-    it 'Should not let a user who did not create the spot edit the spot' do
-      user2 = FactoryBot.create(:user)
-      sign_in user2
-      patch :update, params: { id: spot, spot: { name: 'Monkies' } }
-      expect(response).to have_http_status(:not_found)
+
+    context 'PATCH' do
+      describe '#update' do
+        it 'Should only let a spot owner update the spot' do
+          patch :update, params: { id: logged_out_user.spots.first, spot: { name: 'Monkies' } }
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'Should return a 404 message if the spot is not found' do
+          patch :update, params: { id: 'fake_id' }
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'Should return validation errors' do
+          spot = @logged_in_user.spots.first
+          expect { patch :update, params: { id: spot, spot: { name: '' } }
+            spot.reload }
+            .to_not change { spot.name }
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to render_template :edit
+        end
+
+        it 'Should permit nested params' do
+          spot = @logged_in_user.spots.first
+          patch :update, params: { id: spot, spot: { name: 'Monkies' } }
+          spot.reload
+          session = spot.sessions.first
+          expect(session).to_not eq(nil)
+          expect(session.conditions).to be_instance_of Condition::Condition
+          expect(session.conditions.swell).to be_instance_of Condition::Swell
+          expect(session.conditions.tide).to be_instance_of Condition::Tide
+          expect(session.conditions.wind).to be_instance_of Condition::Wind
+        end
+
+        it 'Should successfully update spot' do
+          spot = @logged_in_user.spots.first
+          expect { patch :update, params: { id: spot, spot: { name: 'Monkies' } }
+            spot.reload }
+            .to change { spot.name }.to('Monkies')
+          expect(response).to redirect_to spot_path(spot)
+        end
+      end
     end
 
-    it 'Should return a 404 message if the spot is not found' do
-      sign_in user
-      patch :update, params: { id: 1000 }
-      expect(response).to have_http_status(:not_found)
-    end
 
-    it 'Should render validation errors' do
-      sign_in user
-      spot_name = spot.name
-      patch :update, params: { id: spot, spot: { name: '' } }
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response).to render_template :edit
-      expect(spot.name).to eq(spot_name)
-    end
+    context 'DELETE' do
+      describe '#destroy' do
+        it 'Should not let a user who did not create the spot delete the spot' do
+          delete :destroy, params: { id: logged_out_user.spots.first }
+          expect(response).to have_http_status(:not_found)
+        end
 
-    it 'Should successfully update spot' do
-      sign_in user
-      spot_name = spot.name
-      patch :update, params: { id: spot, spot: { name: 'Monkies' } }
-      spot = assigns(:spot)
-      expect(response).to redirect_to spot_path(spot)
-      expect(spot.name).to_not eq(spot_name)
-    end
-  end
+        it 'Should return a 404 message if the spot is not found' do
+          delete :destroy, params: { id: 'fake_id' }
+          expect(response).to have_http_status(:not_found)
+        end
 
-  context 'DELETE #destroy' do
-    it 'Should redirect unauthenticated user to login page' do
-      delete :destroy, params: { id: spot }
-      expect(response).to redirect_to new_user_session_path
-    end
+        it 'Should successfully delete spot' do
+          spots = @logged_in_user.spots
+          expect { delete :destroy, params: { id: spots.first } }
+            .to change { spots.count }.by(-1)
+          expect(response).to redirect_to user_path(@logged_in_user)
+        end
 
-    it 'Should not let a user who did not create the spot delete the spot' do
-      user2 = FactoryBot.create(:user)
-      sign_in user2
-      delete :destroy, params: { id: spot }
-      expect(response).to have_http_status(:not_found)
-    end
+        it 'Should successfully delete all spot child associations' do
+          spots = @logged_in_user.spots
+          expect { delete :destroy, params: { id: spots.first } }
+            .to change {spots.count }.by(-1)
+          expect(Session.all.count).to eq(0)
+          expect(Condition::Condition.all.count).to eq(0)
+          expect(Condition::Swell.all.count).to eq(0)
+          expect(Condition::Tide.all.count).to eq(0)
+          expect(Condition::Wind.all.count).to eq(0)
+          expect(response).to redirect_to user_path(@logged_in_user)
+        end
 
-    it 'Should return a 404 message if the spot is not found' do
-      sign_in user
-      delete :destroy, params: { id: 1000 }
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it 'Should successfully delete spot' do
-      sign_in user
-      user_spots = user.spots.count
-      delete :destroy, params: { id: spot }
-      expect(response).to redirect_to user_path(user)
-      expect(user.spots.count).to eq(user_spots - 1)
+      end
     end
 
   end

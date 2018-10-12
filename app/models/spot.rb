@@ -1,7 +1,9 @@
 class Spot < ApplicationRecord
   belongs_to :user
-  has_many :sessions, dependent: :delete_all
+  has_many :sessions, dependent: :destroy
   has_many :conditions, through: :sessions
+
+  accepts_nested_attributes_for :sessions, reject_if: :session_name_blank?
 
   validates_presence_of :user
   validates_presence_of :name
@@ -20,5 +22,11 @@ class Spot < ApplicationRecord
 
   def to_param
     param = "#{id}-#{slug.parameterize}"
+  end
+
+private
+
+  def session_name_blank?(att)
+    att['name'].blank? && new_record?
   end
 end

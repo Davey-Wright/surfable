@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'update user account', type: :feature do
-
+feature 'update', type: :feature do
   scenario 'user has registered with OAuth and is on dashboard' do
     visit new_user_registration_path
     omniauth_stub(provider: :facebook)

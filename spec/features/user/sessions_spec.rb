@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'user sessions' do
+feature 'sessions' do
   scenario 'user logs in' do
     user = FactoryBot.create(:user)
     login(user)

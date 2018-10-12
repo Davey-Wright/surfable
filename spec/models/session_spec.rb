@@ -1,43 +1,16 @@
 require 'rails_helper'
+require 'support/session_stub'
 
 RSpec.describe Session, type: :model do
   let(:spot) { FactoryBot.create(:spot) }
-  let(:swell) { FactoryBot.create(:swell) }
 
   subject {
-    described_class.new( spot: spot,
-      name: 'Longboard greasing',
-      conditions_attributes: {
-        swell_attributes: {
-          min_height: 3,
-          max_height: 15,
-          min_period: 9,
-          direction: ['w', 'sw', 's']
-        },
-        tide_attributes: {
-          position: {
-            min: 5,
-            max: 12,
-            basic: ['low', 'mid', 'high']
-          },
-          movement: ['rising', 'slack', 'dropping'],
-          size: {
-            min: 10,
-            max: 12,
-            basic: ['small', 'medium', 'large']
-          }
-        },
-        wind_attributes: {
-          direction: ['n', 'nw', 'w'],
-          speed: 10
-        }
-      }
-    )
+    described_class.new( session_stub_for(spot))
   }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }
-    it { is_expected.to have_one(:conditions).class_name('Condition::Condition').dependent(:delete)  }
+    it { is_expected.to have_one(:conditions).class_name('Condition::Condition').dependent(:destroy)  }
     it { is_expected.to accept_nested_attributes_for(:conditions) }
   end
 
@@ -52,6 +25,43 @@ RSpec.describe Session, type: :model do
     end
 
     it { is_expected.to validate_presence_of(:spot) }
+    it { is_expected.to validate_presence_of(:name) }
+  end
+
+  describe 'CRUD' do
+    it 'Does not create new session with invalid attributes' do
+      subject.name = nil
+      expect(subject.save).to be(false)
+      expect(Session.all.count).to eq(0)
+    end
+
+    it 'Creates a new session with valid attributes' do
+      expect(subject.save).to be(true)
+      expect(Session.all.count).to eq(1)
+    end
+
+    it 'Does not update session with invalid attributes' do
+      subject.save
+      expect(subject.update_attributes({ name: nil })).to eq(false)
+      subject.reload
+      expect(subject.name).to_not eq(nil)
+    end
+
+    it 'Updates session with valid attributes' do
+      subject.save
+      expect(subject.update_attributes({ name: 'Morfa' })).to eq(true)
+      expect(subject.name).to eq('Morfa')
+    end
+
+    it 'Deletes session from db and all child associations' do
+      subject.save
+      expect(subject.destroy).to be_valid
+      expect(Session.all.count).to eq(0)
+      expect(Condition::Condition.all.count).to eq(0)
+      expect(Condition::Swell.all.count).to eq(0)
+      expect(Condition::Tide.all.count).to eq(0)
+      expect(Condition::Wind.all.count).to eq(0)
+    end
   end
 
 end
