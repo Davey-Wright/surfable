@@ -34,45 +34,51 @@ RSpec.describe Spot, type: :model do
   end
 
   describe 'CRUD' do
-    it 'Does not create new spot with invalid attributes' do
-      subject.name = nil
-      expect(subject.save).to be(false)
-      expect(Spot.all.count).to eq(0)
+    context 'Create' do
+      it 'Does not create new spot with invalid attributes' do
+        subject.name = nil
+        expect(subject.save).to be(false)
+        expect(Spot.all.count).to eq(0)
+      end
+
+      it 'Does not create spot with invalid session attributes' do
+        subject.sessions.first.name = nil
+        expect(subject.save).to be(false)
+        expect(Spot.all.count).to eq(0)
+      end
+
+      it 'Creates a new spot with valid attributes' do
+        expect(subject.save).to be(true)
+        expect(Spot.all.count).to eq(1)
+      end
     end
 
-    it 'Does not create spot with invalid session attributes' do
-      subject.sessions.first.name = nil
-      expect(subject.save).to be(false)
-      expect(Spot.all.count).to eq(0)
+    context 'Update' do
+      it 'Does not update spot with invalid attributes' do
+        subject.save
+        expect(subject.update_attributes({ name: nil })).to eq(false)
+        subject.reload
+        expect(subject.name).to_not eq(nil)
+      end
+
+      it 'Updates spot with valid attributes' do
+        subject.save
+        expect(subject.update_attributes({ name: 'Morfa' })).to eq(true)
+        expect(subject.name).to eq('Morfa')
+      end
     end
 
-    it 'Creates a new spot with valid attributes' do
-      expect(subject.save).to be(true)
-      expect(Spot.all.count).to eq(1)
-    end
-
-    it 'Does not update spot with invalid attributes' do
-      subject.save
-      expect(subject.update_attributes({ name: nil })).to eq(false)
-      subject.reload
-      expect(subject.name).to_not eq(nil)
-    end
-
-    it 'Updates spot with valid attributes' do
-      subject.save
-      expect(subject.update_attributes({ name: 'Morfa' })).to eq(true)
-      expect(subject.name).to eq('Morfa')
-    end
-
-    it 'Deletes spot from db and all child associations' do
-      subject.save
-      expect(subject.destroy).to be_valid
-      expect(Spot.all.count).to eq(0)
-      expect(Session.all.count).to eq(0)
-      expect(Condition::Condition.all.count).to eq(0)
-      expect(Condition::Swell.all.count).to eq(0)
-      expect(Condition::Tide.all.count).to eq(0)
-      expect(Condition::Wind.all.count).to eq(0)
+    context 'Delete' do
+      it 'Deletes all child associations' do
+        subject.save
+        expect(subject.destroy).to be_valid
+        expect(Spot.all.count).to eq(0)
+        expect(Session.all.count).to eq(0)
+        expect(Condition::Condition.all.count).to eq(0)
+        expect(Condition::Swell.all.count).to eq(0)
+        expect(Condition::Tide.all.count).to eq(0)
+        expect(Condition::Wind.all.count).to eq(0)
+      end
     end
   end
 
