@@ -1,5 +1,5 @@
 module Windfinder
-  class Wave
+  class Swell
     attr_accessor :direction_deg, :direction_dir, :height, :period
 
     def initialize(hour)

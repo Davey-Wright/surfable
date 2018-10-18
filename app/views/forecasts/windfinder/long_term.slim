@@ -7,8 +7,8 @@ ul
         - day.hours.each do |hour|
           li
             h2= hour_value
-            p= hour.wave.direction_dir
-            p= hour.wave.direction_deg
-            p= hour.wave.height
-            p= hour.wave.period
+            p= hour.swell.direction_dir
+            p= hour.swell.direction_deg
+            p= hour.swell.height
+            p= hour.swell.period
           - hour_value += 3

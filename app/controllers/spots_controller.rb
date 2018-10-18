@@ -62,16 +62,10 @@ private
             ],
             tide_attributes: {
               position: [
-                :min,
-                :max,
-                basic: []
+                :min_height,
+                :max_height
               ],
-              movement: [],
-              size: [
-                :min,
-                :max,
-                basic: []
-              ]
+              size: []
             },
             wind_attributes: [
               { direction: [] },

@@ -18,16 +18,10 @@ def spot_stub
         },
         tide_attributes: {
           position: {
-            min: 5,
-            max: 12,
-            basic: ['low', 'mid', 'high']
+            min_height: 5,
+            max_height: 10
           },
-          movement: ['rising', 'slack', 'dropping'],
-          size: {
-            min: 10,
-            max: 12,
-            basic: ['small', 'medium', 'large']
-          }
+          size: []
         },
         wind_attributes: {
           direction: ['n', 'nw', 'w'],

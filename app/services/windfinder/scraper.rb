@@ -35,3 +35,5 @@ end
 
 # scraper('https://www.windfinder.com/forecast/rest_bay', 'long_term')
 # scraper('https://www.windfinder.com/weatherforecast/rest_bay', 'short_term')
+
+# s = Windfinder::Scraper.new('https://www.windfinder.com/forecast/rest_bay', 'long_term').scraper

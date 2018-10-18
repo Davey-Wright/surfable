@@ -5,7 +5,7 @@ RSpec.describe Session, type: :model do
   let(:spot) { FactoryBot.create(:spot) }
 
   subject {
-    described_class.new( session_stub_for(spot))
+    described_class.new( session_stub.merge(spot: spot) )
   }
 
   describe 'Associations' do
