@@ -1,6 +1,8 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!
 
+  before_action :set_spot, only: [:show, :edit, :update, :destroy]
+
   def index
     @spots = current_user.spots.all
   end
@@ -19,19 +21,12 @@ class SpotsController < ApplicationController
   end
 
   def show
-    @spot = current_spot
-    return render_404_template if @spot.blank?
   end
 
   def edit
-    @spot = current_spot
-    return render_404_template if @spot.blank?
   end
 
   def update
-    @spot = current_spot
-    return render_404_template if @spot.blank?
-
     @spot.update_attributes(spot_params)
     if @spot.valid?
       redirect_to spot_path(@spot)
@@ -41,13 +36,12 @@ class SpotsController < ApplicationController
   end
 
   def destroy
-    @spot = current_spot
-    return render_404_template if @spot.blank?
     @spot.destroy
     redirect_to user_path(current_user)
   end
 
-  private
+private
+
     def spot_params
       params.require(:spot).permit(
         :name,
@@ -88,8 +82,11 @@ class SpotsController < ApplicationController
       )
     end
 
-    def current_spot
-      current_user.spots.find_by_id(params[:id])
+    def set_spot
+      @spot = current_user.spots.find_by_id(params[:id])
+      if @spot.blank? || @spot.user != current_user
+        return render_404_template
+      end
     end
 
     def render_404_template

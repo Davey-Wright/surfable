@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get 'users/:id/confirm_destroy', to: 'users#confirm_destroy', as: 'user_confirm_destroy'
 
   resources :users, only: [:show, :destroy]
-  resources :spots
+  resources :spots do
+    resources :sessions
+  end
 
 end

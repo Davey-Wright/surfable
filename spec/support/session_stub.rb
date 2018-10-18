@@ -1,6 +1,5 @@
-def session_stub_for(spot)
+def session_stub
   {
-    spot: spot,
     name: 'Longboard greasing',
     board_type: ['longboard'],
     conditions_attributes: {

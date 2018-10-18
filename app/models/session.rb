@@ -10,4 +10,12 @@ class Session < ApplicationRecord
 
   validates_presence_of :spot
   validates_presence_of :name
+
+  def slug
+    name.downcase.gsub(' ', '-').gsub("'", '')
+  end
+
+  def to_param
+    param = "#{id}-#{slug.parameterize}"
+  end
 end
