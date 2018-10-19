@@ -1,5 +1,5 @@
 module Forecasts
-  class Forecasts::WindfinderController < ApplicationController
+  class WindfinderController < ApplicationController
     def short_term
       @forecast = Windfinder::Scraper.new('https://www.windfinder.com/weatherforecast/rest_bay', 'short_term').scraper
     end

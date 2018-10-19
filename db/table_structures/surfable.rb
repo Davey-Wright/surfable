@@ -1,28 +1,4 @@
-{
-  hours: [
-    {
-      swell: {
-        height: float,
-        period: integer
-        direction_deg: integer,
-        direction_dir: string,
-      },
-      tide: {
-        type: string,
-        time: text,
-        height: float
-      },
-      wind: {
-        direction_deg: integer,
-        direction_dir: string,
-        speed: integer,
-        gusts: integer
-      }
-    }
-  ]
-}
-
-{
+surfable = {
   conditions: {
     swell: {
       min_height: f_height >= min_height
