@@ -1,5 +1,7 @@
 def session_surfable
-  forecast = Windfinder::Scraper.new('https://www.windfinder.com/forecast/rest_bay', 'long_term').scraper
+  forecast = Windfinder::Forecast.new('https://www.windfinder.com/forecast/rest_bay', 'long_term').shaka
+  binding.pry
+
   day = forecast.days.first
 
   hour1 = day.hours[0]
@@ -113,6 +115,8 @@ def session_surfable
   hour8.tide.time = nil
   hour8.tide.type = 'down'
 
+  day.high_tide = day.set_tide('high')
+  day.low_tide = day.set_tide('low')
   return day
 
 end

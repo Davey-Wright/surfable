@@ -1,8 +1,9 @@
 module Windfinder
   class ForecastHour < ApplicationService
-    attr_accessor :swell, :wind, :tide, :surfable, :forecast_day
+    attr_accessor :day, :swell, :wind, :tide, :surfable, :forecast_day
 
-    def initialize(hour)
+    def initialize(day, hour)
+      @day = day
       @swell = Swell.new(hour)
       @wind = Wind.new(hour)
       @tide = Tide.new(hour)

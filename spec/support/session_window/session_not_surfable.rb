@@ -1,5 +1,5 @@
 def session_not_surfable
-  forecast = Windfinder::Scraper.new('https://www.windfinder.com/forecast/rest_bay', 'long_term').scraper
+  forecast = Windfinder::Forecast.new('https://www.windfinder.com/forecast/rest_bay', 'long_term').scraper
   day = forecast.days.first
 
   hour1 = day.hours[0]
