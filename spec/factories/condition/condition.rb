@@ -3,9 +3,9 @@ FactoryBot.define do
     association :session, factory: :session, strategy: :build
     factory :conditions do
       after(:build) do |conditions|
-        create(:swell, condition: conditions)
-        create(:tide, condition: conditions)
-        create(:wind, condition: conditions)
+        create(:conditions_swell, condition: conditions)
+        create(:conditions_tide, condition: conditions)
+        create(:conditions_wind, condition: conditions)
       end
     end
   end

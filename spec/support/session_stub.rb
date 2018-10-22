@@ -10,10 +10,8 @@ def session_stub
         direction: ['w', 'sw', 's']
       },
       tide_attributes: {
-        position: {
-          min_height: 5,
-          max_height: 10
-        },
+        position_min: 5,
+        position_max: 10,
         size: []
       },
       wind_attributes: {

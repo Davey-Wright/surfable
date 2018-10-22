@@ -60,13 +60,11 @@ private
               :min_period,
               direction: []
             ],
-            tide_attributes: {
-              position: [
-                :min_height,
-                :max_height
-              ],
+            tide_attributes: [
+              :position_min,
+              :position_max,
               size: []
-            },
+            ],
             wind_attributes: [
               { direction: [] },
               :speed

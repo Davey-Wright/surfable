@@ -1,10 +1,10 @@
 FactoryBot.define do
-  factory :tide, class: Condition::Tide do
+  factory :conditions_tide, class: Condition::Tide do
     association :condition, factory: :condition, strategy: :build
     position { {
-      min_height: 5,
-      max_height: 12
+      low_high: 2,
+      high_low: nil
     } }
-    size { ['small', 'medium', 'large'] }
+    size { ['medium'] }
   end
 end

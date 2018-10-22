@@ -34,7 +34,8 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_tides", force: :cascade do |t|
-    t.jsonb "position", default: {}, null: false
+    t.float "position_min", default: 0.0
+    t.float "position_max", default: 100.0
     t.jsonb "size", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

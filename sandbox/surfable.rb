@@ -9,13 +9,10 @@ surfable = {
 
     tide: {
       position: {
-        min_height: f_height >= min_height,
-        max_height: f_height <= max_height
+        low_high: f_height >= min_height,
+        high_low: f_height <= max_height
       }
-      size: {
-        basic: ['small', 'medium', 'large'],
-        max_height: float
-      }
+      size: ['small', 'medium', 'large'],
     }
 
     wind: {
@@ -25,3 +22,12 @@ surfable = {
     }
   }
 }
+
+
+Methods needed to convert
+tide.position = two sliders with 5 hours between (low -> high), (high -> low)
+tide.size = [small: < 7, average: > small && < large, large: > 8.5]
+
+tide.position.low_high
+tide.position.high_low
+tide.size []

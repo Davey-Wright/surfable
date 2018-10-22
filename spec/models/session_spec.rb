@@ -70,9 +70,4 @@ RSpec.describe Session, type: :model do
     end
   end
 
-  describe 'window method' do
-    subject.save
-
-  end
-
 end

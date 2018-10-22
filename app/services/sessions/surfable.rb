@@ -1,45 +1,68 @@
 module Sessions
-  class Surfable
-    attr_reader :status
-
-    def initialize(conditions, forecast)
-      @user_conditions = conditions
-      @forecast = forecast
-      @status = status
+  class Surfable < ApplicationService
+    def initialize(user, forecast)
+      @user_conditions = user
+      @day_forecast = forecast
     end
 
-    def status
-      @user_conditions - @forecast
+    def call
+      swell && tide && wind ? true : false
     end
 
-    def swell()
-      {
-        min_height: f_height >= min_height
-        max_height: f_height <= max_height
-        min_period: f_period >= min_period
-        direction: f_direction_deg = direction,
-      }
+private
+
+    def swell
+      user = @user_conditions.swell
+      forecast = @day_forecast.swell
+      return false if user.min_height >= forecast.height
+      return false if user.max_height <= forecast.height
+      return false if user.min_period >= forecast.period
+      return false if direction(user.direction, forecast.direction)
+      return true
     end
 
     def tide
-      {
-        position: {
-          min_height: f_height >= min_height,
-          max_height: f_height <= max_height
-        }
-        size: {
-          basic: ['small', 'medium', 'large'],
-          max_height: float
-        }
-      }
+      user = @user_conditions.tide
+      forecast = @day_forecast.tide
+      # return false if user.position_min >= forecast.height
+      # return false if user.position_max >= forecast.height
+      # return false if user.basic...
+      #
+      return true
     end
 
     def wind
-      {
-        direction: f_direction_deg = direction,
-        speed: speed <= f_speed
-        gusts = speed <= (f_gusts - f_speed) / 10 + f_speed
-      }
+      user = @user_conditions.wind
+      forecast = @day_forecast.wind
+      return false if user.speed <= average_wind_speed(forecast)
+      return false if direction(user.direction, forecast.direction)
+      return true
+    end
+
+    def average_wind_speed(forecast)
+      (forecast.gusts - forecast.speed) / 5 + forecast.speed
+    end
+
+    def direction(user_direction, direction)
+      forecast_direction = case direction
+        when (0..22) || (337..360)
+          'n'
+        when 23..68
+          'ne'
+        when 69..112
+          'e'
+        when 113..157
+          'se'
+        when 158..202
+          's'
+        when 203..247
+          'sw'
+        when 248..292
+          'w'
+        when 293..337
+          'nw'
+      end
+      user_direction.exclude? forecast_direction ? true : false
     end
 
   end
