@@ -1,15 +1,13 @@
-def session_surfable
-  forecast = Windfinder::Forecast.new('https://www.windfinder.com/forecast/rest_bay', 'long_term').shaka
-  binding.pry
-
+def session_not_surfable
+  forecast = Windfinder::Forecast.new('https://www.windfinder.com/forecast/rest_bay', 'long_term')
   day = forecast.days.first
 
   hour1 = day.hours[0]
   hour1.swell.direction = 261
-  hour1.swell.height = 1.5
-  hour1.swell.period = 12
+  hour1.swell.height = 0.7
+  hour1.swell.period = 7
 
-  hour1.wind.direction = 90
+  hour1.wind.direction = 195
   hour1.wind.speed = 12
   hour1.wind.gusts = 21
 
@@ -20,10 +18,10 @@ def session_surfable
 
   hour2 = day.hours[1]
   hour2.swell.direction = 261
-  hour2.swell.height = 1.5
-  hour2.swell.period = 12
+  hour2.swell.height = 0.8
+  hour2.swell.period = 6
 
-  hour2.wind.direction = 90
+  hour2.wind.direction = 195
   hour2.wind.speed = 12
   hour2.wind.gusts = 21
 
@@ -34,11 +32,11 @@ def session_surfable
 
   hour3 = day.hours[2]
   hour3.swell.direction = 261
-  hour3.swell.height = 1.5
-  hour3.swell.period = 12
+  hour3.swell.height = 0.7
+  hour3.swell.period = 6
 
-  hour3.wind.direction = 90
-  hour3.wind.speed = 12
+  hour3.wind.direction = 195
+  hour3.wind.speed = 11
   hour3.wind.gusts = 19
 
   hour3.tide.height = 7.2
@@ -48,10 +46,10 @@ def session_surfable
 
   hour4 = day.hours[3]
   hour4.swell.direction = 270
-  hour4.swell.height = 1.5
-  hour4.swell.period = 12
+  hour4.swell.height = 0.7
+  hour4.swell.period = 11
 
-  hour4.wind.direction = 90
+  hour4.wind.direction = 195
   hour4.wind.speed = 11
   hour4.wind.gusts = 16
 
@@ -62,10 +60,10 @@ def session_surfable
 
   hour5 = day.hours[4]
   hour5.swell.direction = 270
-  hour5.swell.height = 1.5
+  hour5.swell.height = 0.7
   hour5.swell.period = 12
 
-  hour5.wind.direction = 90
+  hour5.wind.direction = 195
   hour5.wind.speed = 7
   hour5.wind.gusts = 10
 
@@ -76,10 +74,10 @@ def session_surfable
 
   hour6 = day.hours[5]
   hour6.swell.direction = 270
-  hour6.swell.height = 1.5
+  hour6.swell.height = 0.6
   hour6.swell.period = 12
 
-  hour6.wind.direction = 90
+  hour6.wind.direction = 340
   hour6.wind.speed = 7
   hour6.wind.gusts = 9
 
@@ -90,24 +88,24 @@ def session_surfable
 
   hour7 = day.hours[6]
   hour7.swell.direction = 270
-  hour7.swell.height = 1.5
+  hour7.swell.height = 0.5
   hour7.swell.period = 12
 
-  hour7.wind.direction = 90
+  hour7.wind.direction = 340
   hour7.wind.speed = 7
   hour7.wind.gusts = 9
 
-  hour7.tide.height = 8.3
+  hour7.tide.height = 8.7
   hour7.tide.time = '18:00'
   hour7.tide.type = 'high'
 
 
   hour8 = day.hours[7]
   hour8.swell.direction = 270
-  hour8.swell.height = 1.5
+  hour8.swell.height = 0.5
   hour8.swell.period = 12
 
-  hour8.wind.direction = 90
+  hour8.wind.direction = 340
   hour8.wind.speed = 7
   hour8.wind.gusts = 9
 
@@ -115,8 +113,6 @@ def session_surfable
   hour8.tide.time = nil
   hour8.tide.type = 'down'
 
-  day.high_tide = day.set_tide('high')
-  day.low_tide = day.set_tide('low')
   return day
 
 end

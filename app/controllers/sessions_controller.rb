@@ -50,8 +50,8 @@ private
           direction: []
         ],
         tide_attributes: [
-          position_min: 5,
-          position_max: 10,
+          position_low_high: [],
+          position_high_low: [],
           size: []
         ],
         wind_attributes: [

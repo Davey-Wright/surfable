@@ -61,8 +61,8 @@ private
               direction: []
             ],
             tide_attributes: [
-              :position_min,
-              :position_max,
+              position_low_high: [],
+              position_high_low: [],
               size: []
             ],
             wind_attributes: [

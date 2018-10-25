@@ -5,8 +5,8 @@ RSpec.describe Condition::Tide, type: :model do
 
   subject {
     described_class.new( condition: condition,
-      position_min: 5,
-      position_max: 12,
+      position_low_high: [2, 0],
+      position_high_low: [3, 0],
       size: ['small', 'average', 'large']
     )
   }
