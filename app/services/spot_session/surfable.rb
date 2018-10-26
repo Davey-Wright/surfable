@@ -71,17 +71,6 @@ module SpotSession
       return false if sunrise > hour || sunset < hour
     end
 
-    def tide_size
-      t = (@forecast_day.high_tide.first[:height] + @forecast_day.high_tide.last[:height]) / 2
-      if t < 7
-        return 'small'
-      elsif t < 8.5
-        return 'average'
-      else
-        return 'large'
-      end
-    end
-
     def direction(session_direction, direction)
       forecast_direction = case direction
         when (0..22) || (337..360)

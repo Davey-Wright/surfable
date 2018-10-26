@@ -138,6 +138,8 @@ GEM
       hpricot
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    httparty (0.16.2)
+      multi_xml (>= 0.5.2)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
@@ -368,6 +370,7 @@ DEPENDENCIES
   factory_bot_rails
   figaro
   html2slim
+  httparty
   jbuilder (~> 2.5)
   launchy (>= 2.4.3)
   listen (>= 3.0.5, < 3.2)
