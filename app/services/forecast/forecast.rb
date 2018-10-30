@@ -1,46 +1,57 @@
 module Forecast
-  class Forecast < ApplicationService
-    attr_reader :days, :tides
+  class API < ApplicationService
+    attr_reader :days
 
     def initialize
       @days = get_forecast_days
-      @tides
     end
 
-    def get_msw_api
+    def msw_api
       HTTParty.get("http://magicseaweed.com/api/#{ENV['MSW_KEY']}/forecast/?spot_id=1449")
     end
 
-    def get_admiralty_api
+    def admiralty_api
       HTTParty.get(
         'https://admiraltyapi.azure-api.net/uktidalapi/api/V1/Stations/0512/TidalEvents?duration=4',
         headers: { 'Ocp-Apim-Subscription-Key' => ENV['ADMIRALTY_PRIMARY_KEY'] }
       )
     end
 
+    def sunrise_sunset_api
+      # provide link attribution https://sunrise-sunset.org
+      response = []
+      4.times do |n|
+        date = (Time.now + n.day).strftime('%F')
+        url = "https://api.sunrise-sunset.org/json?lat=51.48&lng=-3.69&formatted=0&date=#{date}"
+        response.push HTTParty.get(url)
+      end
+      response
+    end
+
     def get_forecast_days
-      date = Time.at(get_msw_api.first['localTimestamp']).day
+      date = Time.at(msw_api.first['localTimestamp']).day
       forecast_days = []
       hours = []
-      get_msw_api.each do |data|
-        if get_date_from(data) == date
-          hours.push data
+      msw_api.each do |response|
+        if get_date_from(response) == date
+          hours.push response
         else
-          day = {
-            'date'  => Time.at(data['localTimestamp']).strftime('%F'),
-            'tides' => tides_for(date),
+          data = {
+            'date'  => Time.at(response['localTimestamp']).strftime('%F'),
+            'tides' => get_tides_for(date),
+            'sunrise_sunset' => sunrise_sunset_api[forecast_days.count],
             'hours' => hours
           }
-          forecast_days.push Day.new(self, day)
-          date = get_date_from(data)
-          hours = [data]
+          forecast_days.push Day.new(self, data)
+          date = get_date_from(response)
+          hours = [response]
         end
       end
       forecast_days
     end
 
-    def tides_for(date)
-      response = get_admiralty_api
+    def get_tides_for(date)
+      response = admiralty_api
       t = response.select { |tide| Time.parse(tide['DateTime']).day == date }
       t.map do |tide|
         time = Time.parse(tide['DateTime']).strftime('%k:%M')
