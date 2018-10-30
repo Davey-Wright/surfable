@@ -50,7 +50,7 @@ private
         wave_length: [],
         wave_speed: [],
         wave_direction: [],
-        sessions_attributes: [
+        surf_sessions_attributes: [
           :name,
           board_type: [],
           conditions_attributes: {

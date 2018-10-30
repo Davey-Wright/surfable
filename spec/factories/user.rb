@@ -12,10 +12,10 @@ FactoryBot.define do
         create(:spot, user: user)
       end
     end
-    
+
     factory :user_with_complete_spot do
       after(:build) do |user|
-        create(:spot_with_sessions, user: user)
+        create(:spot_with_surf_sessions, user: user)
       end
     end
   end

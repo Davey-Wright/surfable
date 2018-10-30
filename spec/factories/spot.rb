@@ -8,9 +8,9 @@ FactoryBot.define do
     wave_speed { ['slow', 'average'] }
     wave_direction { ['left', 'right'] }
 
-    factory :spot_with_sessions do
+    factory :spot_with_surf_sessions do
       after(:build) do |spot|
-        create(:session_with_conditions, spot: spot)
+        create(:surf_session_with_conditions, spot: spot)
       end
     end
   end

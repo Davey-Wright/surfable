@@ -6,7 +6,7 @@ def spot_stub
     wave_length: ['short', 'average'],
     wave_speed: ['average'],
     wave_direction: ['left', 'right'],
-    sessions_attributes: [ {
+    surf_sessions_attributes: [ {
       name: 'Longboard greasing',
       board_type: ['longboard'],
       conditions_attributes: {

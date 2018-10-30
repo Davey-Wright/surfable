@@ -113,8 +113,8 @@ RSpec.describe SpotsController, type: :controller do
           expect { post :create,
             params: { spot: spot_stub } }
             .to change{ @logged_in_user_spots.count }.by(+1)
-          session = @logged_in_user_spots.last.sessions.first
-          expect(session).to be_instance_of Session
+          session = @logged_in_user_spots.last.surf_sessions.first
+          expect(session).to be_instance_of SurfSession
           expect(session.conditions).to be_instance_of Condition::Condition
           expect(session.conditions.swell).to be_instance_of Condition::Swell
           expect(session.conditions.tide).to be_instance_of Condition::Tide
@@ -185,7 +185,7 @@ RSpec.describe SpotsController, type: :controller do
           expect { delete :destroy,
             params: { id: spots.first } }
             .to change {spots.count }.by(-1)
-          expect(Session.all.count).to eq(0)
+          expect(SurfSession.all.count).to eq(0)
           expect(Condition::Condition.all.count).to eq(0)
           expect(Condition::Swell.all.count).to eq(0)
           expect(Condition::Tide.all.count).to eq(0)

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :condition, class: Condition::Condition do
-    association :session, factory: :session, strategy: :build
+    association :surf_session, factory: :surf_session, strategy: :build
     factory :conditions do
       after(:build) do |conditions|
         create(:conditions_swell, condition: conditions)

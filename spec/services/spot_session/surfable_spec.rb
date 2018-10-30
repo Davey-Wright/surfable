@@ -6,8 +6,8 @@ RSpec.describe SpotSession::Surfable do
     @forecast_day = session_surfable
   end
 
-  let(:session_conditions) { FactoryBot.create(:conditions) }
-  let(:session_window) { SpotSession::Window.call(session_conditions, @forecast_day) }
+  let(:surf_session_conditions) { FactoryBot.create(:conditions) }
+  let(:surf_session_window) { SpotSession::Window.call(session_conditions, @forecast_day) }
 
   context 'on a surfable forecast' do
     subject { described_class.new(session_window) }
