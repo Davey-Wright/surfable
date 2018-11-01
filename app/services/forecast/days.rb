@@ -1,55 +1,34 @@
 module Forecast
   class Days
-    attr_accessor :days, :type
+    attr_accessor :spot, :type, :days
 
-    def initialize(type)
-      @days
+    def initialize(spot, type)
+      @spot = spot
       @type = type
+      @days
     end
 
     def fetch
+      surf_forecast
+      tides
+      daylight_hours
+    end
+
+    private
+
+    def surf_forecast
       if type == 'api'
-        @days = MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY'], 'porthcawl').response.forecast
+        @days = MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY'], spot).response.set_forecast
       end
     end
 
-    # def get_forecast_days
-    #   date = Time.at(msw_api.first['localTimestamp']).day
-    #   forecast_days = []
-    #   hours = []
-    #   msw_api.each do |response|
-    #     if get_date_from(response) == date
-    #       hours.push response
-    #     else
-    #       data = {
-    #         'date'  => Time.at(response['localTimestamp']).strftime('%F'),
-    #         'tides' => get_tides_for(date),
-    #         'sunrise_sunset' => sunrise_sunset_api[forecast_days.count],
-    #         'hours' => hours
-    #       }
-    #       forecast_days.push Day.new(self, data)
-    #       date = get_date_from(response)
-    #       hours = [response]
-    #     end
-    #   end
-    #   forecast_days
-    # end
-    #
-    # def get_tides_for(date)
-    #   t = admiralty_api.select { |tide| Time.parse(tide['DateTime']).day == date }
-    #   t.map do |tide|
-    #     time = Time.parse(tide['DateTime']).strftime('%k:%M')
-    #     {
-    #       'type'    => tide['EventType'],
-    #       'height'  => tide['Height'],
-    #       'time'    => time
-    #     }
-    #   end
-    # end
-    #
-    # def get_date_from(data)
-    #   Time.at(data['localTimestamp']).day
-    # end
+    def tides
+      Admiralty::ForecastRequest.new(@days).response.set_tides
+    end
+
+    def daylight_hours
+      @days.each { |day| SunriseSunset::ForecastRequest.new(spot, day).response.set_daylight_hours }
+    end
 
   end
 end

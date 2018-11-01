@@ -15,7 +15,7 @@ module Forecast
         { code: http_response.code, message: http_response.message }
       end
 
-      def forecast
+      def set_forecast
         dates = http_response.map { |res| get_date(res) }.uniq
         forecast = []
         dates.each do |date|

@@ -3,8 +3,8 @@ module Forecast
     attr_accessor :high, :low, :size
 
     def initialize(data)
-      @high = get_tides(data, 'HighWater')
-      @low = get_tides(data, 'LowWater')
+      @high = { height: nil, time: nil }
+      @low = { height: nil, time: nil }
       @size = set_tide_size
     end
 

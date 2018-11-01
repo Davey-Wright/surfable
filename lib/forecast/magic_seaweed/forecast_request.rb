@@ -1,7 +1,7 @@
 module Forecast
   module MagicSeaweed
     class ForecastRequest
-      attr_reader :key, :spot, :response
+      attr_reader :key, :spot
 
       def initialize(key, spot)
         @key = key
