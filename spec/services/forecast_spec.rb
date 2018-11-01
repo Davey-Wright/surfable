@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Forecast::API do
+RSpec.describe Forecast::Forecast do
   before(:all) do
     @forecast = described_class.new
   end

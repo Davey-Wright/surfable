@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/spot_session/session_surfable'
 
-RSpec.describe SpotSession::Surfable do
+RSpec.describe SurfSession::Surfable do
   before(:all) do
     @forecast_day = session_surfable
   end

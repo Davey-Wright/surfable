@@ -23,3 +23,14 @@ module Forecast
 
   end
 end
+
+# def initialize(forecast, data)
+#   @forecast = forecast
+#   @date = data['date']
+#   @hours = data['hours'].map { |hour| Hour.new(self, hour) }
+#   @tides = Tide.new(data['tides'])
+#   @sunrise = set_time_for('sunrise', data)
+#   @sunset = set_time_for('sunset', data)
+#   @first_light = set_time_for('civil_twilight_begin', data)
+#   @last_light = set_time_for('civil_twilight_end', data)
+# end

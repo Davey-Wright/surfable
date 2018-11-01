@@ -1,5 +1,9 @@
+require 'magic_seaweed_api'
+require 'admiralty_api'
+require 'sunrise_sunset_api'
+
 module Forecast
-  class API < ApplicationService
+  class Forecast < ApplicationService
     attr_reader :days
 
     def initialize
@@ -7,25 +11,15 @@ module Forecast
     end
 
     def msw_api
-      HTTParty.get("http://magicseaweed.com/api/#{ENV['MSW_KEY']}/forecast/?spot_id=1449")
+      MagicSeaweedAPI.new.response
     end
 
     def admiralty_api
-      HTTParty.get(
-        'https://admiraltyapi.azure-api.net/uktidalapi/api/V1/Stations/0512/TidalEvents?duration=4',
-        headers: { 'Ocp-Apim-Subscription-Key' => ENV['ADMIRALTY_PRIMARY_KEY'] }
-      )
+      AdmiraltyAPI.new.response
     end
 
     def sunrise_sunset_api
-      # provide link attribution https://sunrise-sunset.org
-      response = []
-      4.times do |n|
-        date = (Time.now + n.day).strftime('%F')
-        url = "https://api.sunrise-sunset.org/json?lat=51.48&lng=-3.69&formatted=0&date=#{date}"
-        response.push HTTParty.get(url)
-      end
-      response
+      SunriseSunsetAPI.new.response
     end
 
     def get_forecast_days
@@ -51,8 +45,7 @@ module Forecast
     end
 
     def get_tides_for(date)
-      response = admiralty_api
-      t = response.select { |tide| Time.parse(tide['DateTime']).day == date }
+      t = admiralty_api.select { |tide| Time.parse(tide['DateTime']).day == date }
       t.map do |tide|
         time = Time.parse(tide['DateTime']).strftime('%k:%M')
         {
