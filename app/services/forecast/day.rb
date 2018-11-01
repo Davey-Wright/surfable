@@ -1,17 +1,15 @@
 module Forecast
   class Day
-    attr_reader :forecast, :date, :hours, :tides,
-      :sunrise, :sunset, :first_light, :last_light
+    attr_accessor :forecast, :date, :hours, :tides, :sunrise, :sunset, :first_light, :last_light
 
-    def initialize(forecast, data)
-      @forecast = forecast
-      @date = data['date']
-      @hours = data['hours'].map { |hour| Hour.new(self, hour) }
-      @tides = Tide.new(data['tides'])
-      @sunrise = set_time_for('sunrise', data)
-      @sunset = set_time_for('sunset', data)
-      @first_light = set_time_for('civil_twilight_begin', data)
-      @last_light = set_time_for('civil_twilight_end', data)
+    def initialize
+      @date
+      @hours = []
+      @tides
+      @sunrise
+      @sunset
+      @first_light
+      @last_light
     end
 
     private

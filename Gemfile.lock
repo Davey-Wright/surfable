@@ -136,8 +136,15 @@ GEM
     hpricot (0.8.6)
     html2slim (0.2.0)
       hpricot
+    http (4.0.0)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.0)
+      http_parser.rb (~> 0.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    http-form_data (2.1.1)
+    http_parser.rb (0.6.0)
     httparty (0.16.2)
       multi_xml (>= 0.5.2)
     i18n (1.1.0)
@@ -370,6 +377,7 @@ DEPENDENCIES
   factory_bot_rails
   figaro
   html2slim
+  http
   httparty
   jbuilder (~> 2.5)
   launchy (>= 2.4.3)
