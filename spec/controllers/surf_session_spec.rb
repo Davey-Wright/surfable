@@ -12,9 +12,16 @@ RSpec.describe SurfSessionsController, type: :controller do
       it { expect(get :new, params: { spot_id: logged_out_user_spot })
         .to redirect_to new_user_session_path }
 
-      it { expect(post :create,
-        params: { spot_id: logged_out_user_spot, surf_session: surf_session_stub })
-        .to redirect_to new_user_session_path }
+      it do
+        let(:create_session) do
+          post :create, params: {
+            spot_id: logged_out_user_spot,
+            surf_session: surf_session_stub
+          }
+        end
+         
+        expect(create_session).to redirect_to new_user_session_path
+      end
 
       it { expect(get :show,
         params: { spot_id: logged_out_user_spot, id: logged_out_user_surf_session })

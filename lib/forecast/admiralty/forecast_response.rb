@@ -1,51 +1,39 @@
 module Forecast
   module Admiralty
     class ForecastResponse
-      attr_reader :http_response, :days
+      attr_reader :http_res
 
-      def initialize(http_response, days)
-        @http_response = http_response
+      def initialize(http_res, days)
+        @http_res = http_res
         @days = days
       end
 
       def success?
-        http_response.code == 200
+        http_res.code == 200
       end
 
       def error
-        { code: http_response.code, message: http_response.message }
+        { code: http_res.code, message: http_res.message }
       end
 
-      def set_tides
+      def mapper
         @days.each do |day|
-          date = day.date
-          t = admiralty_api.select { |tide| Time.parse(tide['DateTime']).day == date }
-          t.map do |tide|
-            time = Time.parse(tide['DateTime']).strftime('%k:%M')
-            {
-              'type'    => tide['EventType'],
-              'height'  => tide['Height'],
-              'time'    => time
-            }
+          tides = http_res.select do |res|
+            Time.parse(res['DateTime']).strftime('%F') == day.date
           end
+          day.tides = tides.map { |res| tide_mapper(res) }
         end
       end
 
       private
 
-      # def get_tides_for(date)
-      #   t = admiralty_api.select { |tide| Time.parse(tide['DateTime']).day == date }
-      #   t.map do |tide|
-      #     time = Time.parse(tide['DateTime']).strftime('%k:%M')
-      #     {
-      #       'type'    => tide['EventType'],
-      #       'height'  => tide['Height'],
-      #       'time'    => time
-      #     }
-      #   end
-      # end
-
-      #   @tides = Tide.new(data['tides'])
+        def tide_mapper(res)
+          tide = Forecast::Mappers.tide_struct.new
+          tide.type = res['EventType']
+          tide.height = res['Height'].round(2)
+          tide.time = Time.parse(res['DateTime'])
+          tide
+        end
 
     end
   end

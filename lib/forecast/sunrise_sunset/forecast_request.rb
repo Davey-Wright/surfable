@@ -11,7 +11,7 @@ module Forecast
       def response
         url = "https://api.sunrise-sunset.org/json?#{coordinates}&formatted=0&date=#{day.date}"
         http_response = HTTParty.get(url)
-        ForecastResponse.new(http_response, day)
+        ForecastResponse.new(spot, day, http_response)
       end
 
       private

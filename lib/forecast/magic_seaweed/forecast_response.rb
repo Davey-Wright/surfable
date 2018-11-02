@@ -1,40 +1,66 @@
 module Forecast
   module MagicSeaweed
     class ForecastResponse
-      attr_reader :http_response
+      attr_reader :http_res
 
-      def initialize(http_response)
-        @http_response = http_response
+      def initialize(http_res)
+        @http_res = http_res
       end
 
       def success?
-        http_response.code == 200
+        http_res.code == 200
       end
 
       def error
-        { code: http_response.code, message: http_response.message }
+        { code: http_res.code, message: http_res.message }
       end
 
-      def set_forecast
-        dates = http_response.map { |res| get_date(res) }.uniq
-        forecast = []
-        dates.each do |date|
-          day = Forecast::Day.new
-          day.date = date
-          http_response.each do |response|
-            day.hours.push(response) if date == get_date(response)
-          end
-          forecast.push(day)
-        end
-
-        forecast
+      def mapper
+        dates = http_res.map { |res| get_date(res) }.uniq
+        dates.map { |date| day_mapper(date) }
       end
 
       private
 
-      def get_date(data)
-        Time.at(data['localTimestamp']).strftime('%F')
-      end
+        def day_mapper(date)
+          day = Forecast::Mappers.day_struct.new
+          day.date = date
+          hours = http_res.select { |res| date == get_date(res) }
+          day.hours = hours.map { |res| hours_mapper(res) }
+          day
+        end
+
+        def hours_mapper(res)
+          hour = Forecast::Mappers.hour_struct.new
+          hour.value = Time.at(res['localTimestamp'])
+          hour.swell = swell_mapper(res)
+          hour.wind = wind_mapper(res)
+          hour
+        end
+
+        def swell_mapper(res)
+          swell = Forecast::Mappers.swell_struct.new
+          key = res['swell']['components']['primary']
+          swell.height = key['height']
+          swell.period = key['period']
+          swell.direction = key['direction']
+          swell
+        end
+
+        def wind_mapper(res)
+          wind = Forecast::Mappers.wind_struct.new
+          key = res['wind']
+          wind.speed = key['speed']
+          wind.gusts = key['gusts']
+          wind.average_speed = ((wind.gusts - wind.speed) * 0.25).to_i + wind.speed
+          wind.direction = key['direction']
+          wind
+        end
+
+        def get_date(res)
+          Time.at(res['localTimestamp']).strftime('%F')
+        end
+
     end
   end
 end

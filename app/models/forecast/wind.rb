@@ -1,10 +1,8 @@
 module Forecast
   class Wind
-    attr_reader :hour, :speed, :gusts, :average_speed, :direction
+    attr_reader :speed, :gusts, :average_speed, :direction
 
-    def initialize(hour, data)
-      data = data['wind']
-      @hour = hour
+    def initialize(data)
       @speed = data['speed']
       @gusts = data['gusts']
       @average_speed = set_average_speed
