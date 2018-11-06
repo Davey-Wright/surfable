@@ -4,7 +4,7 @@ module Condition
   end
 
   class Condition < ApplicationRecord
-    belongs_to :surf_session, inverse_of: :conditions
+    belongs_to :spot_session, inverse_of: :conditions
     has_one :swell, dependent: :destroy, class_name: 'Condition::Swell'
     has_one :tide, dependent: :destroy, class_name: 'Condition::Tide'
     has_one :wind, dependent: :destroy, class_name: 'Condition::Wind'

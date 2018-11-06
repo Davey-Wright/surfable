@@ -3,6 +3,6 @@ class CreateConditionConditions < ActiveRecord::Migration[5.2]
     create_table :condition_conditions do |t|
       t.timestamps
     end
-    add_reference :condition_conditions, :surf_session, foreign_key: true
+    add_reference :condition_conditions, :spot_session, foreign_key: true
   end
 end

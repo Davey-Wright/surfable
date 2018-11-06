@@ -1,17 +1,17 @@
-class SurfSessionsController < ApplicationController
+class SpotSessionsController < ApplicationController
   before_action :authenticate_user!
 
   before_action :set_spot, only: [:new, :create]
   before_action :set_session, only: [:show, :edit, :update, :destroy]
 
   def new
-    @session = SurfSession.new
+    @session = SpotSession.new
   end
 
   def create
-    @session = @spot.surf_sessions.create(session_params)
+    @session = @spot.spot_sessions.create(session_params)
     if @session.valid?
-      redirect_to(spot_surf_session_path(@session.spot, @session))
+      redirect_to(spot_spot_session_path(@session.spot, @session))
     else
       render :edit, status: :unprocessable_entity
     end
@@ -25,7 +25,7 @@ class SurfSessionsController < ApplicationController
 
   def update
     if @session.update_attributes(session_params)
-      redirect_to(spot_surf_session_path(@session.spot, @session))
+      redirect_to(spot_spot_session_path(@session.spot, @session))
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class SurfSessionsController < ApplicationController
 private
 
   def session_params
-    params.require(:surf_session).permit(
+    params.require(:spot_session).permit(
       :name,
       board_type: [],
       conditions_attributes: {
@@ -70,7 +70,7 @@ private
   end
 
   def set_session
-    @session = SurfSession.find_by_id(params[:id])
+    @session = SpotSession.find_by_id(params[:id])
     if @session.blank? || @session.spot.user != current_user
       return render_404_template
     end

@@ -15,7 +15,7 @@ FactoryBot.define do
 
     factory :user_with_complete_spot do
       after(:build) do |user|
-        create(:spot_with_surf_sessions, user: user)
+        create(:spot_with_spot_sessions, user: user)
       end
     end
   end

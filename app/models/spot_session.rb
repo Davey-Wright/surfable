@@ -1,9 +1,9 @@
-class SurfSession < ApplicationRecord
+class SpotSession < ApplicationRecord
   belongs_to :spot
   has_one :conditions,
     class_name: 'Condition::Condition',
-    foreign_key: 'surf_session_id',
-    inverse_of: :surf_session,
+    foreign_key: 'spot_session_id',
+    inverse_of: :spot_session,
     dependent: :destroy
 
   accepts_nested_attributes_for :conditions

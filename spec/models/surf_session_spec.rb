@@ -1,11 +1,11 @@
 require 'rails_helper'
-require 'support/surf_session_stub'
+require 'support/spot_session_stub'
 
-RSpec.describe SurfSession, type: :model do
+RSpec.describe SpotSession, type: :model do
   let(:spot) { FactoryBot.create(:spot) }
 
   subject {
-    described_class.new( surf_session_stub.merge(spot: spot) )
+    described_class.new( spot_session_stub.merge(spot: spot) )
   }
 
   describe 'Associations' do
@@ -33,12 +33,12 @@ RSpec.describe SurfSession, type: :model do
       it 'Does not create new session with invalid attributes' do
         subject.name = nil
         expect(subject.save).to be(false)
-        expect(SurfSession.all.count).to eq(0)
+        expect(SpotSession.all.count).to eq(0)
       end
 
       it 'Creates a new session with valid attributes' do
         expect(subject.save).to be(true)
-        expect(SurfSession.all.count).to eq(1)
+        expect(SpotSession.all.count).to eq(1)
       end
     end
 
@@ -61,13 +61,17 @@ RSpec.describe SurfSession, type: :model do
       it 'Deletes session from db and all child associations' do
         subject.save
         expect(subject.destroy).to be_valid
-        expect(SurfSession.all.count).to eq(0)
+        expect(SpotSession.all.count).to eq(0)
         expect(Condition::Condition.all.count).to eq(0)
         expect(Condition::Swell.all.count).to eq(0)
         expect(Condition::Tide.all.count).to eq(0)
         expect(Condition::Wind.all.count).to eq(0)
       end
     end
+  end
+
+  describe 'forecast' do
+    
   end
 
 end

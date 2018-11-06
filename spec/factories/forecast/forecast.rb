@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :forecast do
-    day {  }
+    days {  }
   end
 end

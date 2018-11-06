@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :destroy]
   resources :spots do
-    resources :surf_sessions
+    resources :spot_sessions
   end
 
 end

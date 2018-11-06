@@ -1,8 +1,6 @@
 # add edge case for middle forecast time failing
 # run window_times against daylight_hours
-
-module Spot
-  module Session
+  module SpotSession
     class Surfable < ApplicationService
       attr_reader :times, :window_times
 
@@ -96,4 +94,3 @@ module Spot
 
     end
   end
-end

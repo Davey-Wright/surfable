@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Condition::Condition, type: :model do
-  let(:surf_session) { FactoryBot.create(:surf_session) }
+  let(:spot_session) { FactoryBot.create(:spot_session) }
   subject {
-    described_class.new(surf_session: surf_session)
+    described_class.new(spot_session: spot_session)
   }
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:surf_session) }
+    it { is_expected.to belong_to(:spot_session) }
     it { is_expected.to have_one(:swell).dependent(:destroy) }
     it { is_expected.to have_one(:tide).dependent(:destroy) }
     it { is_expected.to have_one(:wind).dependent(:destroy) }

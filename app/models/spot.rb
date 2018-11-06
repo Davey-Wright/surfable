@@ -1,9 +1,9 @@
 class Spot < ApplicationRecord
   belongs_to :user
-  has_many :surf_sessions, dependent: :destroy
-  has_many :conditions, through: :surf_sessions
+  has_many :spot_sessions, dependent: :destroy
+  has_many :conditions, through: :spot_sessions
 
-  accepts_nested_attributes_for :surf_sessions, reject_if: :session_name_blank?
+  accepts_nested_attributes_for :spot_sessions, reject_if: :session_name_blank?
 
   validates_presence_of :user
   validates_presence_of :name

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :day, class: 'Forecast::Day' do
+  factory :day, class: 'Forecast.' do
     forecast { nil }
     date { "2018-10-29" }
     hours { 8.times { FactoryBot.build(:hour) } }

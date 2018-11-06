@@ -1,4 +1,4 @@
-def surf_session_stub
+def spot_session_stub
   {
     name: 'Longboard greasing',
     board_type: ['longboard'],

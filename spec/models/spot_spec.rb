@@ -10,9 +10,9 @@ RSpec.describe Spot, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to have_many(:surf_sessions).dependent(:destroy) }
-    it { is_expected.to have_many(:conditions).through(:surf_sessions) }
-    it { is_expected.to accept_nested_attributes_for(:surf_sessions) }
+    it { is_expected.to have_many(:spot_sessions).dependent(:destroy) }
+    it { is_expected.to have_many(:conditions).through(:spot_sessions) }
+    it { is_expected.to accept_nested_attributes_for(:spot_sessions) }
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:name) }
   end
@@ -28,7 +28,7 @@ RSpec.describe Spot, type: :model do
     end
 
     it 'is not valid without a session name' do
-      subject.surf_sessions.first.name = nil
+      subject.spot_sessions.first.name = nil
       expect(subject).to_not be_valid
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Spot, type: :model do
       end
 
       it 'Does not create spot with invalid session attributes' do
-        subject.surf_sessions.first.name = nil
+        subject.spot_sessions.first.name = nil
         expect(subject.save).to be(false)
         expect(Spot.all.count).to eq(0)
       end
@@ -73,7 +73,7 @@ RSpec.describe Spot, type: :model do
         subject.save
         expect(subject.destroy).to be_valid
         expect(Spot.all.count).to eq(0)
-        expect(SurfSession.all.count).to eq(0)
+        expect(SpotSession.all.count).to eq(0)
         expect(Condition::Condition.all.count).to eq(0)
         expect(Condition::Swell.all.count).to eq(0)
         expect(Condition::Tide.all.count).to eq(0)
