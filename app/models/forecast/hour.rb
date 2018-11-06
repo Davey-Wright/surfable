@@ -1,13 +1,12 @@
 module Forecast
-  class Hour < ApplicationRecord
-    belongs_to :day
-    has_one :swell
-    has_one :wind
+  class Hour
+    attr_reader :day, :value, :swell, :wind
 
-    attr_reader :value
-
-    def initialize(data)
+    def initialize(day, data)
+      @day = day
       @value = data.value
+      @swell = Swell.new(self, data.swell)
+      @wind = Wind.new(self, data.wind)
     end
   end
 end
