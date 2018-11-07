@@ -1,7 +1,7 @@
 # add edge case for middle forecast time failing
 # run window_times against daylight_hours
-  module SpotSession
-    class Surfable < ApplicationService
+  module Surfable
+    class ShakaMelaka < ApplicationService
       attr_reader :times, :window_times
 
       def initialize(session_window)

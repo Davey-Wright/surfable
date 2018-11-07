@@ -1,9 +1,10 @@
 module Forecast
   class Tide
-    attr_accessor :day, :high, :low, :size
+    attr_reader :day, :data, :high, :low, :size
 
     def initialize(day, data)
       @day = day
+      @data = data
       @high = get_tides(data, 'high')
       @low = get_tides(data, 'low')
       @size = set_tide_size

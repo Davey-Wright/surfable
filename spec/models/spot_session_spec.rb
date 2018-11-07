@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/spot_session_stub'
+require 'support/good_forecast_stub'
 
 RSpec.describe SpotSession, type: :model do
   let(:spot) { FactoryBot.create(:spot) }
@@ -70,8 +71,26 @@ RSpec.describe SpotSession, type: :model do
     end
   end
 
-  describe 'forecast' do
-    
+  describe 'Methods' do
+    let(:forecast) { Forecast::Day.new good_forecast }
+
+    context 'with a good surf forecast' do
+      describe 'surfable' do
+        it {  }
+      end
+    end
+
+    context 'with a bad surf forecast' do
+      describe 'surfable' do
+
+      end
+    end
   end
 
 end
+
+# first_light = 6:42
+# last_light = 5:14
+#
+# high =  [05:06, 17:26]
+# low =  [11:07, 23:32]

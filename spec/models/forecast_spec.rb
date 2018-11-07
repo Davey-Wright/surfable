@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Forecast::Days do
+RSpec.describe Forecast::Days, type: :model do
 
   before(:all) do
     @data = Forecast::Mappers.call
   end
-  
+
   subject { described_class.new(@data) }
 
   it { expect(subject.days.count).to eq(5) }

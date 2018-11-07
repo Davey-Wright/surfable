@@ -1,6 +1,6 @@
-module SpotSession
-  class Window < ApplicationService
-    attr_reader :session_conditions, :forecast_day, :times, :wind_speed, :swell_height
+module Surfable
+  class Ting < ApplicationService
+    attr_reader :times
 
     def initialize(session_conditions, forecast_day)
       @session_conditions = session_conditions
@@ -24,8 +24,7 @@ module SpotSession
       after_low_offset = @session_conditions.tide.position_low_high.first
       return if before_low_offset == 0 && after_low_offset == 0
 
-      @forecast_day.low_tide.each do |tide|
-        time = Time.parse(tide[:time])
+      @forecast_day.tides.low.each do |tide|
         before_low_time = (time + before_low_offset.hours).strftime("%k:%M").strip
         after_low_time = (time + after_low_offset.hours).strftime("%k:%M").strip
         @times.push({ from: before_low_time, to: after_low_time })

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :spot_session do
     association :spot, factory: :spot, strategy: :build
-    name { 'Longboard greasing' }
-    board_type { ['longboard'] }
+    name { 'Morfa' }
+    board_type { ['shortboard'] }
 
     factory :spot_session_with_conditions do
       after(:build) do |session|

@@ -1,6 +1,5 @@
 module Forecast
   class Day
-    
     attr_reader :date, :hours, :tides, :sunrise, :sunset, :first_light, :last_light
 
     def initialize(data)
