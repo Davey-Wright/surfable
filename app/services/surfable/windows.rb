@@ -1,5 +1,5 @@
 module Surfable
-  class Window
+  class Windows
     attr_reader :times, :tides, :wind, :swell, :daylight
 
     def initialize(session_conditions, forecast)
