@@ -19,7 +19,11 @@ class SpotSession < ApplicationRecord
     param = "#{id}-#{slug.parameterize}"
   end
 
-  def surf_windows(forecast)
-    Surfable::Windows.new(self, forecast)
+  def surfable_windows(forecast)
+    forecast.each { |f| Surfable::Windows.new(self, f) }
+  end
+
+  def surfable_reports(forecast)
+    forecast.each { |f| Surfable::Reports.new(self, f) }
   end
 end

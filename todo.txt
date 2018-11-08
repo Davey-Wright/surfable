@@ -1,1 +1,3 @@
 - Add validations to forecast models
+- Windfinder forecast
+- Change spot_session to spot.conditions
