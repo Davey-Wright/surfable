@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/day_forecast_stub'
 
-RSpec.describe Surfable::Windows do
+RSpec.describe Surfable::Matchers::Daylight do
 
   let(:forecast) { Forecast::Day.new(day_forecast_stub) }
   let(:spot_session) do
@@ -10,7 +10,8 @@ RSpec.describe Surfable::Windows do
     t.conditions.tide.position_low_high = [0, -3]
     t
   end
-  subject { described_class.new(spot_session, forecast) }
+  let(:tide) { Surfable::Matchers::Tides.call(spot_session, forecast) }
+  subject { described_class.call(tide, forecast) }
 
   it {
     expect(subject.times.count).to eq(2)
