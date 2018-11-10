@@ -8,6 +8,8 @@ class Spot < ApplicationRecord
   validates_presence_of :user
   validates_presence_of :name
 
+  validates_associated :spot_sessions
+
   def self.wave_attribute_options
     { break_type: ['beach', 'point', 'reef'],
       direction: ['left', 'right'],

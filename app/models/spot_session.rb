@@ -6,7 +6,7 @@ class SpotSession < ApplicationRecord
     inverse_of: :spot_session,
     dependent: :destroy
   accepts_nested_attributes_for :conditions
-  
+
   validates_associated :conditions
 
   validates :conditions, presence: true
@@ -20,11 +20,8 @@ class SpotSession < ApplicationRecord
     param = "#{id}-#{slug.parameterize}"
   end
 
-  def surfable_windows(forecast)
-    forecast.each { |f| Surfable::Windows.new(self, f) }
+  def surfable(forecast)
+    Surfable::Windows.new(self, forecast)
   end
 
-  def surfable_reports(forecast)
-    forecast.each { |f| Surfable::Reports.new(self, f) }
-  end
 end

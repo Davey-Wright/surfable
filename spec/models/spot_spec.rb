@@ -2,11 +2,18 @@ require 'rails_helper'
 require 'support/spot_stub'
 
 RSpec.describe Spot, type: :model do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.build(:user) }
 
   subject {
-    described_class.new(spot_stub.merge(user: user))
-  }
+    described_class.new({
+      user: user,
+      name: 'Hardies Bay',
+      wave_break_type: 'beach',
+      wave_shape: ['crumbling', 'steep'],
+      wave_length: ['short', 'average'],
+      wave_speed: ['slow', 'average'],
+      wave_direction: ['left', 'right']
+    }) }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
@@ -27,9 +34,9 @@ RSpec.describe Spot, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'is not valid without a session name' do
-      subject.spot_sessions.first.name = nil
-      expect(subject).to_not be_valid
+    it 'should validate spot sessions' do
+      subject.spot_sessions = [FactoryBot.build(:spot_session, name: nil)]
+      expect(subject.valid?).to be(false)
     end
   end
 
@@ -42,7 +49,7 @@ RSpec.describe Spot, type: :model do
       end
 
       it 'Does not create spot with invalid session attributes' do
-        subject.spot_sessions.first.name = nil
+        subject.spot_sessions = [FactoryBot.build(:spot_session, name: nil)]
         expect(subject.save).to be(false)
         expect(Spot.all.count).to eq(0)
       end

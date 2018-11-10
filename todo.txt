@@ -1,6 +1,6 @@
 Priority
-  add onshore and offshore wind conditions to spot session
-  Test spot_session surfable method
+  1) Add onshore and offshore wind conditions to spot session
+  2) Test spot_session surfable method
 
 Refactor
   Surfable service objects

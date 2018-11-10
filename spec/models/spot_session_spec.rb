@@ -30,7 +30,7 @@ RSpec.describe SpotSession, type: :model do
       is_expected.to_not be_valid
     end
 
-    it 'should validate child associations' do
+    it 'should validate conditions' do
       subject.conditions.swell = nil
       is_expected.to_not be_valid
     end
