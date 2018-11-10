@@ -12,5 +12,11 @@ module Condition
     accepts_nested_attributes_for :swell
     accepts_nested_attributes_for :tide
     accepts_nested_attributes_for :wind
+
+    validates_associated :swell, :tide, :wind
+    
+    validates :swell, presence: true
+    validates :tide, presence: true
+    validates :wind, presence: true
   end
 end

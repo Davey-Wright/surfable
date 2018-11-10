@@ -1,11 +1,12 @@
 require 'rails_helper'
-require 'support/spot_session_stub'
+require 'support/day_forecast_stub'
 
 RSpec.describe SpotSession, type: :model do
-  let(:spot) { FactoryBot.create(:spot) }
+
+  let(:conditions) { FactoryBot.build(:conditions) }
 
   subject {
-    described_class.new( spot_session_stub.merge(spot: spot) )
+    FactoryBot.build(:spot_session, conditions: conditions)
   }
 
   describe 'Associations' do
@@ -16,16 +17,23 @@ RSpec.describe SpotSession, type: :model do
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
-      expect(subject).to be_valid
+      is_expected.to be_valid
     end
 
     it 'is not valid without name' do
       subject.name = nil
-      expect(subject).to_not be_valid
+      is_expected.to_not be_valid
     end
 
-    it { is_expected.to validate_presence_of(:spot) }
-    it { is_expected.to validate_presence_of(:name) }
+    it 'is not valid without conditions' do
+      subject.conditions = nil
+      is_expected.to_not be_valid
+    end
+
+    it 'should validate child associations' do
+      subject.conditions.swell = nil
+      is_expected.to_not be_valid
+    end
   end
 
   describe 'CRUD' do
@@ -71,7 +79,7 @@ RSpec.describe SpotSession, type: :model do
   end
 
   describe 'Methods' do
-    let(:forecast) { Forecast::Day.new good_forecast }
+    let(:forecast) { Forecast::Day.new day_forecast_stub }
 
     context 'with a good surf forecast' do
       describe 'surfable' do
@@ -87,9 +95,3 @@ RSpec.describe SpotSession, type: :model do
   end
 
 end
-
-# first_light = 6:42
-# last_light = 5:14
-#
-# high =  [05:06, 17:26]
-# low =  [11:07, 23:32]

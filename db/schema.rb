@@ -23,10 +23,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_swells", force: :cascade do |t|
-    t.float "min_height"
+    t.float "min_height", null: false
     t.float "max_height"
-    t.integer "min_period"
-    t.string "direction", default: [], array: true
+    t.integer "min_period", null: false
+    t.string "direction", default: [], null: false, array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_id"
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_tides", force: :cascade do |t|
-    t.float "position_low_high", default: [], array: true
-    t.float "position_high_low", default: [], array: true
-    t.string "size", default: [], array: true
+    t.float "position_low_high", default: [], null: false, array: true
+    t.float "position_high_low", default: [], null: false, array: true
+    t.string "size", default: [], null: false, array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_id"

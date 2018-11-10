@@ -1,7 +1,6 @@
 Priority
   add onshore and offshore wind conditions to spot session
-  Add validations to spot session conditions(swell max_height not needed)
-  Test forecast models
+  Test spot_session surfable method
 
 Refactor
   Surfable service objects
@@ -14,5 +13,5 @@ ___
 
 Add surfable counter to session spot
 Check time values are correct date
-Add validations to forecast models
+Test forecast models
 Windfinder forecast

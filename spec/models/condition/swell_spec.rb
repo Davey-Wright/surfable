@@ -1,22 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe Condition::Swell, type: :model do
+
   let(:condition) { FactoryBot.build(:condition) }
 
-  subject {
-    described_class.new( condition: condition,
-      min_height: 3,
-      max_height: 15,
-      min_period: 9,
-      direction: ['w', 'sw', 's']
-    )
-  }
+  subject { described_class.new({
+    condition: condition,
+    min_height: 5,
+    max_height: nil,
+    min_period: 10,
+    direction:  ['w', 'sw', 's']
+  }) }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:condition) }
   end
 
   describe 'Validations' do
-    it { is_expected.to be_valid }
+    it 'is valid with valid attributes' do
+      is_expected.to be_valid
+    end
+
+    it 'is not valid without min_height' do
+      subject.min_height = nil
+      is_expected.to_not be_valid
+    end
+
+    it 'is not valid without min_period' do
+      subject.min_period = nil
+      is_expected.to_not be_valid
+    end
+
+    it 'is not valid without direction' do
+      subject.direction = nil
+      is_expected.to_not be_valid
+    end
   end
 end

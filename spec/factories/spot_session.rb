@@ -3,6 +3,7 @@ FactoryBot.define do
     association :spot, factory: :spot, strategy: :build
     name { 'Morfa' }
     board_type { ['shortboard'] }
+    conditions { nil }
 
     factory :spot_session_with_conditions do
       after(:build) do |session|
