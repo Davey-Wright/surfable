@@ -6,14 +6,8 @@ module Forecast
       @hour = hour
       @speed = data.speed
       @gusts = data.gusts
-      @average_speed = set_average_speed
+      @average_speed = @speed + ((@gusts - @speed) * 0.2).to_i
       @direction = data.direction
-    end
-
-    private
-
-    def set_average_speed
-      (@speed - @gusts) / 10 + @speed
     end
   end
 end

@@ -52,7 +52,6 @@ module Forecast
           key = res['wind']
           wind.speed = key['speed']
           wind.gusts = key['gusts']
-          wind.average_speed = ((wind.gusts - wind.speed) * 0.25).to_i + wind.speed
           wind.direction = key['direction']
           wind
         end

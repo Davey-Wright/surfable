@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'support/spot_session_stub'
-require 'support/good_forecast_stub'
 
 RSpec.describe SpotSession, type: :model do
   let(:spot) { FactoryBot.create(:spot) }

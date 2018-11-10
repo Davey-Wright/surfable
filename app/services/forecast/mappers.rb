@@ -25,7 +25,7 @@ module Forecast
     end
 
     def self.wind_struct
-      Struct.new :speed, :gusts, :average_speed, :direction
+      Struct.new :speed, :gusts, :direction
     end
 
     def self.tide_struct

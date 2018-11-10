@@ -1,3 +1,18 @@
-- Add validations to forecast models
-- Windfinder forecast
-- Change spot_session to spot.conditions
+Priority
+  add onshore and offshore wind conditions to spot session
+  Add validations to spot session conditions(swell max_height not needed)
+  Test forecast models
+
+Refactor
+  Surfable service objects
+  Rubocop
+
+Review
+  Change spot_session to spot.conditions
+
+___
+
+Add surfable counter to session spot
+Check time values are correct date
+Add validations to forecast models
+Windfinder forecast

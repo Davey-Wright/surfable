@@ -39,7 +39,7 @@ def hours
   x = 0
   while x <= 21
     hour = Forecast::Mappers.hour_struct.new
-    hour[:value] = x
+    hour[:value] = Time.parse("#{x}:00")
     hour[:swell] = swell
     hour[:wind] = wind
     hours.push hour
@@ -52,7 +52,7 @@ def swell
   swell = Forecast::Mappers.swell_struct.new
   swell[:height] = 5
   swell[:period] = 12
-  swell[:direction] = 73.34
+  swell[:direction] = 250
   swell
 end
 
@@ -60,7 +60,6 @@ def wind
   wind = Forecast::Mappers.wind_struct.new
   wind[:speed] = 7
   wind[:gusts] = 11
-  wind[:average_speed] = 7
   wind[:direction] = 315
   wind
 end
