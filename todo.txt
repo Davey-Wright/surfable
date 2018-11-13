@@ -4,7 +4,7 @@ Priority
 
 Refactor
   Surfable service objects
-  Rubocop
+  Rubocop Doom Session!
 
 Review
   Change spot_session to spot.conditions

@@ -8,34 +8,34 @@ module Surfable
       end
 
       def call
-        report = Struct.new :time, :swell, :wind, :surfable
-        r = report.new
-        r.time = @window_hour
-        r.swell = swell_matcher(@spot_conditions.swell, @forecast_hour.swell)
-        r.wind = wind_matcher(@spot_conditions.wind, @forecast_hour.wind)
-        r.surfable = r.swell.surfable && r.wind.surfable
-        r
+        r = Struct.new :time, :swell, :wind, :surfable
+        report = r.new
+        report.time = @window_hour
+        report.swell = swell_matcher(@spot_conditions.swell, @forecast_hour.swell)
+        report.wind = wind_matcher(@spot_conditions.wind, @forecast_hour.wind)
+        report.surfable = r.swell.surfable && r.wind.surfable
+        report
       end
 
       private
 
-        def wind_matcher(session, forecast)
-          report = Struct.new :speed, :direction, :surfable
-          r = report.new
-          r.surfable = (r.speed = forecast.average_speed - session.speed) <= 0
+        def wind_matcher(conditions, forecast)
+          r = Struct.new :speed, :direction, :surfable
+          report = r.new
+          report.surfable = (report.speed = forecast.average_speed - conditions.speed) <= 0
           # direction should include onshore and offshore cases
-          r
+          report
         end
 
-        def swell_matcher(session, forecast)
-          report = Struct.new :min_height, :max_height, :period, :direction, :surfable
-          r = report.new
-          s1 = (session.max_height != nil) ? (r.max_height = forecast.height - session.max_height) <= 0 : true
-          s2 = (r.min_height = forecast.height - session.min_height) >= 0
-          s3 = (r.period = forecast.period - session.min_period) >= 0
-          s4 = (r.direction = session.direction.include? cnv_direction(forecast.direction))
-          r.surfable = s1 && s2 && s3 && s4
-          r
+        def swell_matcher(conditions, forecast)
+          r = Struct.new :min_height, :max_height, :period, :direction, :surfable
+          report = r.new
+          s1 = (conditions.max_height != nil) ? (report.max_height = forecast.height - conditions.max_height) <= 0 : true
+          s2 = (report.min_height = forecast.height - conditions.min_height) >= 0
+          s3 = (report.period = forecast.period - conditions.min_period) >= 0
+          s4 = (report.direction = conditions.direction.include? cnv_direction(forecast.direction))
+          report.surfable = s1 && s2 && s3 && s4
+          report
         end
 
         def cnv_direction(d)

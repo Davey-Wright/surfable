@@ -37,6 +37,10 @@ module Surfable
           }
         end
 
+        def match_offsets(type)
+          return if @offsets[type][:before] == 0 && @offsets[type][:after] == 0
+        end
+
         def match(type)
           match_offsets(type)
           @forecast_tides.data.each do |tide|
@@ -48,10 +52,6 @@ module Surfable
           end
         end
 
-        def match_offsets(type)
-          return if @offsets[type][:before] == 0 && @offsets[type][:after] == 0
-        end
-
         def full_range?
           high = match_high_low
           low = match_low_high
@@ -61,7 +61,6 @@ module Surfable
               from: time.change(hour: 0, min: 0, sec: 0),
               to: time.change(hour: 23, min: 59, sec: 59)
             }]
-            return true
           end
           return true if high || low
         end
@@ -69,30 +68,25 @@ module Surfable
         def match_high_low
           a = @user_tides.position_high_low.first
           b = @user_tides.position_high_low.last
-          if a + b.abs == 6
-            @forecast_tides.data.each_with_index do |tide, i|
-              if tide.type == 'high'
-                @times.push({ from: tide.time, to: shaka(i, tide.time) })
-              end
-            end
-            true
-          end
+          match_range('high', a, b)
         end
 
         def match_low_high
           a = @user_tides.position_low_high.first
           b = @user_tides.position_low_high.last
+          match_range('low', a, b)
+        end
+
+        def match_range(type, a, b)
           if a + b.abs == 6
             @forecast_tides.data.each_with_index do |tide, i|
-              if tide.type == 'low'
-                @times.push({ from: tide.time, to: shaka(i, tide.time) })
-              end
+              @times.push({ from: tide.time, to: set_to_time(i, tide.time) }) if tide.type == type
             end
             true
           end
         end
 
-        def shaka(i, t)
+        def set_to_time(i, t)
           if i + 1 < @forecast_tides.data.count
             @forecast_tides.data[i+1].time
           else

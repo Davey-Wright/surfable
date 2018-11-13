@@ -12,18 +12,20 @@ module Surfable
 
     def call
       @times.each do |time|
-        forecast_hours = select_forecast_hours(time)
-        report = []
-        (time[:from].hour..time[:to].hour).each do |hour|
-          forecast = forecast_hours.select { |h| (h.value.hour..h.value.hour+2) === hour }.first
-          report.push Matchers::Conditions.call(hour, forecast, @spot_conditions)
-        end
-        @reports.push report
+        hours = select_forecast_hours(time)
+        @reports.push create_report(time, hours)
       end
       self
     end
 
     private
+
+      def create_report(time, hours)
+        (time[:from].hour..time[:to].hour).map do |time|
+          forecast = hours.select { |h| (h.value.hour..h.value.hour + 2) === time }.first
+          Matchers::Conditions.call(time, forecast, @spot_conditions)
+        end
+      end
 
       def select_forecast_hours(t)
         @forecast_day.hours.select do |h|
