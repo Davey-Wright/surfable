@@ -3,8 +3,8 @@ module Surfable
     class Tides < ApplicationService
       attr_reader :times, :size, :match_sizes
 
-      def initialize(spot_session, forecast)
-        @user_tides = spot_session.conditions.tide
+      def initialize(spot_conditions, forecast)
+        @user_tides = spot_conditions.tide
         @forecast_tides = forecast.tides
         @offsets = set_offsets
         @times = []

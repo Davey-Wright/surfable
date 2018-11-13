@@ -3,16 +3,16 @@ require 'support/day_forecast_stub'
 
 RSpec.describe Surfable::Matchers::Conditions do
 
-  let(:session_conditions) do
-    t = FactoryBot.build(:spot_session_with_conditions)
-    t.conditions.tide.position_high_low = [0, -3]
-    t.conditions.tide.position_low_high = [0, -3]
-    t.conditions
+  let(:conditions) do
+    t = FactoryBot.build(:conditions)
+    t.tide.position_high_low = [0, -3]
+    t.tide.position_low_high = [0, -3]
+    t
   end
 
   context 'With surfable swell and wind' do
     let(:forecast_hour) { Forecast::Day.new(day_forecast_stub).hours.first }
-    subject { described_class.call(1, forecast_hour, session_conditions) }
+    subject { described_class.call(1, forecast_hour, conditions) }
 
     it {
       expect(subject.time).to eq(1)
@@ -37,7 +37,7 @@ RSpec.describe Surfable::Matchers::Conditions do
       forecast_stub.hours.first.wind[:direction] = 250
       Forecast::Day.new(forecast_stub).hours.first
     end
-    subject { described_class.call(1, forecast_hour, session_conditions) }
+    subject { described_class.call(1, forecast_hour, conditions) }
     it {
       expect(subject.time).to eq(1)
       expect(subject.surfable).to eq(false)
@@ -58,7 +58,7 @@ RSpec.describe Surfable::Matchers::Conditions do
       forecast_stub.hours.first.wind[:direction] = 250
       Forecast::Day.new(forecast_stub).hours.first
     end
-    subject { described_class.call(1, forecast_hour, session_conditions) }
+    subject { described_class.call(1, forecast_hour, conditions) }
     it {
       expect(subject.time).to eq(1)
       expect(subject.surfable).to eq(false)

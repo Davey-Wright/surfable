@@ -4,13 +4,13 @@ require 'support/day_forecast_stub'
 RSpec.describe Surfable::Matchers::Daylight do
 
   let(:forecast) { Forecast::Day.new(day_forecast_stub) }
-  let(:spot_session) do
-    t = FactoryBot.build(:spot_session_with_conditions)
-    t.conditions.tide.position_high_low = [0, -3]
-    t.conditions.tide.position_low_high = [0, -3]
+  let(:conditions) do
+    t = FactoryBot.build(:conditions)
+    t.tide.position_high_low = [0, -3]
+    t.tide.position_low_high = [0, -3]
     t
   end
-  let(:tide) { Surfable::Matchers::Tides.call(spot_session, forecast) }
+  let(:tide) { Surfable::Matchers::Tides.call(conditions, forecast) }
   subject { described_class.call(tide, forecast) }
 
   it {

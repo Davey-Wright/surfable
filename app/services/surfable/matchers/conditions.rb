@@ -1,18 +1,18 @@
 module Surfable
   module Matchers
     class Conditions < ApplicationService
-      def initialize(window_hour, forecast_hour, session_conditions)
+      def initialize(window_hour, forecast_hour, spot_conditions)
         @window_hour = window_hour
         @forecast_hour = forecast_hour
-        @session_conditions = session_conditions
+        @spot_conditions = spot_conditions
       end
 
       def call
         report = Struct.new :time, :swell, :wind, :surfable
         r = report.new
         r.time = @window_hour
-        r.swell = swell_matcher(@session_conditions.swell, @forecast_hour.swell)
-        r.wind = wind_matcher(@session_conditions.wind, @forecast_hour.wind)
+        r.swell = swell_matcher(@spot_conditions.swell, @forecast_hour.swell)
+        r.wind = wind_matcher(@spot_conditions.wind, @forecast_hour.wind)
         r.surfable = r.swell.surfable && r.wind.surfable
         r
       end

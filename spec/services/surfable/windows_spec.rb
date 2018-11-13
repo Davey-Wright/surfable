@@ -4,13 +4,13 @@ require 'support/day_forecast_stub'
 RSpec.describe Surfable::Windows do
 
   let(:forecast) { Forecast::Day.new(day_forecast_stub) }
-  let(:spot_session) do
-    t = FactoryBot.build(:spot_session_with_conditions)
-    t.conditions.tide.position_high_low = [0, -3]
-    t.conditions.tide.position_low_high = [0, -2.5]
+  let(:conditions) do
+    t = FactoryBot.build(:conditions)
+    t.tide.position_high_low = [0, -3]
+    t.tide.position_low_high = [0, -2.5]
     t
   end
-  subject { described_class.call(spot_session, forecast) }
+  subject { described_class.call(conditions, forecast) }
 
   describe 'time attribute' do
     it {

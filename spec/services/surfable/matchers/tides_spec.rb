@@ -1,9 +1,6 @@
 require 'rails_helper'
 require 'support/day_forecast_stub'
 
-
-# add support for .5 hour offsets
-
 RSpec.describe Surfable::Matchers::Tides do
 
   let(:forecast_tides) { Forecast::Day.new(day_forecast_stub) }
@@ -13,9 +10,9 @@ RSpec.describe Surfable::Matchers::Tides do
     describe 'Times' do
       context 'with 3 hours before high, 3 hours before low' do
         let(:user_tides) do
-          t = FactoryBot.build(:spot_session_with_conditions)
-          t.conditions.tide.position_high_low = [0, -3]
-          t.conditions.tide.position_low_high = [0, -3]
+          t = FactoryBot.build(:conditions)
+          t.tide.position_high_low = [0, -3]
+          t.tide.position_low_high = [0, -3]
           t
         end
         subject { described_class.call(user_tides, forecast_tides) }
@@ -39,9 +36,9 @@ RSpec.describe Surfable::Matchers::Tides do
 
       context 'with 2.5 hours before high, 2.5 hours before low' do
         let(:user_tides) do
-          t = FactoryBot.build(:spot_session_with_conditions)
-          t.conditions.tide.position_high_low = [0, -2.5]
-          t.conditions.tide.position_low_high = [0, -2.5]
+          t = FactoryBot.build(:conditions)
+          t.tide.position_high_low = [0, -2.5]
+          t.tide.position_low_high = [0, -2.5]
           t
         end
         subject { described_class.call(user_tides, forecast_tides) }
@@ -65,9 +62,9 @@ RSpec.describe Surfable::Matchers::Tides do
 
       context 'full range from high to low' do
         let(:user_tides) do
-          t = FactoryBot.build(:spot_session_with_conditions)
-          t.conditions.tide.position_high_low = [3, -3]
-          t.conditions.tide.position_low_high = [0, 0]
+          t = FactoryBot.build(:conditions)
+          t.tide.position_high_low = [3, -3]
+          t.tide.position_low_high = [0, 0]
           t
         end
         subject { described_class.call(user_tides, forecast_tides) }
@@ -82,9 +79,9 @@ RSpec.describe Surfable::Matchers::Tides do
 
       context 'full range from low to high' do
         let(:user_tides) do
-          t = FactoryBot.build(:spot_session_with_conditions)
-          t.conditions.tide.position_high_low = [0, 0]
-          t.conditions.tide.position_low_high = [3, -3]
+          t = FactoryBot.build(:conditions)
+          t.tide.position_high_low = [0, 0]
+          t.tide.position_low_high = [3, -3]
           t
         end
         subject { described_class.call(user_tides, forecast_tides) }
@@ -99,9 +96,9 @@ RSpec.describe Surfable::Matchers::Tides do
 
       context 'full range' do
         let(:user_tides) do
-          t = FactoryBot.build(:spot_session_with_conditions)
-          t.conditions.tide.position_high_low = [3, -3]
-          t.conditions.tide.position_low_high = [3, -3]
+          t = FactoryBot.build(:conditions)
+          t.tide.position_high_low = [3, -3]
+          t.tide.position_low_high = [3, -3]
           t
         end
         subject { described_class.call(user_tides, forecast_tides) }
@@ -116,9 +113,9 @@ RSpec.describe Surfable::Matchers::Tides do
 
       context 'no range offsets' do
         let(:user_tides) do
-          t = FactoryBot.build(:spot_session_with_conditions)
-          t.conditions.tide.position_high_low = [0, 0]
-          t.conditions.tide.position_low_high = [0, 0]
+          t = FactoryBot.build(:conditions)
+          t.tide.position_high_low = [0, 0]
+          t.tide.position_low_high = [0, 0]
           t
         end
         subject { described_class.call(user_tides, forecast_tides) }
@@ -133,9 +130,9 @@ RSpec.describe Surfable::Matchers::Tides do
 
     describe 'size' do
       let(:user_tides) do
-        t = FactoryBot.build(:spot_session_with_conditions)
-        t.conditions.tide.position_high_low = [3, -3]
-        t.conditions.tide.position_low_high = [0, 0]
+        t = FactoryBot.build(:conditions)
+        t.tide.position_high_low = [3, -3]
+        t.tide.position_low_high = [0, 0]
         t
       end
       subject { described_class.call(user_tides, forecast_tides) }

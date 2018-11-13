@@ -6,6 +6,7 @@ class Spot < ApplicationRecord
     foreign_key: 'spot_id',
     inverse_of: :spot,
     dependent: :destroy
+    
   accepts_nested_attributes_for :conditions
 
   validates_presence_of :user
