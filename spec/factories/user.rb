@@ -13,9 +13,9 @@ FactoryBot.define do
       end
     end
 
-    factory :user_with_complete_spot do
+    factory :user_with_spot_conditions do
       after(:build) do |user|
-        create(:spot_with_session_conditions, user: user)
+        create(:spot_with_conditions, user: user)
       end
     end
   end

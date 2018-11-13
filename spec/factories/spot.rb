@@ -10,7 +10,7 @@ FactoryBot.define do
 
     factory :spot_with_conditions do
       after(:build) do |spot|
-        build(:condition, spot: spot)
+        create(:conditions, spot: spot)
       end
     end
   end

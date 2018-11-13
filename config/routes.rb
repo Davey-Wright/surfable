@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
   root 'static_pages#index'
 
-  namespace :forecasts do
-    get 'windfinder/long_term', to: 'windfinder#long_term'
-    get 'windfinder/short_term', to: 'windfinder#short_term'
-  end
-
   devise_for :users, :controllers => {
     registrations: 'users/registrations',
     sessions: 'users/sessions',
@@ -15,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :destroy]
   resources :spots do
-    resources :spot_sessions
+    resources :conditions
   end
 
 end

@@ -3,7 +3,7 @@ require 'support/spot_stub'
 
 RSpec.describe SpotsController, type: :controller do
 
-  let(:logged_out_user) { FactoryBot.create(:user_with_complete_spot) }
+  let(:logged_out_user) { FactoryBot.create(:user_with_spot_conditions) }
 
   describe 'spots controller authentication' do
     context 'when user is logged out' do
@@ -31,7 +31,7 @@ RSpec.describe SpotsController, type: :controller do
   context 'when user is logged in' do
 
     before(:each) do
-      @logged_in_user = FactoryBot.create(:user_with_complete_spot)
+      @logged_in_user = FactoryBot.create(:user_with_spot_conditions)
       @logged_in_user_spots = @logged_in_user.spots
       sign_in @logged_in_user
     end
@@ -108,18 +108,6 @@ RSpec.describe SpotsController, type: :controller do
             .to change{ spots.count }.by(+1)
           expect(response).to redirect_to spot_path(spots.last)
         end
-
-        it 'should permit nested params' do
-          expect { post :create,
-            params: { spot: spot_stub } }
-            .to change{ @logged_in_user_spots.count }.by(+1)
-          session = @logged_in_user_spots.last.spot_sessions.first
-          expect(session).to be_instance_of SpotSession
-          expect(session.conditions).to be_instance_of Condition::Condition
-          expect(session.conditions.swell).to be_instance_of Condition::Swell
-          expect(session.conditions.tide).to be_instance_of Condition::Tide
-          expect(session.conditions.wind).to be_instance_of Condition::Wind
-        end
       end
     end
 
@@ -137,7 +125,7 @@ RSpec.describe SpotsController, type: :controller do
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'Should not update with invalid session attributes' do
+        it 'Should not update with invalid condition attributes' do
           spot = @logged_in_user_spots.first
           expect { patch :update,
             params: { id: spot, spot: { name: '' } }
@@ -185,7 +173,6 @@ RSpec.describe SpotsController, type: :controller do
           expect { delete :destroy,
             params: { id: spots.first } }
             .to change {spots.count }.by(-1)
-          expect(SpotSession.all.count).to eq(0)
           expect(Condition::Condition.all.count).to eq(0)
           expect(Condition::Swell.all.count).to eq(0)
           expect(Condition::Tide.all.count).to eq(0)

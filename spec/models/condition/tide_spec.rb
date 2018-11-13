@@ -2,14 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Condition::Tide, type: :model do
 
-  let(:condition) { FactoryBot.build(:condition) }
-
-  subject { described_class.new({
-    condition: condition,
-    position_low_high: nil,
-    position_high_low: nil,
-    size: ['all']
-  }) }
+  subject { FactoryBot.build(:conditions).tide }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:condition) }

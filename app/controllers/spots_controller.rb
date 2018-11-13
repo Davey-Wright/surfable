@@ -50,10 +50,9 @@ private
         wave_length: [],
         wave_speed: [],
         wave_direction: [],
-        spot_sessions_attributes: [
+        conditions_attributes: [
           :name,
           board_type: [],
-          conditions_attributes: {
             swell_attributes: [
               :min_height,
               :max_height,
@@ -69,7 +68,6 @@ private
               { direction: [] },
               :speed
             ]
-          }
         ]
       )
     end

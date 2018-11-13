@@ -32,23 +32,12 @@ RSpec.describe Spot, type: :model do
       subject.name = nil
       expect(subject).to_not be_valid
     end
-
-    it 'should validate conditions' do
-      subject.conditions = [FactoryBot.build(:condition, swell: nil)]
-      expect(subject.valid?).to be(false)
-    end
   end
 
   describe 'CRUD' do
     context 'Create' do
       it 'Does not create new spot with invalid attributes' do
         subject.name = nil
-        expect(subject.save).to be(false)
-        expect(Spot.all.count).to eq(0)
-      end
-
-      it 'Does not create spot with invalid condition' do
-        subject.conditions = [FactoryBot.build(:condition, tide: nil)]
         expect(subject.save).to be(false)
         expect(Spot.all.count).to eq(0)
       end

@@ -1,13 +1,13 @@
 require 'rails_helper'
-require 'support/spot_session_stub'
+require 'support/spot_condition_stub'
 
-RSpec.describe SpotSessionsController, type: :controller do
+RSpec.describe ConditionsController, type: :controller do
 
-  let(:logged_out_user) { FactoryBot.create(:user_with_complete_spot) }
+  let(:logged_out_user) { FactoryBot.create(:user_with_spot_conditions) }
   let(:logged_out_user_spot) { logged_out_user.spots.first }
-  let(:logged_out_user_spot_session) { logged_out_user_spot.spot_sessions.first }
+  let(:logged_out_user_condition) { logged_out_user_spot.conditions.first }
 
-  describe 'sessions authentication' do
+  describe 'conditions authentication' do
     context 'when user is logged out' do
       it { expect(get :new, params: { spot_id: logged_out_user_spot })
         .to redirect_to new_user_session_path }
@@ -16,7 +16,7 @@ RSpec.describe SpotSessionsController, type: :controller do
       #   let(:create_session) do
       #     post :create, params: {
       #       spot_id: logged_out_user_spot,
-      #       spot_session: spot_session_stub
+      #       condition: condition_stub
       #     }
       #   end
       #
@@ -24,28 +24,28 @@ RSpec.describe SpotSessionsController, type: :controller do
       # end
 
       it { expect(get :show,
-        params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session })
+        params: { spot_id: logged_out_user_spot, id: logged_out_user_condition })
         .to redirect_to new_user_session_path }
 
       it { expect(get :edit,
-        params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session })
+        params: { spot_id: logged_out_user_spot, id: logged_out_user_condition })
         .to redirect_to new_user_session_path }
 
       it { expect(patch :update,
-        params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session })
+        params: { spot_id: logged_out_user_spot, id: logged_out_user_condition })
         .to redirect_to new_user_session_path }
 
       it { expect(delete :destroy,
-        params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session })
+        params: { spot_id: logged_out_user_spot, id: logged_out_user_condition })
         .to redirect_to new_user_session_path }
     end
   end
 
   context 'when user is logged in' do
     before(:each) do
-      @logged_in_user = FactoryBot.create(:user_with_complete_spot)
+      @logged_in_user = FactoryBot.create(:user_with_spot_conditions)
       @logged_in_user_spot = @logged_in_user.spots.first
-      @logged_in_user_session = @logged_in_user_spot.spot_sessions.first
+      @logged_in_user_condition = @logged_in_user_spot.conditions.first
       sign_in @logged_in_user
     end
 
@@ -71,41 +71,41 @@ RSpec.describe SpotSessionsController, type: :controller do
       end
 
       describe '#show' do
-        it 'should return a 404 message if the session is not found' do
+        it 'should return a 404 message if the condition is not found' do
           get :show,
-            params: { spot_id: @logged_in_user_spot, id: 'fake_session' }
+            params: { spot_id: @logged_in_user_spot, id: 'fake_condition' }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'should not return another users session' do
+        it 'should not return another users condition' do
           get :show,
-            params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session }
+            params: { spot_id: logged_out_user_spot, id: logged_out_user_condition }
           expect(response).to have_http_status(:not_found)
         end
 
         it 'should be successful' do
           get :show,
-            params: { spot_id: @logged_in_user_spot, id: @logged_in_user_session }
+            params: { spot_id: @logged_in_user_spot, id: @logged_in_user_condition }
           expect(response).to be_successful
         end
       end
 
       describe '#edit' do
-        it 'should return a 404 message if the session is not found' do
+        it 'should return a 404 message if the condition is not found' do
           get :edit,
-            params: { spot_id: @logged_in_user_spot, id: 'fake_session' }
+            params: { spot_id: @logged_in_user_spot, id: 'fake_condition' }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'should not return another users session' do
+        it 'should not return another users condition' do
           get :edit,
-            params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session }
+            params: { spot_id: logged_out_user_spot, id: logged_out_user_condition }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'should render sessions/edit' do
+        it 'should render conditions/edit' do
           get :edit,
-            params: { spot_id: @logged_in_user_spot, id: @logged_in_user_session }
+            params: { spot_id: @logged_in_user_spot, id: @logged_in_user_condition }
           expect(response).to be_successful
         end
       end
@@ -114,36 +114,36 @@ RSpec.describe SpotSessionsController, type: :controller do
 
     context 'POST' do
       describe '#create' do
-        it 'should not create session with invalid attributes' do
+        it 'should not create condition with invalid attributes' do
           expect { post :create,
-            params: { spot_id: @logged_in_user_spot, spot_session: { name: '' } } }
-            .to_not change{ @logged_in_user_spot.spot_sessions.count }
+            params: { spot_id: @logged_in_user_spot,
+              condition: { name: 'Logging', board_type: ['longboard'] } } }
+            .to_not change{ @logged_in_user_spot.conditions.count }
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
-        it 'should not create session for another users spot' do
+        it 'should not create condition for another users spot' do
           expect { post :create,
             params: { spot_id: logged_out_user_spot,
-              spot_session: { name: 'Logging', board_type: ['longboard'] } } }
-            .to_not change{ @logged_in_user_spot.spot_sessions.count }
+              condition: { name: 'Logging', board_type: ['longboard'] } } }
+            .to_not change{ @logged_in_user_spot.conditions.count }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'Should create a session with valid attributes' do
+        it 'Should create a condition with valid attributes' do
           expect { post :create,
-            params: { spot_id: @logged_in_user_spot,
-              spot_session: { name: 'Logging', board_type: ['longboard'] } } }
-            .to change{ @logged_in_user_spot.spot_sessions.count }.by(+1)
+            params: { spot_id: @logged_in_user_spot, condition: spot_condition_stub } }
+            .to change{ @logged_in_user_spot.conditions.count }.by(+1)
           spot = @logged_in_user_spot
-          session = @logged_in_user_spot.spot_sessions.last
-          expect(response).to redirect_to spot_spot_session_path(spot, session)
+          condition = @logged_in_user_spot.conditions.last
+          expect(response).to redirect_to spot_condition_path(spot, condition)
         end
 
         it 'should permit nested params for conditions' do
           expect { post :create,
-            params: { spot_id: @logged_in_user_spot, spot_session: spot_session_stub } }
-            .to change{ @logged_in_user_spot.spot_sessions.count }.by(+1)
-          conditions = @logged_in_user_session.conditions
+            params: { spot_id: @logged_in_user_spot, condition: spot_condition_stub } }
+            .to change{ @logged_in_user_spot.conditions.count }.by(+1)
+          conditions = @logged_in_user_condition
           expect(conditions).to be_instance_of Condition::Condition
           expect(conditions.swell).to be_instance_of Condition::Swell
           expect(conditions.tide).to be_instance_of Condition::Tide
@@ -155,66 +155,76 @@ RSpec.describe SpotSessionsController, type: :controller do
 
     context 'PATCH' do
       describe '#update' do
-        it 'Should not update another users session' do
+        it 'Should not update another users condition' do
           patch :update,
             params: {
               spot_id: logged_out_user_spot,
-              id: logged_out_user_spot_session,
-              spot_session: { name: 'Logging' } }
+              id: logged_out_user_condition,
+              condition: { name: 'Logging' } }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'Should return a 404 message if the session is not found' do
+        it 'Should return a 404 message if the condition is not found' do
           patch :update,
             params: {
               spot_id: @logged_in_user_spot,
-              id: 'fake_session',
-              spot_session: { name: 'Logging'} }
+              id: 'fake_condition',
+              condition: { name: 'Logging'} }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'Should not update with invalid session attributes' do
+        it 'Should not update with invalid condition attributes' do
+          spot = @logged_in_user_spot
+          condition = @logged_in_user_condition
           expect { patch :update,
             params: {
-              spot_id: @logged_in_user_spot,
-              id: @logged_in_user_session,
-              spot_session: { name: '' } }
-            @logged_in_user_session.reload }
-            .to_not change { @logged_in_user_session.name }
+              spot_id: spot,
+              id: condition,
+              condition: {
+                swell_attributes: {
+                  min_height: 100
+                }
+            } }
+            @logged_in_user_condition.reload }
+            .to_not change { @logged_in_user_condition.swell.min_height}
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response).to render_template :edit
         end
 
         it 'Should successfully update spot' do
           spot = @logged_in_user_spot
-          session = @logged_in_user_session
+          condition = @logged_in_user_condition
           expect { patch :update,
             params: {
               spot_id: spot,
-              id: session,
-              spot_session: { name: 'Logging' } }
-            session.reload }
-            .to change { session.name }.to('Logging')
-          expect(response).to redirect_to spot_spot_session_path(spot, session)
+              id: condition,
+              condition: {
+                name: 'Logging'
+            } }
+            condition.reload }
+            .to change { condition.name }.to('Logging')
+          expect(response).to redirect_to spot_condition_path(spot, condition)
         end
 
         it 'Should update nested params' do
           spot = @logged_in_user_spot
-          session = @logged_in_user_session
+          condition = @logged_in_user_condition
           expect { patch :update,
             params: {
               spot_id: spot,
-              id: session,
-              spot_session: {
-                conditions_attributes: {
-                  swell_attributes: {
-                    min_height: 100
-                  }
+              id: condition,
+              condition: {
+                name: 'melaka',
+                swell_attributes: {
+                  min_height: 100,
+                  max_height: nil,
+                  min_period: 10,
+                  direction: ['w', 'sw', 's']
                 }
             } }
-            session.reload }
-            .to change { session.conditions.swell.min_height }.to(100)
-            expect(response).to redirect_to spot_spot_session_path(spot, session)
+            condition.reload }
+            .to change { condition.swell.min_height }.to(100)
+            expect(response).to redirect_to spot_condition_path(spot, condition)
         end
       end
     end
@@ -224,31 +234,31 @@ RSpec.describe SpotSessionsController, type: :controller do
       describe '#destroy' do
         it 'Should not delete another users spot' do
           delete :destroy,
-            params: { spot_id: logged_out_user_spot, id: logged_out_user_spot_session }
+            params: { spot_id: logged_out_user_spot, id: logged_out_user_condition }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'Should return a 404 message if the session is not found' do
+        it 'Should return a 404 message if the condition is not found' do
           delete :destroy,
-            params: { spot_id: @logged_in_user_spot, id: 'fake_session' }
+            params: { spot_id: @logged_in_user_spot, id: 'fake_condition' }
           expect(response).to have_http_status(:not_found)
         end
 
-        it 'Should successfully delete spot' do
+        it 'Should successfully delete condition' do
           spot = @logged_in_user_spot
-          session = @logged_in_user_session
+          condition = @logged_in_user_condition
           expect { delete :destroy,
-            params: { spot_id: spot, id: session } }
-            .to change { spot.spot_sessions.count }.by(-1)
+            params: { spot_id: spot, id: condition } }
+            .to change { spot.conditions.count }.by(-1)
           expect(response).to redirect_to spot_path(spot)
         end
 
         it 'Should successfully delete all child associations' do
           spot = @logged_in_user_spot
-          session = @logged_in_user_session
+          condition = @logged_in_user_condition
           expect { delete :destroy,
-            params: { spot_id: spot, id: session } }
-            .to change {spot.spot_sessions.count }.by(-1)
+            params: { spot_id: spot, id: condition } }
+            .to change {spot.conditions.count }.by(-1)
           expect(Condition::Condition.all.count).to eq(0)
           expect(Condition::Swell.all.count).to eq(0)
           expect(Condition::Tide.all.count).to eq(0)

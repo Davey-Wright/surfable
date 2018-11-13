@@ -2,15 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Condition::Swell, type: :model do
 
-  let(:condition) { FactoryBot.build(:condition) }
-
-  subject { described_class.new({
-    condition: condition,
-    min_height: 5,
-    max_height: nil,
-    min_period: 10,
-    direction:  ['w', 'sw', 's']
-  }) }
+  subject { FactoryBot.build(:conditions).swell }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:condition) }

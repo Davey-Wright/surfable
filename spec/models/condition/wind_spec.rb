@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Condition::Wind, type: :model do
-  let(:condition) { FactoryBot.build(:condition) }
-
-  subject { FactoryBot.build(:conditions_wind)}
+  subject { FactoryBot.build(:conditions).wind }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:condition) }
