@@ -2,20 +2,20 @@ require 'rails_helper'
 
 RSpec.describe Condition::Condition, type: :model do
 
-  let(:spot_session) { FactoryBot.build(:spot_session) }
+  let(:spot) { FactoryBot.build(:spot) }
   let(:swell) { FactoryBot.build(:conditions_swell) }
   let(:wind) { FactoryBot.build(:conditions_wind) }
   let(:tide) { FactoryBot.build(:conditions_tide) }
 
   subject { described_class.new({
-    spot_session: spot_session,
+    spot: spot,
     swell: swell,
     wind: wind,
     tide: tide
   }) }
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:spot_session) }
+    it { is_expected.to belong_to(:spot) }
     it { is_expected.to have_one(:swell).dependent(:destroy) }
     it { is_expected.to have_one(:tide).dependent(:destroy) }
     it { is_expected.to have_one(:wind).dependent(:destroy) }

@@ -1,14 +1,16 @@
 class Spot < ApplicationRecord
   belongs_to :user
-  has_many :spot_sessions, dependent: :destroy
-  has_many :conditions, through: :spot_sessions
 
-  accepts_nested_attributes_for :spot_sessions, reject_if: :session_name_blank?
+  has_many :conditions,
+    class_name: 'Condition::Condition',
+    foreign_key: 'spot_id',
+    inverse_of: :spot,
+    dependent: :destroy
+  accepts_nested_attributes_for :conditions
 
   validates_presence_of :user
   validates_presence_of :name
-
-  validates_associated :spot_sessions
+  validates_associated :conditions
 
   def self.wave_attribute_options
     { break_type: ['beach', 'point', 'reef'],
@@ -26,9 +28,4 @@ class Spot < ApplicationRecord
     param = "#{id}-#{slug.parameterize}"
   end
 
-private
-
-  def session_name_blank?(att)
-    att['name'].blank? && new_record?
-  end
 end

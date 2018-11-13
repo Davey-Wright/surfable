@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :condition, class: Condition::Condition do
-    association :spot_session, factory: :spot_session, strategy: :build
+    association :spot, factory: :spot, strategy: :build
+    name { 'Morfa' }
+    board_type { ['shortboard'] }
     factory :conditions do
       after(:build) do |conditions|
         build(:conditions_swell, condition: conditions)
