@@ -49,26 +49,7 @@ private
         wave_shape: [],
         wave_length: [],
         wave_speed: [],
-        wave_direction: [],
-        conditions_attributes: [
-          :name,
-          board_type: [],
-            swell_attributes: [
-              :min_height,
-              :max_height,
-              :min_period,
-              direction: []
-            ],
-            tide_attributes: [
-              position_low_high: [],
-              position_high_low: [],
-              size: []
-            ],
-            wind_attributes: [
-              { direction: [] },
-              :speed
-            ]
-        ]
+        wave_direction: []
       )
     end
 

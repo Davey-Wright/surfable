@@ -3,7 +3,6 @@ Priority
   2) Test spot_session surfable method
 
 Refactor
-  Surfable service objects
   Rubocop Doom Session!
 
 Review
