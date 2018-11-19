@@ -5,17 +5,18 @@ html
     title Saltydog
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  body
-    p.notice= notice
-    p.alert= alert
-    - if user_signed_in?
-      = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
-      = link_to 'Dashboard', user_path(current_user)
-      = link_to 'Spots', spots_path
-    - else
-      = link_to 'Sign Up', new_user_registration_path, id: 'sign_up'
-      = link_to 'Sign In', new_user_session_path, id: 'sign_in'
 
-    = yield
+    body.is-preload
+      p.notice= notice
+      p.alert= alert
+      - if user_signed_in?
+        = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
+        = link_to 'Dashboard', user_path(current_user)
+        = link_to 'Spots', spots_path
+
+      div#wrapper
+        = yield
+
+      div#bg

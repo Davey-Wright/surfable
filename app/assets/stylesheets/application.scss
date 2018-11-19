@@ -1,0 +1,10 @@
+@import 'foundation';
+@import "main";
+@import 'users';
+
+abbr[title], abbr[data-original-title] {
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: none;
+    color: white;
+}

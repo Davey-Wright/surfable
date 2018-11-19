@@ -11,6 +11,14 @@
 // about supported directives.
 //
 //= require rails-ujs
+//= require jquery
+//= require jquery_ujs
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+//= require foundation
+
+$(document).on('turbolinks:load', function() {
+    $(function(){ $(document).foundation(); });
+    dimensionMain();
+});

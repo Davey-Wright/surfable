@@ -38,6 +38,9 @@ gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'simple_form'
 gem 'bootstrap', '~> 4.1.3'
 gem 'figaro'
+gem 'foundation-rails'
+gem 'autoprefixer-rails'
+gem 'jquery-rails', '~> 4.0', '>= 4.0.5'
 
 # User Authentication
 gem 'devise'
