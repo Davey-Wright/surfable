@@ -1,33 +1,42 @@
-header#header
-  .logo
-    span.icon.fa-diamond
-  .content
-    .inner
-      h1
-        | Surfable
-      p
-        | An open source project for surfers in South Wales, UK
-        br
-        |  cep quam augue vel Feugiat Aliquam egestas.
-  nav
-    ul
-      li
-        = link_to 'Demo', id: 'demo'
-      li
-        = link_to 'Sign Up', "#sign_up", data: { turbolinks: false }
-      li
-        = link_to 'Log in', "#log_in", data: { turbolinks: false }
+div#wrapper
 
-div#main
-  article#sign_up
-    h2.major
-      | Sign Up
-    = render 'devise/registrations/new'
+  header#header
+    .logo
+      span.icon.fa-diamond
+    .content
+      .inner
+        h1
+          | Surfable
+        p
+          | An open source project for surfers in South Wales, UK
+          br
+          |  cep quam augue vel Feugiat Aliquam egestas.
+    nav
+      ul
+        li
+          = link_to 'Demo', id: 'demo'
+        li
+          = link_to 'Sign Up', "#sign_up", data: { turbolinks: false }
+        li
+          = link_to 'Log in', "#log_in", data: { turbolinks: false }
 
-  article#log_in
-    h2.major
-      | Log In
-    = render 'devise/sessions/new'
+  div#main
+    article#sign_up
+      h2.major
+        | Sign Up
+      = render 'devise/registrations/new'
 
-footer#footer
-  p.copyright&copy; Davey Wright 2018
+    article#log_in
+      h2.major
+        | Log In
+      = render 'devise/sessions/new'
+
+    article#recover_password
+      h2.major
+        | Forgot your password?
+      = render 'devise/passwords/new'
+
+  footer#footer
+    p.copyright&copy; Davey Wright 2018
+
+div#bg

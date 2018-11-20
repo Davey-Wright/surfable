@@ -9,4 +9,7 @@
       input_html: { autocomplete: "current-password" }
   .form-actions
     = f.button :submit, "Log in"
-= render "devise/shared/links"
+
+= render "devise/shared/omniauth_links"
+= link_to "Forgot your password?", '#recover_password'
+br
