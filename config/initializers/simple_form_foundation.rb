@@ -24,7 +24,7 @@ SimpleForm.setup do |config|
     b.optional :min_max
     b.optional :readonly
     b.use :label_input
-    b.use :error, wrap_with: { tag: :small, class: :error }
+    b.use :full_error, wrap_with: { tag: :small, class: :error }
 
     # b.use :hint,  wrap_with: { tag: :span, class: :hint }
   end
@@ -111,7 +111,7 @@ SimpleForm.setup do |config|
   config.item_wrapper_tag = :div
 
   # CSS class to add for error notification helper.
-  config.error_notification_class = 'alert-box alert'
+  config.error_notification_class = 'form_errors'
 
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :vertical_form

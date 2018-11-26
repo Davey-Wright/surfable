@@ -1,4 +1,12 @@
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name) ) do |f|
+h2.major
+  | Sign Up
+
+.social_sign_up_links
+  - if devise_mapping.omniauthable?
+    - resource_class.omniauth_providers.each do |provider|
+      = link_to "Sign up with #{provider == :google_oauth2 ? 'Google' : provider}", omniauth_authorize_path(resource_name, provider), class: 'button'
+
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), remote: true ) do |f|
   = f.error_notification
   .form-inputs
     = f.input :first_name,
@@ -23,5 +31,3 @@
   .form-actions
     = f.button :submit, "Sign up"
     = f.button :button, 'Reset', type: :reset
-
-= render "devise/shared/omniauth_links"

@@ -283,14 +283,15 @@ var dimensionMain = function() {
 
 		// Articles.
 			$main_articles.each(function() {
-
 				var $this = $(this);
 
 				// Close.
 					$('<div class="close">Close</div>')
 						.appendTo($this)
 						.on('click', function() {
-							location.hash = '';
+								event.preventDefault();
+								event.stopPropagation();
+								$main._hide();
 						});
 
 				// Prevent clicks from inside article from bubbling.
@@ -326,6 +327,11 @@ var dimensionMain = function() {
 
 				}
 
+			});
+
+			$window.on('ajax:success', function(e, data){
+				$main_articles = $main.children('article');
+				$main._show(e.target.attributes['data-target'].value);
 			});
 
 			$window.on('hashchange', function(event) {

@@ -16,3 +16,25 @@ abbr[title], abbr[data-original-title] {
 a {
   border-bottom: none;
 }
+
+// forms
+.error label {
+  color: white;
+}
+
+.error small.error {
+  background: none;
+  color: #f04124;
+  padding: 0rem 0rem;
+  margin-top: .5rem;
+}
+
+.form_errors {
+  color: #de2d0f;
+  margin: 1rem 0rem;
+  font-style: italic;
+}
+
+.social_sign_up_links {
+  margin: 2.5rem 0 .5rem 0;
+}
