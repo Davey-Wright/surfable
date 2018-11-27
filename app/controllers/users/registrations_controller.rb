@@ -4,9 +4,7 @@ module Users
     def new
       build_resource
       yield resource if block_given?
-      respond_with do |format|
-        format.js { render 'new', layout: false }
-      end
+      respond_with { |f| f.js { render 'new', layout: false } }
     end
 
     def create
@@ -26,9 +24,7 @@ module Users
       else
         clean_up_passwords resource
         set_minimum_password_length
-        respond_with do |format|
-          format.js { render 'new', layout: false }
-        end
+        respond_with { |f| f.js { render 'new', layout: false } }
       end
     end
 

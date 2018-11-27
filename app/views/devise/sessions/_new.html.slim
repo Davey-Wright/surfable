@@ -1,15 +1,22 @@
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+h2.major
+  | Log In
+
+.social_sign_up_links
+  - if devise_mapping.omniauthable?
+    - resource_class.omniauth_providers.each do |provider|
+      = link_to "Log in with #{provider == :google_oauth2 ? 'Google' : provider}", omniauth_authorize_path(resource_name, provider), class: 'button'
+
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name), remote: true) do |f|
+  = f.error_notification
   .form-inputs
     = f.input :email,
-      required: false,
+      required: true,
       autofocus: true,
       input_html: { autocomplete: "email" }
     = f.input :password,
-      required: false,
+      required: true,
       input_html: { autocomplete: "current-password" }
   .form-actions
     = f.button :submit, "Log in"
 
-= render "devise/shared/omniauth_links"
 = link_to "Forgot your password?", '#recover_password'
-br

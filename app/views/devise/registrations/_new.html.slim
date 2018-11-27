@@ -19,7 +19,7 @@ h2.major
       input_html: { autocomplete: "last-name" }
     = f.input :email,
       required: true,
-      autofocus: true ,
+      autofocus: true,
       input_html: { autocomplete: "email" }
     = f.input :password,
       required: true,
@@ -30,4 +30,4 @@ h2.major
       input_html: { autocomplete: "new-password" }
   .form-actions
     = f.button :submit, "Sign up"
-    = f.button :button, 'Reset', type: :reset
+    / = f.button :button, 'Reset', type: :reset
