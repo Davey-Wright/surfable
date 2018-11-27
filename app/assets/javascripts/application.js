@@ -21,3 +21,5 @@ $(document).on('turbolinks:load', function() {
     $(function(){ $(document).foundation(); });
     dimensionMain();
 });
+
+$(function(){ $(document).foundation(); });
