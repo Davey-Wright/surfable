@@ -27,7 +27,7 @@ module Users
     end
 
     def after_sign_in_path_for(user)
-      user_path(user)
+      user_forecast_path(user)
     end
   end
 end

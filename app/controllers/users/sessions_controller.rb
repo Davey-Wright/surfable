@@ -2,7 +2,6 @@ module Users
   class SessionsController < Devise::SessionsController
 
     def new
-      # binding.pry
       self.resource = resource_class.new(sign_in_params)
       clean_up_passwords(resource)
       yield resource if block_given?
@@ -18,7 +17,7 @@ module Users
     # params[:user].merge!(remember_me: 1)
 
     def after_sign_in_path_for(user)
-      user_path(user)
+      user_forecast_path(user)
     end
   end
 end

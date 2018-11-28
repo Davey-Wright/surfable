@@ -39,7 +39,7 @@ module Users
       end
 
       def after_sign_up_path_for(user)
-        user_path(user)
+        user_forecast_path(user)
       end
 
       def after_update_path_for(user)

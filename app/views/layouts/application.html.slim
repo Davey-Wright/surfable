@@ -13,41 +13,9 @@ html
       p.notice= notice
       p.alert= alert
       - if user_signed_in?
-        = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
-        = link_to 'Dashboard', user_path(current_user)
+        = link_to 'Forecast', user_forecast_path(current_user)
         = link_to 'Spots', spots_path
-        = yield
+        = link_to 'Dashboard', user_path(current_user)
+        = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
 
-      - else
-        div#wrapper
-
-          header#header
-            .logo
-              span.icon.fa-diamond
-            .content
-              .inner
-                h1
-                  | Surfable
-                p
-                  | An open source project for surfers in South Wales, UK
-                  br
-                  |  cep quam augue vel Feugiat Aliquam egestas.
-            nav
-              ul
-                li
-                  = link_to 'Demo', id: 'demo'
-                li
-                  = link_to 'Sign Up', new_user_registration_path, data: { remote: true, target: 'modal' }
-                li
-                  = link_to 'Log In', new_user_session_path, data: { remote: true, target: 'modal' }
-                li
-                  = link_to "Forgot your password?", new_user_password_path, data: { remote: true, target: 'modal' }
-
-          div#main
-            article#modal
-              .modal_content
-
-          footer#footer
-            p.copyright&copy; Davey Wright 2018
-
-        div#bg
+    = yield
