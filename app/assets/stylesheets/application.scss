@@ -1,6 +1,18 @@
 @import 'foundation_and_overrides';
-@import "main";
 @import 'users';
+@import 'navigation';
+
+
+@font-face {
+  font-family: 'Bellota';
+  src:font_url('bellota/Bellota-Bold.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  padding: 4.8rem 0;
+}
 
 abbr[title], abbr[data-original-title] {
     text-decoration: none;
@@ -37,4 +49,69 @@ a {
 
 .social_sign_up_links {
   margin: 2.5rem 0 .5rem 0;
+}
+
+
+// nav
+.surfable-wrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.top-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+
+  ul {
+    background: white;
+  }
+}
+
+.top-bar .menu {
+  margin-top: 3.2rem;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto;
+  height: 12.8rem;
+}
+
+.primary-nav .off-canvas-content{
+  display: none;
+}
+
+.nav-title {
+  display: flex;
+  align-items: baseline;
+
+  h2 {
+    font-family: 'Bellota';
+    font-size: 3rem;
+    margin-bottom: 0rem;
+    margin-right: .25rem;
+  }
+
+  span {
+    font-size: 2.5rem;
+  }
+
+  p {
+    margin-left: .5rem;
+    margin-bottom: 0rem;
+    font-weight: 300;
+    font-size: 1.25rem;
+    text-transform: capitalize;
+  }
+}
+
+
+// user_forecast
+.forecast_charts {
+  margin-top: 3.6rem;
+  width: 50%;
+  box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11),
+            0 5px 15px 0 rgba(0,0,0,0.08);
 }

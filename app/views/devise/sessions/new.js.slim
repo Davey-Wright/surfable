@@ -1,5 +1,5 @@
 |
-  $(".modal_content").html("#{ j render "new" }");
+  $("#modal").html("#{ j render "new" }");
 
   var error = "#{ j flash[:alert] }"
   if(error !== ''){

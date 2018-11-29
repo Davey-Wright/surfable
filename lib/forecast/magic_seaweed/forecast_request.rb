@@ -1,26 +1,17 @@
 module Forecast
   module MagicSeaweed
     class ForecastRequest
-      attr_reader :key, :spot
+      attr_reader :key
 
-      def initialize(key, spot)
+      def initialize(key)
         @key = key
-        @spot = spot
       end
 
       def response
-        url = "http://magicseaweed.com/api/#{key}/forecast/?spot_id=#{spot_id}"
+        url = "http://magicseaweed.com/api/#{key}/forecast/?spot_id=1449"
         http_response = HTTParty.get(url)
         ForecastResponse.new(http_response)
       end
-
-      private
-
-      def spot_id
-        return '1449' if spot == 'porthcawl'
-        return '323' if spot == 'jordan river'
-      end
-
     end
   end
 end

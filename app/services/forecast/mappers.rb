@@ -1,8 +1,7 @@
 module Forecast
   class Mappers < ApplicationService
 
-    def initialize(spot = 'porthcawl')
-      @spot = spot
+    def initialize
     end
 
     def call
@@ -35,7 +34,7 @@ module Forecast
     private
 
       def magicseaweed
-        MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY'], @spot).response.mapper
+        MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY']).response.mapper
       end
 
       # def windfinder
@@ -47,7 +46,7 @@ module Forecast
       end
 
       def sunrise_sunset(days)
-        days.each { |day| SunriseSunset::ForecastRequest.new(@spot, day).response.mapper }
+        days.each { |day| SunriseSunset::ForecastRequest.new(day).response.mapper }
       end
   end
 

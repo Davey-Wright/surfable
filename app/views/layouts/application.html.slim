@@ -9,13 +9,35 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
-    body.is-preload
+    body.is-preload.surfable-wrapper
       p.notice= notice
       p.alert= alert
       - if user_signed_in?
-        = link_to 'Forecast', user_forecast_path(current_user)
-        = link_to 'Spots', spots_path
-        = link_to 'Dashboard', user_path(current_user)
-        = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
+        .top-bar
+          = image_tag "logo.png", class: 'logo'
+          ul.menu.primary-nav.menu-hover-lines
+            li.active
+              = link_to 'Forecast', user_forecast_path(current_user)
+            li
+              = link_to 'Spots', spots_path
+            li
+              = link_to 'Dashboard', user_path(current_user)
+            li
+              = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
+            li.off-canvas-content data-off-canvas-content=""
+              button.button data-toggle="offCanvas" type="button"
+                span.menu-icon
+                span Menu
+
+            #offCanvas.off-canvas.position-right data-off-canvas=""
+              ul.menu.vertical
+                li
+                  = link_to 'Forecast', user_forecast_path(current_user)
+                li
+                  = link_to 'Spots', spots_path
+                li
+                  = link_to 'Dashboard', user_path(current_user)
+                li
+                  = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
 
     = yield
