@@ -8,7 +8,7 @@ def spot_stub
     wave_direction: ['left', 'right']
     # condition_attributes: [ {
     #   name: 'Longboard greasing',
-    #   board_type: ['longboard'],
+    #   board_selection: ['longboard'],
     #   swell_attributes: {
     #     min_height: 3,
     #     max_height: 15,

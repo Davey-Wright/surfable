@@ -41,7 +41,7 @@ private
   def condition_params
     params.require(:condition).permit(
       :name,
-      board_type: [],
+      board_selection: [],
       swell_attributes: [
         :min_height,
         :max_height,

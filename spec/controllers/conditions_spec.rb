@@ -117,7 +117,7 @@ RSpec.describe ConditionsController, type: :controller do
         it 'should not create condition with invalid attributes' do
           expect { post :create,
             params: { spot_id: @logged_in_user_spot,
-              condition: { name: 'Logging', board_type: ['longboard'] } } }
+              condition: { name: 'Logging', board_selection: ['longboard'] } } }
             .to_not change{ @logged_in_user_spot.conditions.count }
           expect(response).to have_http_status(:unprocessable_entity)
         end
@@ -125,7 +125,7 @@ RSpec.describe ConditionsController, type: :controller do
         it 'should not create condition for another users spot' do
           expect { post :create,
             params: { spot_id: logged_out_user_spot,
-              condition: { name: 'Logging', board_type: ['longboard'] } } }
+              condition: { name: 'Logging', board_selection: ['longboard'] } } }
             .to_not change{ @logged_in_user_spot.conditions.count }
           expect(response).to have_http_status(:not_found)
         end

@@ -1,7 +1,7 @@
 def spot_condition_stub
   {
     name: 'Morfa',
-    board_type: ['shortboard'],
+    board_selection: ['shortboard'],
     swell_attributes: {
       min_height: 4,
       max_height: nil,
