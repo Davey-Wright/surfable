@@ -1,3 +1,70 @@
-h2 = @spot.name
+.row
+  .columns.small-6
+    = image_tag 'map-show.png'
 
-= link_to 'Edit', edit_spot_path(@spot)
+  .columns.small-6
+    .row
+      h1.columns = @spot.name
+      = link_to 'Edit', edit_spot_path(@spot), class: 'columns'
+    ul
+      li
+        h2 Wave Break Type
+        ul
+          - @spot.wave_break_type.each do |x|
+            li = x
+      li
+        h2 Wave Shape
+        ul
+          - @spot.wave_shape.each do |x|
+            li = x
+      li
+        h2 Wave Length
+        ul
+          - @spot.wave_length.each do |x|
+            li = x
+      li
+        h2 Wave Speed
+        ul
+          - @spot.wave_speed.each do |x|
+            li = x
+      li
+        h2 Wave Direction
+        ul
+          - @spot.wave_direction.each do |x|
+            li = x
+
+h2 Conditions
+ul(class='accordion' data-accordion data-allow-all-closed='true')
+  - @spot.conditions.each do |condition|
+    li(class='accordion-item' data-accordion-item)
+      a(class='accordion-title' href='#') = condition.name
+
+      div(class='accordion-content' data-tab-content)
+        ul
+          li.row
+            p Board Selection
+            - condition.board_selection.each do |x|
+              p= x
+          li
+            h2 Swell
+            ul
+              li= "Minimum Height #{ condition.swell.min_height }"
+              li= "Maximum Height #{ condition.swell.max_height }"
+              li= "Minimum Period #{ condition.swell.min_period }"
+              li.row
+                p Direction
+                - condition.swell.direction.each do |x|
+                  p= x
+            li
+              h2 Tides
+              ul
+                li= "low #{ condition.tide.position_high_low.last }"
+                li= "low #{ condition.tide.position_low_high.first }"
+                li= "high #{ condition.tide.position_low_high.last }"
+                li= "high #{ condition.tide.position_high_low.first }"
+                - condition.tide.size.each do |x|
+                  li= "Surfable on #{ x } tides"
+            li
+              h2 Wind
+              ul
+                li=
