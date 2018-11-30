@@ -5,7 +5,7 @@ class Spot < ApplicationRecord
     class_name: 'Condition::Condition',
     foreign_key: 'spot_id',
     inverse_of: :spot,
-    dependent: :destroy
+    dependent: :delete_all
 
   accepts_nested_attributes_for :conditions
 

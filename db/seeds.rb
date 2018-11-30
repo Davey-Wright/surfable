@@ -41,10 +41,11 @@ def create_conditions_for(spot)
       position_high_low: [0, -4],
       size: ['all']
     },
-    wind_attributes: {
+    winds_attributes: [{
+      title: 'offshore',
       direction: ['n', 'nw', 'w'],
       speed: 10
-    }
+    }]
   })
 end
 

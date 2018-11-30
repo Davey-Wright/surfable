@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :conditions, class: Condition::Condition do
-    association :spot, factory: :spot, strategy: :build
+    association :spot, factory: :spot, strategy: :create
     name { 'Morfa' }
     board_selection { ['shortboard'] }
     after(:build) do |conditions|

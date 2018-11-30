@@ -3,15 +3,16 @@ require 'rails_helper'
 RSpec.describe Condition::Condition, type: :model do
 
   subject { FactoryBot.build(:conditions) }
+  it { binding.pry }
 
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }
     it { is_expected.to have_one(:swell).dependent(:destroy) }
     it { is_expected.to have_one(:tide).dependent(:destroy) }
-    it { is_expected.to have_one(:wind).dependent(:destroy) }
+    it { is_expected.to have_many(:winds).dependent(:delete_all) }
     it { is_expected.to accept_nested_attributes_for(:swell) }
     it { is_expected.to accept_nested_attributes_for(:tide) }
-    it { is_expected.to accept_nested_attributes_for(:wind) }
+    it { is_expected.to accept_nested_attributes_for(:winds) }
   end
 
   describe 'Validations' do
@@ -30,7 +31,7 @@ RSpec.describe Condition::Condition, type: :model do
     end
 
     it 'is not valid without wind' do
-      subject.wind = nil
+      subject.winds = nil
       is_expected.to_not be_valid
     end
 

@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_winds", force: :cascade do |t|
+    t.string "title", null: false
     t.string "direction", default: [], array: true
     t.integer "speed"
     t.datetime "created_at", null: false
@@ -83,5 +84,5 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "condition_conditions", "spots"
+  add_foreign_key "condition_conditions", "spots", on_delete: :cascade
 end
