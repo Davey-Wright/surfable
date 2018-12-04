@@ -1,6 +1,6 @@
 |
   $.ajax().done(function(){
-    $("#modal").html("#{ j render "new" }").foundation('open');
+    $("#modal").html("#{ j render "edit" }").foundation('open');
 
     $('form').submit(function(){
       if($('form #spot_name').val() !== ''){

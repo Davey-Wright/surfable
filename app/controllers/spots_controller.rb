@@ -25,6 +25,7 @@ class SpotsController < ApplicationController
   end
 
   def edit
+    respond_with { |f| f.js { render 'edit', layout: false } }
   end
 
   def update

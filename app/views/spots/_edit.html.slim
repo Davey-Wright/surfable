@@ -1,7 +1,7 @@
 h2.major
-  | Spot details
+  | update #{ @spot.name }s details
 
-= simple_form_for(@spot, remote: true, html: { class: 'check_label_form' }) do |f|
+= simple_form_for(@spot, remote: true, html: { method: :put, class: 'check_label_form' }) do |f|
   = f.error_notification
   .form-inputs
     = f.input :name
@@ -27,7 +27,7 @@ h2.major
       collection: Spot.wave_attribute_options[:speed]
 
   .form-actions
-    = f.button :submit, "Create Spot"
+    = f.button :submit, "Update Spot"
     = f.button :button, 'Reset', type: :reset
 
 button(class="close-button" aria-label="Close alert" type="button" data-close)
