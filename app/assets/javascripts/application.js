@@ -16,7 +16,8 @@
 //= require turbolinks
 //= require_tree .
 //= require foundation
+//= require confirm_with_reveal
 
 $(document).on('turbolinks:load', function() {
-    $(function(){ $(document).foundation(); });
+    $(document).foundation().confirmWithReveal();
 });

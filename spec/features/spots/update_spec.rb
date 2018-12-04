@@ -58,16 +58,6 @@ feature 'Spot Update', js: true do
         expect(page).to_not have_content(/'reset this name'/i)
       }
     end
-
-    describe 'cannot find spot' do
-      it {
-        within 'form' do
-          fill_in 'Name', with: 'Reset this Name'
-          click_on("Reset")
-        end
-        expect(page).to_not have_content(/'reset this name'/i)
-      }
-    end
   end
 
 end

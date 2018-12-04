@@ -39,7 +39,7 @@ class SpotsController < ApplicationController
 
   def destroy
     @spot.destroy
-    redirect_to user_path(current_user)
+    redirect_to spots_path
   end
 
 private
