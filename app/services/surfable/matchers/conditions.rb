@@ -23,7 +23,7 @@ module Surfable
           r = Struct.new :speed, :direction, :surfable
           report = r.new
           report.surfable = (report.speed = forecast.average_speed - conditions.speed) <= 0
-          # direction should include onshore and offshore cases
+          # report.surfable = (report.direction.max > forecast.direction)
           report
         end
 

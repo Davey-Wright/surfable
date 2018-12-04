@@ -43,7 +43,7 @@ def create_conditions_for(spot)
     },
     winds_attributes: [{
       title: 'offshore',
-      direction: ['n', 'nw', 'w'],
+      direction: [180, 240],
       speed: 10
     }]
   })

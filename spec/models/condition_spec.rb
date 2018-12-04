@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Condition::Condition, type: :model do
 
   subject { FactoryBot.build(:conditions) }
-  it { binding.pry }
-
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }
     it { is_expected.to have_one(:swell).dependent(:destroy) }
@@ -31,7 +29,7 @@ RSpec.describe Condition::Condition, type: :model do
     end
 
     it 'is not valid without wind' do
-      subject.winds = nil
+      subject.winds.first.title = nil
       is_expected.to_not be_valid
     end
 
@@ -39,11 +37,6 @@ RSpec.describe Condition::Condition, type: :model do
       subject.swell.min_period = nil
       is_expected.to_not be_valid
     end
-
-    # it 'should validate wind' do
-    #   subject.wind.speed = nil
-    #   is_expected.to_not be_valid
-    # end
 
     it 'should validate tide' do
       subject.tide.size = nil
@@ -55,7 +48,7 @@ RSpec.describe Condition::Condition, type: :model do
     context 'Delete' do
       it 'Deletes session from db and all child associations' do
         subject.save
-        expect(subject.destroy).to be_valid
+        subject.destroy
         expect(Condition::Condition.all.count).to eq(0)
         expect(Condition::Swell.all.count).to eq(0)
         expect(Condition::Tide.all.count).to eq(0)

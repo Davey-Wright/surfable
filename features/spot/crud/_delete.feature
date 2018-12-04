@@ -2,7 +2,7 @@ Feature: delete a spot
   A registered logged in user can delete their spots
 
   Scenario: User clicks delete spot
-    Given I'm currently on spot update page
+    Given I'm on spot update page
     When I click the delete spot button
     Then I should be prompted to confirm I want to delete the spot
 

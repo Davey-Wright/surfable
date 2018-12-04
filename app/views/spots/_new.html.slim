@@ -1,0 +1,34 @@
+h2.major
+  | Spot details
+
+= simple_form_for(@spot, remote: true, html: { class: 'check_label_form' }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name
+
+    = f.input :wave_break_type,
+      as: :check_boxes,
+      collection: Spot.wave_attribute_options[:break_type]
+
+    = f.input :wave_direction,
+      as: :check_boxes,
+      collection: Spot.wave_attribute_options[:direction]
+
+    = f.input :wave_length,
+      as: :check_boxes,
+      collection: Spot.wave_attribute_options[:length]
+
+    = f.input :wave_shape,
+      as: :check_boxes,
+      collection: Spot.wave_attribute_options[:shape]
+
+    = f.input :wave_speed,
+    as: :check_boxes,
+    collection: Spot.wave_attribute_options[:speed]
+
+  .form-actions
+    = f.button :submit, "Create Spot"
+    = f.button :button, 'Reset', type: :reset
+
+button(class="close-button" aria-label="Close alert" type="button" data-close)
+  span(aria-hidden='true') &times;

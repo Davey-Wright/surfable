@@ -1,6 +1,7 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_spot, only: [:show, :edit, :update, :destroy]
+  respond_to :html, :js
 
   def index
     @spots = current_user.spots.all
@@ -8,6 +9,7 @@ class SpotsController < ApplicationController
 
   def new
     @spot = Spot.new
+    respond_with { |f| f.js { render 'new', layout: false } }
   end
 
   def create

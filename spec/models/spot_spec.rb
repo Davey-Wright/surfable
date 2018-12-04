@@ -17,7 +17,7 @@ RSpec.describe Spot, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to have_many(:conditions).dependent(:destroy) }
+    it { is_expected.to have_many(:conditions).dependent(:delete_all) }
     it { is_expected.to accept_nested_attributes_for(:conditions) }
     it { is_expected.to validate_presence_of(:user) }
     it { is_expected.to validate_presence_of(:name) }

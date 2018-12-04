@@ -75,7 +75,6 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'launchy', '>= 2.4.3'
-  gem 'cucumber-rails', require: false
   gem 'shoulda'
   gem 'database_cleaner'
   gem 'rspec-rails'

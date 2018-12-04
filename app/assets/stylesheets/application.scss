@@ -10,6 +10,10 @@
   font-style: normal;
 }
 
+html, body {
+  height: 100%;
+}
+
 h2 {
   font-size: 1.5rem;
 }
@@ -31,11 +35,6 @@ abbr[title], abbr[data-original-title] {
 
 a {
   border-bottom: none;
-}
-
-// forms
-.error label {
-  color: white;
 }
 
 .error small.error {
@@ -111,6 +110,22 @@ a {
   }
 }
 
+// modal
+#modal {
+  padding: 5.2rem 3.6rem;
+  margin-bottom: 100px;
+
+  h2 {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    margin-bottom: 1.6rem;
+    border-bottom: 1px solid black;
+    padding-bottom: .4rem;
+    font-weight: bold;
+  }
+}
+
+
 
 // user_forecast
 .forecast_charts {
@@ -118,4 +133,66 @@ a {
   width: 50%;
   box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11),
             0 5px 15px 0 rgba(0,0,0,0.08);
+}
+
+
+// Forms
+
+.input label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.check_label_form {
+
+  .form-inputs {
+    legend {
+      margin-top: 1rem;
+    }
+
+    input {
+      margin-bottom: .25rem;
+    }
+  }
+
+  input[type='checkbox']{
+    display: none;
+  }
+
+
+  legend{
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .form-inputs div:not(:last-child) {
+    margin-bottom: 1.6rem;
+  }
+
+  .collection_check_boxes {
+    border: 1px solid #cacaca;
+    padding: 0.75rem 1rem;
+    text-transform: capitalize;
+    font-size: .8rem;
+    margin-right: 0rem;
+  }
+
+  input[type='checkbox']:checked + .collection_check_boxes {
+    background: $primary-color;
+    border: 1px solid $primary-color;
+    color: white;
+    font-weight: bold;
+  }
+
+  .form-actions {
+    padding-top: 1rem;
+    border-top: 1px solid black;
+    margin-top: 1rem;
+    text-transform: uppercase;
+  }
+
+  fieldset div {
+    display: inline-block;
+  }
+
 }
