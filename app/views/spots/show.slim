@@ -7,7 +7,7 @@
       .row
         h1.columns = @spot.name
         = link_to 'Edit', edit_spot_path(@spot), class: 'columns edit_spot_btn', remote: true
-        = link_to "Delete", spot_path(@spot), method: :delete, data: { confirm: {} }
+        = link_to "Delete", spot_path(@spot), method: :delete, data: { confirm: { text: "Are you sure you want to delete the spot #{ @spot.name }?" } }
       ul
         li
           h2 Wave Break Type
