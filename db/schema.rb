@@ -16,8 +16,9 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   enable_extension "plpgsql"
 
   create_table "condition_conditions", force: :cascade do |t|
-    t.string "name"
-    t.string "board_selection", default: [], null: false, array: true
+    t.string "rating"
+    t.string "name", null: false
+    t.string "board_selection", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "spot_id"
@@ -25,10 +26,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_swells", force: :cascade do |t|
-    t.float "min_height", null: false
+    t.float "min_height"
     t.float "max_height"
-    t.integer "min_period", null: false
-    t.string "direction", default: [], null: false, array: true
+    t.integer "min_period"
+    t.string "direction", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_id"
@@ -38,7 +39,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   create_table "condition_tides", force: :cascade do |t|
     t.float "position_low_high", default: [], null: false, array: true
     t.float "position_high_low", default: [], null: false, array: true
-    t.string "size", default: [], null: false, array: true
+    t.string "size", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_id"
@@ -46,9 +47,9 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_winds", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "name", default: [], array: true
     t.string "direction", default: [], array: true
-    t.integer "speed"
+    t.integer "speed", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_id"

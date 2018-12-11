@@ -33,12 +33,12 @@ module Surfable
           s1 = (conditions.max_height != nil) ? (report.max_height = forecast.height - conditions.max_height) <= 0 : true
           s2 = (report.min_height = forecast.height - conditions.min_height) >= 0
           s3 = (report.period = forecast.period - conditions.min_period) >= 0
-          s4 = (report.direction = conditions.direction.include? cnv_direction(forecast.direction))
+          s4 = (report.direction = conditions.direction.include? convert_direction(forecast.direction))
           report.surfable = s1 && s2 && s3 && s4
           report
         end
 
-        def cnv_direction(d)
+        def convert_direction(d)
           direction = case d
             when (0..22) || (337..360)
               'n'

@@ -1,19 +1,24 @@
 class ConditionsController < ApplicationController
   before_action :authenticate_user!
-
   before_action :set_spot, only: [:new, :create]
   before_action :set_condition, only: [:show, :edit, :update, :destroy]
 
+  respond_to :html, :js
+
   def new
-    @condition = Condition::Condition.new
+    @condition = @spot.conditions.new
+    @condition.build_swell
+    @condition.build_tide
+    @condition.winds.build
+    respond_with { |f| f.js { render 'new', layout: false } }
   end
 
   def create
     @condition = @spot.conditions.create(condition_params)
     if @condition.valid?
-      redirect_to(spot_condition_path(@condition.spot, @condition))
+      redirect_to(spot_path(@condition.spot))
     else
-      render :edit, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -39,9 +44,9 @@ class ConditionsController < ApplicationController
 private
 
   def condition_params
-    params.require(:condition).permit(
+    params.require(:condition_condition).permit(
       :name,
-      board_selection: [],
+      :board_selection,
       swell_attributes: [
         :min_height,
         :max_height,
@@ -49,13 +54,14 @@ private
         direction: []
       ],
       tide_attributes: [
-        position_low_high: [],
         position_high_low: [],
+        position_low_high: [],
         size: []
       ],
-      wind_attributes: [
-        { direction: [] },
-        :speed
+      winds_attributes: [
+        name: [],
+        direction: [],
+        speed: []
       ]
     )
   end

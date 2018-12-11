@@ -2,6 +2,7 @@
 @import 'users';
 @import 'navigation';
 @import 'spots';
+@import 'mixins/item_circle.scss';
 
 @font-face {
   font-family: 'Bellota';
@@ -199,4 +200,38 @@ a {
   border-top: 1px solid black;
   margin-top: 1rem;
   text-transform: uppercase;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// direction circle
+.circle-container {
+  @include on-circle($item-count: 5, $circle-size: 20em, $item-size: 6em);
+  margin: 5em auto 0;
+  border: solid 5px tomato;
+
+  .form-check {
+    display: block;
+    max-width: 100%;
+    border-radius: 50%;
+    filter: grayscale(100%);
+    border: solid 5px tomato;
+    transition: .15s;
+
+    &:hover,
+    &:active {
+      filter: grayscale(0);
+    }
+  }
 }

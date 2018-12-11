@@ -16,5 +16,4 @@ Rails.application.routes.draw do
   resources :spots do
     resources :conditions
   end
-
 end

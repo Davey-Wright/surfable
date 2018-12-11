@@ -30,6 +30,7 @@ def create_conditions_for(spot)
   spot.conditions.create({
     name: 'Morfa',
     board_selection: ['shortboard'],
+    rating: 'one star',
     swell_attributes: {
       min_height: 4,
       max_height: nil,
@@ -42,9 +43,9 @@ def create_conditions_for(spot)
       size: ['all']
     },
     winds_attributes: [{
-      title: 'offshore',
-      direction: [180, 240],
-      speed: 10
+      name: ['offshore'],
+      direction: ['w', 'sw', 's'],
+      speed: [10]
     }]
   })
 end

@@ -40,7 +40,10 @@
               li
                 p = x
 
-  h2 Conditions
+  .row
+    h2 Conditions
+    = link_to 'Add new condition', new_spot_condition_path(@spot), class: 'columns new_condition_btn', data: { remote: true, open: 'modal' }
+
   ul(class='accordion' data-accordion data-allow-all-closed='true')
     - @spot.conditions.each do |condition|
       li(class='accordion-item' data-accordion-item)
@@ -52,6 +55,8 @@
               p Board Selection
               - condition.board_selection.each do |x|
                 p= x
+            li
+              p= "Rating: #{condition.rating}"
             li
               h2 Swell
               ul
@@ -73,5 +78,17 @@
                     li= "Surfable on #{ x } tides"
               li
                 h2 Wind
-                ul
-                  li=
+                - condition.winds.each do |wind|
+                  ul
+                    li.row
+                      p Name
+                      - wind.name.each do |x|
+                        p= x
+                    li.row
+                      p Direction
+                      - wind.direction.each do |x|
+                        p= x
+                    li.row
+                      p Speed
+                      - wind.speed.each do |x|
+                        p= x

@@ -1,0 +1,45 @@
+h2.major
+  | Condition Variables
+
+= simple_form_for(@condition, url: spot_conditions_path(@spot), remote: true, html: { class: 'check_label_form' }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name
+    = f.input :board_selection, label: "Board Selection <small class='hint'>( Seperate with comas )</small>".html_safe
+
+    h2.major Tides
+    = f.simple_fields_for :tide do |f|
+      = f.input :position_low_high,
+        class: 'circle_container',
+        as: :check_boxes,
+        collection: Condition::Tide.position_pushing_options,
+        label: 'Position (pushing tide)'
+      = f.input :position_high_low,
+        as: :check_boxes,
+        collection: Condition::Tide.position_dropping_options,
+        label: 'Position (dropping tide)'
+      = f.input :size,
+        as: :check_boxes,
+        collection: Condition::Tide.size_options
+
+    h2.major Swell
+    = f.simple_fields_for :swell do |f|
+      = f.input :min_height, label: 'Min Height (ft)'
+      = f.input :max_height, label: 'Max Height (ft)'
+      = f.input :min_period, label: 'Min Period (ft)'
+      = f.input :direction,
+        as: :check_boxes,
+        collection: Condition.direction_options
+
+    h2.major Wind
+    = f.simple_fields_for :winds do |wind|
+      = render 'wind_fields', f: wind
+      = link_to_add_fields 'Add more wind conditions', f, :winds
+
+  .form-actions
+    = f.button :submit, "Create Condition"
+    / = link_to 'Reset', new_spot_condition_path(@spot), class: 'button'
+
+
+button(class="close-button" aria-label="Close alert" type="button" data-close)
+  span(aria-hidden='true') &times;

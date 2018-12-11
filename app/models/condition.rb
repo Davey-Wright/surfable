@@ -3,6 +3,10 @@ module Condition
     'condition_'
   end
 
+  def self.direction_options
+    ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
+  end
+
   class Condition < ApplicationRecord
     belongs_to :spot, inverse_of: :conditions
 
@@ -16,10 +20,23 @@ module Condition
 
     validates_associated :swell, :tide, :winds
 
+    validates :name, presence: true
     validates :swell, presence: true
     validates :tide, presence: true
     validates :winds, presence: true
   end
+
+  RATINGS = {
+		'one star': '1_star',
+    'two stars': '2_stars',
+    'three stars': '3_stars',
+    'four stars': '4_stars',
+    'five stars': '5_stars'
+	}
+
+	def humanized_rating
+		RATINGS.invert[self.rating]
+	end
 
   def slug
     name.downcase.gsub(' ', '-').gsub("'", '')

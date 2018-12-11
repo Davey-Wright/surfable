@@ -36,6 +36,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'slim'
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'simple_form'
+# form helper for nested models
+# gem "cocoon"
 gem 'figaro'
 gem 'foundation-rails', '~> 6.5', '>= 6.5.1.0'
 gem 'sprockets-es6', '~> 0.9.2'

@@ -3,7 +3,17 @@ module Condition
     belongs_to :condition
     before_validation :set_defaults
 
-    validates :size, presence: true
+    def self.size_options
+      ['small', 'average', 'large', 'massive']
+    end
+
+    def self.position_pushing_options
+      [['low', 0], ['+1', 1], ['+2', 2], ['Mid', 3], ['-2', 4], ['-1', 5], ['high', 6]]
+    end
+
+    def self.position_dropping_options
+      [['high', 0], ['+1', 1], ['+2', 2], ['Mid', 3], ['-2', 4], ['-1', 5], ['low', 6]]
+    end
 
     private
 
