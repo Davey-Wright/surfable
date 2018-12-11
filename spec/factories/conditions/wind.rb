@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :condition_wind, class: Condition::Wind do
     association :condition, factory: :conditions, strategy: :build
+    rating { 4 }
     name { ['onshore'] }
     direction { ['n', 'ne', 'e'] }
-    speed { ['< 20'] }
+    speed { 20 }
   end
 end

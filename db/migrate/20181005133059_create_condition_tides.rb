@@ -1,6 +1,7 @@
 class CreateConditionTides < ActiveRecord::Migration[5.2]
   def change
     create_table :condition_tides do |t|
+      t.integer :rating, null: false
       t.float :rising, null: false, default: [], array: true
       t.float :dropping, null: false, default: [], array: true
       t.string :size, default: [], array: true

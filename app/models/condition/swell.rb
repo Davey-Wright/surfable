@@ -4,5 +4,6 @@ module Condition
 
     validates :min_height, presence: true
     validates :min_period, presence: true
+    validates :rating, presence: true
   end
 end

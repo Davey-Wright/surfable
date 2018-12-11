@@ -22,6 +22,11 @@ RSpec.describe Condition::Swell, type: :model do
       subject.min_period = nil
       is_expected.to_not be_valid
     end
-    
+
+    it 'is not valid without a rating' do
+      subject.rating = nil
+      is_expected.to_not be_valid
+    end
+
   end
 end

@@ -38,14 +38,14 @@ def create_conditions_for(spot)
       direction: ['w', 'sw', 's']
     },
     tide_attributes: {
-      position_low_high: [4, 0],
-      position_high_low: [0, -4],
-      size: ['all']
+      rising: [1, 2, 3],
+      dropping: [1, 2, 3],
+      size: [5, 6, 7, 8]
     },
     winds_attributes: [{
       name: ['offshore'],
       direction: ['w', 'sw', 's'],
-      speed: [10]
+      speed: 13
     }]
   })
 end

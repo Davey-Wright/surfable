@@ -4,10 +4,7 @@ module Condition
 
     validates :direction, presence: true
     validates :speed, presence: true
-
-    def self.speed_options
-      ['< 5', '< 10', '< 15', '< 20', '< 30']
-    end
+    validates :rating, presence: true
 
     def self.name_options
       ['onshore', 'crossshore', 'offshore']

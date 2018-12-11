@@ -4,6 +4,7 @@ module Condition
 
     validates :rising, presence: true
     validates :dropping, presence: true
+    validates :rating, presence: true
 
     def self.position_pushing_options
       [['low', 0], ['+1', 1], ['+2', 2], ['Mid', 3], ['-2', 4], ['-1', 5], ['high', 6]]
