@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   end
 
   create_table "condition_tides", force: :cascade do |t|
-    t.float "position_low_high", default: [], null: false, array: true
-    t.float "position_high_low", default: [], null: false, array: true
+    t.float "rising", default: [], null: false, array: true
+    t.float "dropping", default: [], null: false, array: true
     t.string "size", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
