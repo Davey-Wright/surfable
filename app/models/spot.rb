@@ -2,7 +2,8 @@ class Spot < ApplicationRecord
   belongs_to :user
 
   has_many :swell_conditions, class_name: 'Condition::Swell', dependent: :delete_all
-  
+  has_many :tide_conditions, class_name: 'Condition::Tide', dependent: :delete_all
+
   # has_many :conditions,
   #   class_name: 'Condition::Condition',
   #   foreign_key: 'spot_id',
@@ -15,11 +16,13 @@ class Spot < ApplicationRecord
   before_save :trim_attributes
 
   def self.wave_attribute_options
-    { break_type: ['beach', 'point', 'reef'],
+    {
+      break_type: ['beach', 'point', 'reef'],
       direction: ['left', 'right'],
       length: ['short', 'average', 'long'],
       shape: ['crumbling', 'steep', 'hollow'],
-      speed: ['slow', 'average', 'fast'] }
+      speed: ['slow', 'average', 'fast']
+    }
   end
 
   def trim_attributes

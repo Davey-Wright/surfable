@@ -1,6 +1,6 @@
 module Condition
   class Tide < ApplicationRecord
-    belongs_to :condition
+    belongs_to :spot
 
     validates :rising, presence: true
     validates :dropping, presence: true

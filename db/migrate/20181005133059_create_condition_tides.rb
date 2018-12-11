@@ -5,6 +5,7 @@ class CreateConditionTides < ActiveRecord::Migration[5.2]
       t.float :rising, null: false, default: [], array: true
       t.float :dropping, null: false, default: [], array: true
       t.string :size, default: [], array: true
+      t.belongs_to :spot, index: true
       t.timestamps
     end
     add_reference :condition_tides, :condition

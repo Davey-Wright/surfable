@@ -38,8 +38,7 @@ RSpec.describe Condition::Swell, type: :model do
 
     describe 'Testing' do
       it 'should have a valid factory' do
-        swell = FactoryBot.build(:swell_conditions)
-        expect(swell).to be_valid
+        expect(FactoryBot.build(:swell_conditions)).to be_valid
       end
     end
 

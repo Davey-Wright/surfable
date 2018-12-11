@@ -11,6 +11,7 @@ FactoryBot.define do
     factory :spot_with_conditions do
       after(:build) do |spot|
         build(:swell_conditions, spot: spot)
+        build(:tide_conditions, spot: spot)
         # condition.winds << build(:condition_wind, condition: condition)
       end
     end
