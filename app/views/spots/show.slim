@@ -40,55 +40,55 @@
               li
                 p = x
 
-  .row
-    h2 Conditions
-    = link_to 'Add new condition', new_spot_condition_path(@spot), class: 'columns new_condition_btn', data: { remote: true, open: 'modal' }
+  h2 Conditions
 
   ul(class='accordion' data-accordion data-allow-all-closed='true')
-    - @spot.conditions.each do |condition|
-      li(class='accordion-item' data-accordion-item)
-        a(class='accordion-title' href='#') = condition.name
 
-        div(class='accordion-content' data-tab-content)
+    li(class='accordion-item' data-accordion-item)
+      a(class='accordion-title' href='#') Swell
+      div(class='accordion-content' data-tab-content)
+        = link_to 'Add new swell conditions', new_spot_conditions_swell_path(@spot), class: 'columns new_swell_btn', data: { remote: true, open: 'modal' }
+        - @spot.swell_conditions.each do |swell|
           ul
-            li.row
-              p Board Selection
-              - condition.board_selection.each do |x|
-                p= x
-            li
-              p= "Rating: #{condition.rating}"
-            li
-              h2 Swell
-              ul
-                li= "Minimum Height #{ condition.swell.min_height }"
-                li= "Maximum Height #{ condition.swell.max_height }"
-                li= "Minimum Period #{ condition.swell.min_period }"
-                li.row
-                  p Direction
-                  - condition.swell.direction.each do |x|
-                    p= x
-              li
-                h2 Tides
-                ul
-                  li= "low #{ condition.tide.position_high_low.last }"
-                  li= "low #{ condition.tide.position_low_high.first }"
-                  li= "high #{ condition.tide.position_low_high.last }"
-                  li= "high #{ condition.tide.position_high_low.first }"
-                  - condition.tide.size.each do |x|
-                    li= "Surfable on #{ x } tides"
-              li
-                h2 Wind
-                - condition.winds.each do |wind|
-                  ul
-                    li.row
-                      p Name
-                      - wind.name.each do |x|
-                        p= x
-                    li.row
-                      p Direction
-                      - wind.direction.each do |x|
-                        p= x
-                    li.row
-                      p Speed
-                      - wind.speed.each do |x|
-                        p= x
+            li= "Rating #{ swell.min_height }"
+            li= "Minimum Height #{ swell.min_height }"
+            li= "Maximum Height #{ swell.max_height }"
+            li= "Minimum Period #{ swell.min_period }"
+            - swell.direction do |d|
+              li Direction
+                p = d
+
+    / li(class='accordion-item' data-accordion-item)
+    /   a(class='accordion-title' href='#') Wind
+    /   div(class='accordion-content' data-tab-content)
+    /     / = link_to 'Add new condition', new_spot_conditions_swell_path(@spot), class: 'columns new_swell_btn', data: { remote: true, open: 'modal' }
+    /     - @spot.wind_conditions.each do |wind|
+    /       ul
+    /         li= "Rating #{ tide.min_height }"
+    /         li= "Minimum Height #{ swell.min_height }"
+    /         li= "Maximum Height #{ swell.max_height }"
+    /         li= "Minimum Period #{ swell.min_period }"
+    /
+    / li(class='accordion-item' data-accordion-item)
+    /   a(class='accordion-title' href='#') Tide
+    /   div(class='accordion-content' data-tab-content)
+    /     / = link_to 'Add new condition', new_spot_conditions_swell_path(@spot), class: 'columns new_swell_btn', data: { remote: true, open: 'modal' }
+    /     - @spot.tide_conditions.each do |tide|
+    /       ul
+    /         li= "Rating #{ swell.min_height }"
+    /         li= "Minimum Height #{ swell.min_height }"
+    /         li= "Maximum Height #{ swell.max_height }"
+    /         li= "Minimum Period #{ swell.min_period }"
+
+
+javascript:
+
+  $(document).on('turbolinks:load', function() {
+    if("#{ flash[:success]}"){
+      let content = "<h2 class='major'>Success!</h2><p>#{ flash[:success] }</p>"
+      $('#modal').html(content).foundation('open');
+      setTimeout(function() {
+        $('#modal').foundation('close').html('');
+      }, 2000);
+    }
+  })

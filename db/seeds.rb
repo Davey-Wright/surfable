@@ -27,27 +27,28 @@ def create_spots_for(user)
 end
 
 def create_conditions_for(spot)
-  spot.conditions.create({
-    name: 'Morfa',
-    board_selection: ['shortboard'],
-    rating: 'one star',
-    swell_attributes: {
+  spot.swell_conditions.create({
+      rating: 4,
       min_height: 4,
       max_height: nil,
       min_period: 10,
       direction: ['w', 'sw', 's']
-    },
-    tide_attributes: {
+    })
+
+  spot.tide_conditions.create({
+      rating: 3,
       rising: [1, 2, 3],
       dropping: [1, 2, 3],
       size: [5, 6, 7, 8]
-    },
-    winds_attributes: [{
+    })
+
+  spot.wind_conditions.create({
+      rating: 5,
       name: ['offshore'],
       direction: ['w', 'sw', 's'],
       speed: 13
-    }]
-  })
+    })
+
 end
 
 

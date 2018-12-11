@@ -1,4 +1,5 @@
 module Forecast
+
   class Days
     extend ActiveModel
 
@@ -7,6 +8,6 @@ module Forecast
     def initialize(data)
       @days = data.map{ |day| Day.new day }
     end
-
   end
+
 end

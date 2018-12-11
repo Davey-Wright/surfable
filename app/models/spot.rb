@@ -20,6 +20,14 @@ class Spot < ApplicationRecord
     }
   end
 
+  def slug
+    name.downcase.gsub(' ', '-').gsub("'", '')
+  end
+
+  def to_param
+    param = "#{id}-#{slug.parameterize}"
+  end
+
   private
 
     def trim_attributes
@@ -28,14 +36,6 @@ class Spot < ApplicationRecord
       wave_direction.reject!(&:blank?)
       wave_length.reject!(&:blank?)
       wave_speed.reject!(&:blank?)
-    end
-
-    def slug
-      name.downcase.gsub(' ', '-').gsub("'", '')
-    end
-
-    def to_param
-      param = "#{id}-#{slug.parameterize}"
     end
 
 end

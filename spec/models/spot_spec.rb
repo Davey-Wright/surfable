@@ -65,7 +65,7 @@ RSpec.describe Spot, type: :model do
     context 'Delete' do
       it 'Deletes all child associations' do
         subject.save
-        expect(subject.destroy).to be_valid
+        subject.destroy
         expect(Spot.all.count).to eq(0)
         expect(Condition::Swell.all.count).to eq(0)
         expect(Condition::Tide.all.count).to eq(0)

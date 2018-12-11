@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   end
 
   resources :spots do
-    resources :conditions
+    namespace :conditions do
+      resources :swell
+    end
   end
 end

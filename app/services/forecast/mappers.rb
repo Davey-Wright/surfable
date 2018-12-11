@@ -1,6 +1,5 @@
 module Forecast
   class Mappers < ApplicationService
-
     def initialize
     end
 
@@ -36,10 +35,6 @@ module Forecast
       def magicseaweed
         MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY']).response.mapper
       end
-
-      # def windfinder
-      #
-      # end
 
       def tides(days)
         Admiralty::ForecastRequest.new(days).response.mapper

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Spot Create', js: true do
+feature 'Create Spot', js: true do
 
   let(:user) { FactoryBot.create(:user) }
 

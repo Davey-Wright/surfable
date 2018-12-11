@@ -1,0 +1,2 @@
+module Conditions::SwellHelper
+end
