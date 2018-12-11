@@ -5,8 +5,8 @@ class CreateConditionWinds < ActiveRecord::Migration[5.2]
       t.string :name, default: [], array: true
       t.string :direction, default: [], array: true
       t.integer :speed
+      t.belongs_to :spot, index: true
       t.timestamps
     end
-    add_reference :condition_winds, :condition
   end
 end

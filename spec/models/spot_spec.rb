@@ -18,7 +18,7 @@ RSpec.describe Spot, type: :model do
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to have_many(:swell_conditions).dependent(:delete_all) }
-    # it { is_expected.to have_many(:wind_conditions).dependent(:delete_all) }
+    it { is_expected.to have_many(:wind_conditions).dependent(:delete_all) }
     it { is_expected.to have_many(:tide_conditions).dependent(:delete_all) }
   end
 

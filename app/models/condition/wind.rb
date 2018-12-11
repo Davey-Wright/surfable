@@ -1,6 +1,6 @@
 module Condition
   class Wind < ApplicationRecord
-    belongs_to :condition
+    belongs_to :spot
 
     validates :direction, presence: true
     validates :speed, presence: true

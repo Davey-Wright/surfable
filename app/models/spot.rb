@@ -3,12 +3,7 @@ class Spot < ApplicationRecord
 
   has_many :swell_conditions, class_name: 'Condition::Swell', dependent: :delete_all
   has_many :tide_conditions, class_name: 'Condition::Tide', dependent: :delete_all
-
-  # has_many :conditions,
-  #   class_name: 'Condition::Condition',
-  #   foreign_key: 'spot_id',
-  #   inverse_of: :spot,
-  #   dependent: :delete_all
+  has_many :wind_conditions, class_name: 'Condition::Wind', dependent: :delete_all
 
   validates_presence_of :user
   validates_presence_of :name
@@ -25,20 +20,22 @@ class Spot < ApplicationRecord
     }
   end
 
-  def trim_attributes
-    wave_break_type.reject!(&:blank?)
-    wave_shape.reject!(&:blank?)
-    wave_direction.reject!(&:blank?)
-    wave_length.reject!(&:blank?)
-    wave_speed.reject!(&:blank?)
-  end
+  private
 
-  def slug
-    name.downcase.gsub(' ', '-').gsub("'", '')
-  end
+    def trim_attributes
+      wave_break_type.reject!(&:blank?)
+      wave_shape.reject!(&:blank?)
+      wave_direction.reject!(&:blank?)
+      wave_length.reject!(&:blank?)
+      wave_speed.reject!(&:blank?)
+    end
 
-  def to_param
-    param = "#{id}-#{slug.parameterize}"
-  end
+    def slug
+      name.downcase.gsub(' ', '-').gsub("'", '')
+    end
+
+    def to_param
+      param = "#{id}-#{slug.parameterize}"
+    end
 
 end

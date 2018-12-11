@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :condition_wind, class: Condition::Wind do
-    association :condition, factory: :conditions, strategy: :build
+  factory :wind_conditions, class: Condition::Wind do
+    association :spot, factory: :spot, strategy: :build
     rating { 4 }
     name { ['onshore'] }
     direction { ['n', 'ne', 'e'] }
