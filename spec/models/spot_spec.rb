@@ -17,10 +17,9 @@ RSpec.describe Spot, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to have_many(:conditions).dependent(:delete_all) }
-    it { is_expected.to accept_nested_attributes_for(:conditions) }
-    it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to have_many(:swell_conditions).dependent(:delete_all) }
+    # it { is_expected.to have_many(:wind_conditions).dependent(:delete_all) }
+    # it { is_expected.to have_many(:tide_conditions).dependent(:delete_all) }
   end
 
   describe 'Validations' do
@@ -68,7 +67,6 @@ RSpec.describe Spot, type: :model do
         subject.save
         expect(subject.destroy).to be_valid
         expect(Spot.all.count).to eq(0)
-        expect(Condition::Condition.all.count).to eq(0)
         expect(Condition::Swell.all.count).to eq(0)
         expect(Condition::Tide.all.count).to eq(0)
         expect(Condition::Wind.all.count).to eq(0)

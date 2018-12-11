@@ -1,13 +1,13 @@
 class Spot < ApplicationRecord
   belongs_to :user
 
-  has_many :conditions,
-    class_name: 'Condition::Condition',
-    foreign_key: 'spot_id',
-    inverse_of: :spot,
-    dependent: :delete_all
-
-  accepts_nested_attributes_for :conditions
+  has_many :swell_conditions, class_name: 'Condition::Swell', dependent: :delete_all
+  
+  # has_many :conditions,
+  #   class_name: 'Condition::Condition',
+  #   foreign_key: 'spot_id',
+  #   inverse_of: :spot,
+  #   dependent: :delete_all
 
   validates_presence_of :user
   validates_presence_of :name

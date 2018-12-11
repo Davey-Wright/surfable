@@ -31,10 +31,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
     t.float "max_height"
     t.integer "min_period"
     t.string "direction", default: [], array: true
+    t.bigint "spot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "condition_id"
-    t.index ["condition_id"], name: "index_condition_swells_on_condition_id"
+    t.index ["spot_id"], name: "index_condition_swells_on_spot_id"
   end
 
   create_table "condition_tides", force: :cascade do |t|

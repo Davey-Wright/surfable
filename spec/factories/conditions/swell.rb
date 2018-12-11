@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :condition_swell, class: Condition::Swell do
-    association :condition, factory: :conditions, strategy: :build
+  factory :swell_conditions, class: Condition::Swell do
+    association :spot, factory: :spot, strategy: :build
     rating { 3 }
     min_height { 5 }
     max_height { nil }
