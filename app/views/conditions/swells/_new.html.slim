@@ -1,7 +1,7 @@
 h2.major
   | Swell Conditions
 
-= simple_form_for(@swell, url: spot_conditions_swell_index_path(@spot.id), remote: true, html: { class: 'check_label_form' }) do |f|
+= simple_form_for(@swell, url: spot_conditions_swells_path(@spot.id), remote: true, html: { class: 'check_label_form' }) do |f|
   = f.error_notification
   .form-inputs
     = f.input :rating, as: :radio_buttons, collection: 1..5
@@ -19,21 +19,6 @@ h2.major
 
 button(class="close-button" aria-label="Close alert" type="button" data-close)
   span(aria-hidden='true') &times;
-
-
-/ Tides
-/   = f.input :position_low_high,
-/     class: 'circle_container',
-/     as: :check_boxes,
-/     collection: Condition::Tide.position_pushing_options,
-/     label: 'Position (pushing tide)'
-/   = f.input :position_high_low,
-/     as: :check_boxes,
-/     collection: Condition::Tide.position_dropping_options,
-/     label: 'Position (dropping tide)'
-/   = f.input :size,
-/     as: :check_boxes,
-/     collection: Condition::Tide.size_options
 
 / Wind
 /   = render 'wind_fields', f: wind

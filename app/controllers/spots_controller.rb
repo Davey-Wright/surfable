@@ -42,7 +42,7 @@ class SpotsController < ApplicationController
     redirect_to spots_path
   end
 
-private
+  private
 
     def spot_params
       params.require(:spot).permit(
@@ -58,11 +58,11 @@ private
     def set_spot
       @spot = current_user.spots.find_by_id(params[:id])
       if @spot.blank? || @spot.user != current_user
-        return render_404_template
+        return render_404
       end
     end
 
-    def render_404_template
+    def render_404
       render file: 'public/404.html', status: :not_found, layout: false
     end
 

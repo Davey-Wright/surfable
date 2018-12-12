@@ -8,7 +8,7 @@ class Spot < ApplicationRecord
   validates_presence_of :user
   validates_presence_of :name
 
-  before_save :trim_attributes
+  before_validation :trim_attributes
 
   def self.wave_attribute_options
     {

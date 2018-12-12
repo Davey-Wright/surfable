@@ -54,21 +54,31 @@
             li= "Minimum Height #{ swell.min_height }"
             li= "Maximum Height #{ swell.max_height }"
             li= "Minimum Period #{ swell.min_period }"
-            - swell.direction do |d|
-              li Direction
-                p = d
 
-    / li(class='accordion-item' data-accordion-item)
-    /   a(class='accordion-title' href='#') Wind
-    /   div(class='accordion-content' data-tab-content)
-    /     / = link_to 'Add new condition', new_spot_conditions_swell_path(@spot), class: 'columns new_swell_btn', data: { remote: true, open: 'modal' }
-    /     - @spot.wind_conditions.each do |wind|
-    /       ul
-    /         li= "Rating #{ tide.min_height }"
-    /         li= "Minimum Height #{ swell.min_height }"
-    /         li= "Maximum Height #{ swell.max_height }"
-    /         li= "Minimum Period #{ swell.min_period }"
-    /
+            li Direction
+            - swell.direction.each do |d|
+              = "#{ d } "
+
+    li(class='accordion-item' data-accordion-item)
+      a(class='accordion-title' href='#') Tide
+      div(class='accordion-content' data-tab-content)
+        = link_to 'Add new tide conditions', new_spot_conditions_tide_path(@spot), class: 'columns new_swell_btn', data: { remote: true, open: 'modal' }
+        - @spot.tide_conditions.each do |tide|
+          ul
+            li= "Rating #{ tide.rating }"
+
+            li Rising tide offset surf times
+            - tide.rising.each do |t|
+              = "#{ t } "
+
+            li Dropping tide offset surf times
+            - tide.dropping.each do |t|
+              = "#{ t } "
+
+            li Sizes
+            - tide.size.each do |t|
+              = "#{ t } "
+
     / li(class='accordion-item' data-accordion-item)
     /   a(class='accordion-title' href='#') Tide
     /   div(class='accordion-content' data-tab-content)
@@ -85,7 +95,7 @@ javascript:
 
   $(document).on('turbolinks:load', function() {
     if("#{ flash[:success]}"){
-      let content = "<h2 class='major'>Success!</h2><p>#{ flash[:success] }</p>"
+      let content = "<h2 class='major'>Success!</h2><p>#{ flash.now[:success] }</p>"
       $('#modal').html(content).foundation('open');
       setTimeout(function() {
         $('#modal').foundation('close').html('');
