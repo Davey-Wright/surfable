@@ -1,0 +1,2 @@
+module Conditions::WindsHelper
+end

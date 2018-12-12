@@ -21,18 +21,18 @@
 $(document).on('turbolinks:load', function() {
     $(document).foundation().confirmWithReveal();
 
-    $('#modal').on('open.zf.reveal', function(e) {
-      $("[data-form-prepend]").click(function(e) {
-        var obj = $($(this).attr("data-form-prepend"));
-        obj.find("input, select, textarea").each(function() {
-          $(this).attr("name", function() {
-            return $(this)
-              .attr("name")
-              .replace("new_record", new Date().getTime());
-          });
-        });
-        obj.insertBefore(this);
-        return false;
-      });
-    });
+    // $('#modal').on('open.zf.reveal', function(e) {
+    //   $("[data-form-prepend]").click(function(e) {
+    //     var obj = $($(this).attr("data-form-prepend"));
+    //     obj.find("input, select, textarea").each(function() {
+    //       $(this).attr("name", function() {
+    //         return $(this)
+    //           .attr("name")
+    //           .replace("new_record", new Date().getTime());
+    //       });
+    //     });
+    //     obj.insertBefore(this);
+    //     return false;
+    //   });
+    // });
 });
