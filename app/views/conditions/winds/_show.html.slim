@@ -1,17 +1,28 @@
 li(class='accordion-item' data-accordion-item)
   a(class='accordion-title' href='#') Wind
   div(class='accordion-content' data-tab-content)
-    = link_to 'Add new wind conditions', new_spot_conditions_wind_path(@spot), class: 'columns new_swell_btn', data: { remote: true, open: 'modal' }
-    - @spot.wind_conditions.each do |wind|
-      ul
-        li= "Rating #{ wind.rating }"
 
-        li Direction(name)
-        - wind.name.each do |w|
-          = "#{ w } "
+    = link_to 'Add new conditions',
+      new_spot_conditions_wind_path(@spot),
+      class: 'columns new_swell_btn',
+      data: { remote: true, open: 'modal' }
 
-        li Direction(cardinal)
-        - wind.direction.each do |w|
-          = "#{ w } "
+    - if !@spot.wind_conditions.blank?
+      = link_to 'Delete conditions',
+        spot_conditions_winds_path(@spot),
+        class: 'columns edit_conditions',
+        data: { remote: true, open: 'modal' }
 
-        li= "Speed #{ wind.speed } mph"
+      - @spot.wind_conditions.each do |wind|
+        ul
+          li= "Rating #{ wind.rating }"
+
+          li Direction(name)
+          - wind.name.each do |w|
+            = "#{ w } "
+
+          li Direction(cardinal)
+          - wind.direction.each do |w|
+            = "#{ w } "
+
+          li= "Speed #{ wind.speed } mph"

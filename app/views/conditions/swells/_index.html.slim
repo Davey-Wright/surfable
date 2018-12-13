@@ -1,4 +1,4 @@
-h2.majorSwell
+h2.major
   | Swell Conditions
 
 - @spot.swell_conditions.each do |swell|
@@ -12,4 +12,4 @@ h2.majorSwell
     - swell.direction.each do |d|
       = "#{ d } "
 
-    = link_to 'Delete', spot_conditions_swell_path(@spot.id, swell.id), method: :delete, class: 'columns delete_condition', data: { remote: true }
+    = link_to 'Delete', spot_conditions_swell_path(@spot, swell), method: :delete, class: 'columns delete_condition', data: { remote: true }

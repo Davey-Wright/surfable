@@ -1,0 +1,20 @@
+h2.major
+  | Tide Conditions
+
+- @spot.tide_conditions.each do |tide|
+  ul
+    li= "Rating #{ tide.rating }"
+
+    li Rising tide offset surf times
+    - tide.rising.each do |t|
+      = "#{ t } "
+
+    li Dropping tide offset surf times
+    - tide.dropping.each do |t|
+      = "#{ t } "
+
+    li Sizes
+    - tide.size.each do |t|
+      = "#{ t } "
+
+    = link_to 'Delete', spot_conditions_tide_path(@spot, tide), method: :delete, class: 'columns delete_condition', data: { remote: true }

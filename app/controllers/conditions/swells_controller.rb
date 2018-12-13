@@ -29,33 +29,34 @@ class Conditions::SwellsController < ApplicationController
     respond_with { |f| f.js { render 'index', layout: false } }
   end
 
-private
+  private
 
-  def swell_params
-    params.require(:condition_swell).permit(
-      :rating,
-      :min_height,
-      :max_height,
-      :min_period,
-      direction: []
-    )
-  end
-
-  def set_spot
-    @spot = current_user.spots.find_by_id(params[:spot_id])
-    if @spot.blank? || @spot.user != current_user
-      return render_404
+    def swell_params
+      params.require(:condition_swell).permit(
+        :rating,
+        :min_height,
+        :max_height,
+        :min_period,
+        direction: []
+      )
     end
-  end
 
-  def set_swell
-    @swell = Condition::Swell.find_by_id(params[:id])
-    if @swell.blank? || @swell.spot.user != current_user
-      return render_404
+    def set_spot
+      @spot = current_user.spots.find_by_id(params[:spot_id])
+      if @spot.blank? || @spot.user != current_user
+        return render_404
+      end
     end
-  end
 
-  def render_404
-    render file: 'public/404.html', status: :not_found, layout: false
-  end
+    def set_swell
+      @swell = Condition::Swell.find_by_id(params[:id])
+      if @swell.blank? || @swell.spot.user != current_user
+        return render_404
+      end
+    end
+
+    def render_404
+      render file: 'public/404.html', status: :not_found, layout: false
+    end
+    
 end

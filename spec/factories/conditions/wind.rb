@@ -3,7 +3,7 @@ FactoryBot.define do
     association :spot, factory: :spot, strategy: :build
     rating { 4 }
     name { ['onshore'] }
-    direction { ['n', 'ne', 'e'] }
-    speed { 20 }
+    direction { ['ne', 'n', 'e'] }
+    speed { 12345 }
   end
 end

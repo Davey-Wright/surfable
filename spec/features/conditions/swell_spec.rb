@@ -1,37 +1,37 @@
 require 'rails_helper'
 
 feature 'Swell Condition CRUD', js: true do
-
-  let(:spot) { FactoryBot.create(:spot_with_conditions) }
+  let(:swell) { FactoryBot.create(:swell_conditions) }
 
   before(:each) do
-    login_as(spot.user)
-    visit spot_path(spot)
+    login_as(swell.spot.user)
+    visit spot_path(swell.spot)
     click_on('Swell')
   end
 
   context 'logged in user' do
 
-    context 'viewing swell conditions' do
+    context 'viewing conditions' do
       describe 'with existing conditions' do
-        swell = spot.swell_conditions
         it {
           expect(page).to have_link('Add new conditions')
           expect(page).to have_link('Delete conditions')
-          expect(page).to have_content(swell.rating)
-          expect(page).to have_content(swell.min_period)
-          expect(page).to have_content(swell.min_height)
+          expect(page.body).to have_content(swell.rating)
+          expect(page.body).to have_content(swell.min_period)
+          expect(page.body).to have_content(swell.min_height)
         }
       end
 
       describe 'with no existing conditions' do
         it {
           swell.destroy
+          visit spot_path(swell.spot)
+          click_on('Swell')
           expect(page).to have_link('Add new conditions')
           expect(page).to_not have_link('Delete conditions')
-          expect(page).to_not have_content(swell.rating)
-          expect(page).to_not have_content(swell.min_period)
-          expect(page).to_not have_content(swell.min_height)
+          expect(page.body).to_not have_content(swell.rating)
+          expect(page.body).to_not have_content(swell.min_period)
+          expect(page.body).to_not have_content(swell.min_height)
         }
       end
     end
@@ -49,7 +49,7 @@ feature 'Swell Condition CRUD', js: true do
             click_on("Add Conditions")
           end
           expect(page).to have_content(
-            /successfully added new swell conditions to #{ spot.name }/i)
+            /successfully added new swell conditions to #{ swell.spot.name }/i)
         }
       end
 
@@ -81,7 +81,6 @@ feature 'Swell Condition CRUD', js: true do
     context 'deleting existing conditions' do
       describe 'successfully' do
         it {
-          swell = spot.swell_conditions.first
           within('.accordion-item.is-active') do
             click_on('Delete conditions')
           end
