@@ -36,11 +36,17 @@ RSpec.describe Condition::Swell, type: :model do
       is_expected.to_not be_valid
     end
 
-    describe 'Testing' do
-      it 'should have a valid factory' do
-        expect(FactoryBot.build(:swell_conditions)).to be_valid
-      end
+    it 'does not store empty values in attributes which are collections' do
+      subject.direction = ['']
+      subject.save
+      expect(subject.direction.count).to eq(0)
     end
 
+  end
+
+  describe 'Testing' do
+    it 'should have a valid factory' do
+      expect(FactoryBot.build(:swell_conditions)).to be_valid
+    end
   end
 end

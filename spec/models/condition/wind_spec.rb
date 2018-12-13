@@ -21,7 +21,7 @@ RSpec.describe Condition::Wind, type: :model do
     end
 
     it 'is not valid with no direction' do
-      subject.direction = nil
+      subject.direction = ['']
       is_expected.to_not be_valid
     end
 
@@ -33,6 +33,14 @@ RSpec.describe Condition::Wind, type: :model do
     it 'is not valid with no rating' do
       subject.rating = nil
       is_expected.to_not be_valid
+    end
+
+    it 'does not store empty values in attributes which are collections' do
+      subject.name = ['']
+      subject.direction = ['']
+      subject.save
+      expect(subject.direction.count).to eq(0)
+      expect(subject.name.count).to eq(0)
     end
   end
 

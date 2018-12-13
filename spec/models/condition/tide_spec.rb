@@ -21,18 +21,29 @@ RSpec.describe Condition::Tide, type: :model do
     end
 
     it 'is not valid with no rising offset' do
-      subject.dropping = nil
+      subject.dropping = ['']
       is_expected.to_not be_valid
     end
 
     it 'is not valid with no rising offset' do
-      subject.rising = nil
+      subject.rising = ['']
       is_expected.to_not be_valid
     end
 
     it 'is not valid with no rating' do
-      subject.rating = nil
+      subject.rating = ['']
       is_expected.to_not be_valid
+    end
+
+    it 'does not store empty values in attributes which are collections' do
+      subject.rising = ['']
+      subject.dropping = ['']
+      subject.size = ['']
+
+      subject.save
+      expect(subject.rising.count).to eq(0)
+      expect(subject.dropping.count).to eq(0)
+      expect(subject.size.count).to eq(0)
     end
   end
 

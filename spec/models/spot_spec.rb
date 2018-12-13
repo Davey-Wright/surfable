@@ -31,6 +31,19 @@ RSpec.describe Spot, type: :model do
       subject.name = nil
       expect(subject).to_not be_valid
     end
+
+    it 'does not store empty values in attributes which are collections' do
+      subject.wave_shape = ['']
+      subject.wave_length = ['']
+      subject.wave_speed = ['']
+      subject.wave_direction = ['']
+
+      subject.save
+      expect(subject.wave_shape.count).to eq(0)
+      expect(subject.wave_length.count).to eq(0)
+      expect(subject.wave_speed.count).to eq(0)
+      expect(subject.wave_direction.count).to eq(0)
+    end
   end
 
   describe 'CRUD' do
