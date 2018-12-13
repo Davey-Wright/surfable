@@ -1,0 +1,15 @@
+h2.majorSwell
+  | Swell Conditions
+
+- @spot.swell_conditions.each do |swell|
+  ul
+    li= "Rating #{ swell.min_height }"
+    li= "Minimum Height #{ swell.min_height }"
+    li= "Maximum Height #{ swell.max_height }"
+    li= "Minimum Period #{ swell.min_period }"
+
+    li Direction
+    - swell.direction.each do |d|
+      = "#{ d } "
+
+    = link_to 'Delete', spot_conditions_swell_path(@spot.id, swell.id), method: :delete, class: 'columns delete_condition', data: { remote: true }

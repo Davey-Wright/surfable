@@ -1,0 +1,25 @@
+li(class='accordion-item' data-accordion-item)
+  a(class='accordion-title' href='#') Swell
+  div(class='accordion-content' data-tab-content)
+
+    = link_to 'Add new conditions',
+      new_spot_conditions_swell_path(@spot),
+      class: 'columns new_swell_btn',
+      data: { remote: true, open: 'modal' }
+
+    - if !@spot.swell_conditions.blank?
+      = link_to 'Delete conditions',
+        spot_conditions_swells_path(@spot),
+        class: 'columns edit_conditions',
+        data: { remote: true, open: 'modal' }
+
+      - @spot.swell_conditions.each do |swell|
+        ul
+          li= "Rating #{ swell.min_height }"
+          li= "Minimum Height #{ swell.min_height }"
+          li= "Maximum Height #{ swell.max_height }"
+          li= "Minimum Period #{ swell.min_period }"
+
+          li Direction
+          - swell.direction.each do |d|
+            = "#{ d } "

@@ -1,9 +1,13 @@
 class Conditions::SwellsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_spot, only: [:new, :create]
-  before_action :set_condition, only: [:show, :edit, :update, :destroy]
+  before_action :set_spot
+  before_action :set_swell, only: [:destroy]
 
   respond_to :html, :js
+
+  def index
+    respond_with { |f| f.js { render 'index', layout: false } }
+  end
 
   def new
     @swell = @spot.swell_conditions.new
@@ -20,23 +24,9 @@ class Conditions::SwellsController < ApplicationController
     end
   end
 
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-    # if @swell.update_attributes(swell_params)
-    #   redirect_to(spot_condition_path(@condition.spot, @condition))
-    # else
-    #   render :edit, status: :unprocessable_entity
-    # end
-  end
-
   def destroy
-    # @swell.destroy
-    # redirect_to spot_path(@swell.spot)
+    @swell.destroy
+    respond_with { |f| f.js { render 'index', layout: false } }
   end
 
 private
@@ -58,9 +48,9 @@ private
     end
   end
 
-  def set_condition
-    @condition = Condition::Condition.find_by_id(params[:id])
-    if @condition.blank? || @condition.spot.user != current_user
+  def set_swell
+    @swell = Condition::Swell.find_by_id(params[:id])
+    if @swell.blank? || @swell.spot.user != current_user
       return render_404
     end
   end

@@ -9,10 +9,10 @@ FactoryBot.define do
     wave_direction { ['left', 'right'] }
 
     factory :spot_with_conditions do
-      after(:build) do |spot|
-        build(:swell_conditions, spot: spot)
-        build(:tide_conditions, spot: spot)
-        build(:wind_conditions, spot: spot)
+      after(:create) do |spot|
+        create(:swell_conditions, spot: spot)
+        create(:tide_conditions, spot: spot)
+        create(:wind_conditions, spot: spot)
       end
     end
 

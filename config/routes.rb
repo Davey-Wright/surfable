@@ -15,9 +15,9 @@ Rails.application.routes.draw do
 
   resources :spots do
     namespace :conditions do
-      resources :swells, except: [:index, :show]
-      resources :tides, except: [:index, :show]
-      resources :winds, except: [:index, :show]
+      resources :swells, except: [:show, :edit, :update]
+      resources :tides, except: [:show, :edit, :update]
+      resources :winds, except: [:show, :edit, :update]
     end
   end
 end
