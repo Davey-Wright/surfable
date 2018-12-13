@@ -17,11 +17,3 @@ h2.major
   .form-actions
     = f.button :submit, "Add Conditions"
     = button_tag 'Reset', type: :reset, class: 'button'
-
-
-button(class="close-button" aria-label="Close alert" type="button" data-close)
-  span(aria-hidden='true') &times;
-
-/ Wind
-/   = render 'wind_fields', f: wind
-/   = link_to_add_fields 'Add more wind conditions', f, :winds

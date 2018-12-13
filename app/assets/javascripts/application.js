@@ -20,6 +20,9 @@
 
 $(document).on('turbolinks:load', function() {
     $(document).foundation().confirmWithReveal();
+    $('#modal').on('closed.zf.reveal', function(e){
+      $('.modal_content').html('');
+    });
 
     // $('#modal').on('open.zf.reveal', function(e) {
     //   $("[data-form-prepend]").click(function(e) {

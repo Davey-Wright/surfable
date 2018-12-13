@@ -65,7 +65,7 @@
         });
 
         var content = `<h2>Delete Spot</h2><p>${ el_options.text }</p><div class='form-actions'></div>`
-        modal = $('#modal').html(content)
+        modal = $('.modal_content').html(content)
         $('.form-actions').append(confirm_button).append(cancel_button)
 
         // modal.append(`<div class='form-actions'> ${ confirm_button } ${ cancel_button } </div>`);
