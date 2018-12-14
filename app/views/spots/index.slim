@@ -6,7 +6,7 @@
 
     .spots_index_header.row.align-middle
       h2.columns. Spots
-      = link_to 'Add new spot', new_spot_path, class: 'columns new_spot_btn', data: { remote: true, open: 'modal' }
+      = link_to 'Add new spot', new_spot_path, class: 'columns new_spot_btn', remote: true
 
     - @spots.each do |spot|
       ul.spot-list

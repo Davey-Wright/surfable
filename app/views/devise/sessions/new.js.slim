@@ -1,7 +1,10 @@
 |
-  $('.modal_content').html"#{ j render "new" }");
+  $.ajax().done(function(){
+    open_modal_with_content("#{ j render "new" }");
 
-  var error = "#{ j flash[:alert] }"
-  if(error !== ''){
-    $('form').prepend("<div class='form_errors'>#{ j flash[:alert] }</div>");
-  }
+    var error = "#{ j flash[:alert] }"
+
+    if(error !== ''){
+      $('form').prepend("<div class='form_errors'>error</div>");
+    }
+  });

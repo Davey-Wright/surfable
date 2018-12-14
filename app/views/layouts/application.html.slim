@@ -9,14 +9,14 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
-    article(id='modal' class='reveal' data-reveal data-v-offset='100')
+    article(id='modal' class='reveal' data-reveal data-v-offset='0' data-animation-in="slide-in-down")
       button(class="close-button" aria-label="Close alert" type="button" data-close)
         span(aria-hidden='true') &times;
-      div.modal_content
+      .modal_content
 
     body.surfable-wrapper
       p.notice= notice
-      p.alert= alert
+      / p.alert= alert
       - if user_signed_in?
         .top-bar
           = image_tag "logo.png", class: 'logo'

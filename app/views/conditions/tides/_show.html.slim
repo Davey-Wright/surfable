@@ -5,13 +5,13 @@ li(class='accordion-item' data-accordion-item)
     = link_to 'Add new conditions',
       new_spot_conditions_tide_path(@spot),
       class: 'columns new_swell_btn',
-      data: { remote: true, open: 'modal' }
+      remote: true
 
     - if !@spot.tide_conditions.blank?
       = link_to 'Delete conditions',
         spot_conditions_tides_path(@spot),
         class: 'columns edit_conditions',
-        data: { remote: true, open: 'modal' }
+        remote: true
 
       - @spot.tide_conditions.each do |tide|
         ul

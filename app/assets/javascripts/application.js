@@ -19,23 +19,19 @@
 //= confirmation_modal
 
 $(document).on('turbolinks:load', function() {
-    $(document).foundation().confirmWithReveal();
-    $('#modal').on('closed.zf.reveal', function(e){
-      $('.modal_content').html('');
-    });
-
-    // $('#modal').on('open.zf.reveal', function(e) {
-    //   $("[data-form-prepend]").click(function(e) {
-    //     var obj = $($(this).attr("data-form-prepend"));
-    //     obj.find("input, select, textarea").each(function() {
-    //       $(this).attr("name", function() {
-    //         return $(this)
-    //           .attr("name")
-    //           .replace("new_record", new Date().getTime());
-    //       });
-    //     });
-    //     obj.insertBefore(this);
-    //     return false;
-    //   });
-    // });
+  $(document).foundation().confirmWithReveal();
 });
+
+let open_modal_with_content = (template, callback) => {
+  let $modal = $('#modal'),
+      $modal_content = $('.modal_content');
+
+  $($modal_content).append(template).promise().done(function(){
+    $modal.foundation('open');
+    $modal.on('closed.zf.reveal', function(e){
+      $($modal_content).html('');
+    })
+  })
+
+  if (typeof callback === "function") { callback }
+}

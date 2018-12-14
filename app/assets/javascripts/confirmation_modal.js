@@ -64,10 +64,11 @@
           return $el.trigger('cancel.reveal', e);
         });
 
-        var content = `<h2>Delete Spot</h2><p>${ el_options.text }</p><div class='form-actions'></div>`
-        modal = $('.modal_content').html(content)
-        $('.form-actions').append(confirm_button).append(cancel_button)
+        var content = `<h2>Delete Spot</h2><p>${ el_options.text }</p><div class='form-actions'></div>`,
+            modal = $('#modal'),
+            modal_content = $('.modal_content').html(content)
 
+        $('.form-actions').append(confirm_button).append(cancel_button)
         // modal.append(`<div class='form-actions'> ${ confirm_button } ${ cancel_button } </div>`);
 
         // modal.append("<a class='button'>Cancel</a>").on('click', function(e) {
@@ -76,7 +77,7 @@
         // });
 
         modal.foundation('open').on('closed.zf.reveal', function(e) {
-          return modal.html('')
+          return modal.html('');
         });
 
         return false;

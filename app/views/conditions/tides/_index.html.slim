@@ -17,4 +17,4 @@ h2.major
     - tide.size.each do |t|
       = "#{ t } "
 
-    = link_to 'Delete', spot_conditions_tide_path(@spot, tide), method: :delete, class: 'columns delete_condition', data: { remote: true }
+    = link_to 'Delete', spot_conditions_tide_path(@spot, tide), method: :delete, class: 'columns delete_condition', remote: true

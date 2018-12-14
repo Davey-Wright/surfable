@@ -1,2 +1,4 @@
 |
-  $('.modal_content').html"#{ j render "new" }");
+  $.ajax().done(function(){
+    open_modal_with_content("#{ j render "new" }");
+  });
