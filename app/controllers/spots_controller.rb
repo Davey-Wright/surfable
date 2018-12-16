@@ -15,8 +15,8 @@ class SpotsController < ApplicationController
   def create
     @spot = current_user.spots.create(spot_params)
     if @spot.valid?
-      flash[:notice] = 'shaka melaka ting ling'
-      redirect_to spot_path(@spot)
+      flash[:success] = 'shaka'
+      respond_with { |f| f.js { render 'show', layout: false } }
     else
       render :new, status: :unprocessable_entity
     end

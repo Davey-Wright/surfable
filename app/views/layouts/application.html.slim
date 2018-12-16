@@ -9,13 +9,18 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
-    article(id='modal' class='reveal' data-reveal data-v-offset='0' data-animation-in="slide-in-down")
+    article(id='modal' class='reveal'
+      data-animation_speed=10000
+      data-reveal
+      data-v-offset='0'
+      data-animation-in="slide-in-down fast"
+      data-animation-out='slide-out-up fast')
       button(class="close-button" aria-label="Close alert" type="button" data-close)
         span(aria-hidden='true') &times;
       .modal_content
 
     body.surfable-wrapper
-      p.notice= notice
+      / p.notice= notice
       / p.alert= alert
       - if user_signed_in?
         .top-bar

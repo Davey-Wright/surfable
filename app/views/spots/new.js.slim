@@ -1,10 +1,4 @@
 |
   $.ajax().done(function(){
-    open_modal_with_content("#{ j render "new" }");
-
-    $('form').submit(function(){
-      if($('form #spot_name').val() !== ''){
-        $("#modal").foundation('close');
-      }
-    });
+    open_modal("#{ j render "new" }");
   });

@@ -57,7 +57,7 @@ feature 'Create Tide Condition', js: true do
             click_on("Add Conditions")
           end
           expect(page).to have_content(
-            /successfully added new tide conditions to #{ tide.spot.name }/i)
+            /successfully added tide conditions to #{ tide.spot.name }/i)
         }
       end
 

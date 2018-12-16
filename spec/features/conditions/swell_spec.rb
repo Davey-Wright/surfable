@@ -49,7 +49,7 @@ feature 'Swell Condition CRUD', js: true do
             click_on("Add Conditions")
           end
           expect(page).to have_content(
-            /successfully added new swell conditions to #{ swell.spot.name }/i)
+            /successfully added swell conditions to #{ swell.spot.name }/i)
         }
       end
 

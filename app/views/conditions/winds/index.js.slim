@@ -1,4 +1,10 @@
 |
   $.ajax().done(function(){
-    open_modal_with_content("#{ j render "index" }");
+    let content = "#{ j render "index" }"
+
+    if($('#modal').css('display') == 'block'){
+      $('.modal_content').html(content);
+    } else {
+      open_modal(content);
+    }
   });

@@ -1,6 +1,6 @@
 |
   $.ajax().done(function(){
-    open_modal_with_content("#{ j render "edit" }");
+    open_modal("#{ j render "edit" }");
 
     $('form').submit(function(){
       if($('form #spot_name').val() !== ''){

@@ -17,8 +17,8 @@ class Conditions::WindsController < ApplicationController
   def create
     @wind = @spot.wind_conditions.create(wind_params)
     if @wind.valid?
-      flash[:success] = "Successfully added new wind conditions to #{ @wind.spot.name }"
-      redirect_to(spot_path(@wind.spot))
+      flash[:success] = "Successfully added Wind conditions to #{ @wind.spot.name }"
+      respond_with { |f| f.js { render 'spots/show', layout: false } }
     else
       render :new, status: :unprocessable_entity
     end

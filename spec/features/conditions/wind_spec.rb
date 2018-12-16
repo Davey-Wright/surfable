@@ -47,7 +47,7 @@ feature 'Create wind Condition', js: true do
             click_on("Add Conditions")
           end
           expect(page).to have_content(
-            /successfully added new wind conditions to #{ wind.spot.name }/i)
+            /successfully added wind conditions to #{ wind.spot.name }/i)
         }
       end
 

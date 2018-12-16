@@ -17,8 +17,8 @@ class Conditions::SwellsController < ApplicationController
   def create
     @swell = @spot.swell_conditions.create(swell_params)
     if @swell.valid?
-      flash[:success] = "Successfully added new swell conditions to #{ @swell.spot.name }"
-      redirect_to(spot_path(@swell.spot))
+      flash[:success] = "Successfully added Swell conditions to #{ @swell.spot.name }"
+      respond_with { |f| f.js { render 'spots/show', layout: false } }
     else
       render :new, status: :unprocessable_entity
     end
@@ -58,5 +58,5 @@ class Conditions::SwellsController < ApplicationController
     def render_404
       render file: 'public/404.html', status: :not_found, layout: false
     end
-    
+
 end

@@ -22,16 +22,31 @@ $(document).on('turbolinks:load', function() {
   $(document).foundation().confirmWithReveal();
 });
 
-let open_modal_with_content = (template, callback) => {
+
+let open_modal = function(content, callback){
   let $modal = $('#modal'),
       $modal_content = $('.modal_content');
 
-  $($modal_content).append(template).promise().done(function(){
+  $($modal_content).html(content).promise().done(function(){
     $modal.foundation('open');
-    $modal.on('closed.zf.reveal', function(e){
-      $($modal_content).html('');
-    })
   })
 
-  if (typeof callback === "function") { callback }
+  $modal.on('closed.zf.reveal', function(e){
+    $($modal_content).html('');
+  });
+
+  if (typeof callback === "function") {
+    $modal.on('open.zf.reveal', callback());
+  }
+}
+
+
+let close_modal_and_redirect = function(url){
+  setTimeout(function() {
+    $('#modal').foundation('close');
+  }, 2000);
+
+  $('#modal').on('closed.zf.reveal', function(){
+    window.location.replace(url)
+  });
 }

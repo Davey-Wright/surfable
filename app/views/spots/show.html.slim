@@ -46,18 +46,3 @@
     = render 'conditions/swells/show'
     = render 'conditions/tides/show'
     = render 'conditions/winds/show'
-
-
-javascript:
-
-  $(document).on('turbolinks:load', function() {
-    if("#{ flash[:notice]}"){
-      let content = "<h2 class='major'>Success!</h2><p>#{ flash.now[:success] }</p>"
-      $('.modal_content').html(content).promise().done(function(){
-        $('#modal').foundation('open');
-      });
-      setTimeout(function() {
-        $('#modal').foundation('close').html('');
-      }, 2000);
-    }
-  })

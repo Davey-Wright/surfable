@@ -17,8 +17,8 @@ class Conditions::TidesController < ApplicationController
   def create
     @tide = @spot.tide_conditions.create(tide_params)
     if @tide.valid?
-      flash[:success] = "Successfully added new tide conditions to #{ @tide.spot.name }"
-      redirect_to(spot_path(@tide.spot))
+      flash[:success] = "Successfully added Tide conditions to #{ @tide.spot.name }"
+      respond_with { |f| f.js { render 'spots/show', layout: false } }
     else
       render :new, status: :unprocessable_entity
     end
