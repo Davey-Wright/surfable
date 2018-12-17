@@ -1,77 +1,74 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'sign up' do
-  scenario 'cancel new registration' do
-    visit new_user_registration_path
-    within('#new_user') do
-      fill_sign_up_form
-      click_on('Cancel')
-    end
-    expect(page).to have_current_path(root_path)
-    expect_user_count_to_be(0)
-  end
+feature 'New User registration', js: true do
 
-  scenario'submit incomplete form' do
-    visit new_user_registration_path
-    within('#new_user') do
-      click_on('Sign up')
-    end
-    expect(page).to have_content("First name can't be blank")
-    expect(page).to have_content("Last name can't be blank")
-    expect(page).to have_content("Email can't be blank")
-    expect(page).to have_content("Email can't be blank")
-    expect(page).to have_content("Password can't be blank")
-    expect_user_count_to_be(0)
-  end
-
-  scenario 'submit complete form' do
-    visit new_user_registration_path
-    within('#new_user') do
-      fill_sign_up_form
-      click_on('Sign up')
-    end
-    user_sign_up_expectations(page)
-  end
-
-  scenario 'sign up with google' do
-    visit new_user_registration_path
-    omniauth_stub(provider: :google_oauth2)
-    click_on('Sign in with GoogleOauth2')
-    user_sign_up_expectations(page)
-  end
-
-  scenario 'sign up with facebook' do
-    visit new_user_registration_path
-    omniauth_stub(provider: :facebook)
-    click_on('Sign in with Facebook')
-    user_sign_up_expectations(page)
-  end
-
-  scenario 'with facebook auth using existing email' do
-    FactoryBot.create(:user, {email: 'saltydog@test.com'})
-    visit new_user_registration_path
-    omniauth_stub(provider: :facebook)
-    click_on('Sign in with Facebook')
-    expect(page).to have_content('Email has already been taken')
-  end
-
-  scenario 'user fills form and clicks clear', js: true do
-    visit new_user_registration_path
-    within('#new_user') do
-      fill_sign_up_form
-      click_on('Clear')
-      expect(find_field('user_first_name').value).to eq('')
-    end
-  end
-
-  scenario 'visitor clicks sign up button' do
+  before(:each) do
     visit root_path
     click_on('Sign Up')
-    expect(page).to have_current_path(new_user_registration_path)
   end
 
-  def fill_sign_up_form
+  describe 'user resets form' do
+    it {
+      within('#new_user') do
+        fill_form
+        click_on('Reset')
+      end
+      expect(page).to have_current_path(root_path)
+      expect_user_count_to_be(0)
+    }
+  end
+
+  describe 'user submits incomplete form' do
+    it {
+      within('#new_user') do
+        click_on('Sign up')
+      end
+      expect(page).to have_content(/first name can't be blank/i)
+      expect(page).to have_content(/last name can't be blank/i)
+      expect(page).to have_content(/email can't be blank/i)
+      expect(page).to have_content(/email can't be blank/i)
+      expect(page).to have_content(/password can't be blank/i)
+      expect_user_count_to_be(0)
+    }
+  end
+
+  describe 'user submits complete form' do
+    it {
+      within('#new_user') do
+        fill_form
+        click_on('Sign up')
+      end
+      user_sign_up_expectations(page)
+    }
+  end
+
+  describe 'sign up with google' do
+    it {
+      omniauth_stub(provider: :google_oauth2)
+      click_on('Sign up with Google')
+      user_sign_up_expectations(page)
+    }
+  end
+
+  describe 'sign up with facebook' do
+    it {
+      omniauth_stub(provider: :facebook)
+      click_on('Sign up with Facebook')
+      user_sign_up_expectations(page)
+    }
+  end
+
+  describe 'with facebook auth using existing email' do
+    it {
+      FactoryBot.create(:user, { email: 'saltydog@test.com' })
+      omniauth_stub(provider: :facebook)
+      click_on('Sign up with Facebook')
+      expect(page).to have_content('Email has already been taken')
+    }
+  end
+
+  def fill_form
     fill_in 'user_first_name', with: 'salty'
     fill_in 'user_last_name', with: 'dog'
     fill_in 'user_email', with: 'saltydog@test.com'
@@ -85,13 +82,7 @@ feature 'sign up' do
   end
 
   def user_sign_up_expectations(page)
-    user = User.first
-    expect(user.first_name).to eq('salty')
-    expect(user.last_name).to eq('dog')
-    expect(user.email).to eq('saltydog@test.com')
-
-    expect(page).to have_current_path(user_path(user))
-    expect(page).to have_content("Shwmae #{User.first.first_name}")
+    expect(page.body).to have_content(/surfable forecast/i)
   end
 
 end

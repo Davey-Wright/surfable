@@ -1,13 +1,3 @@
-# class ConfirmationCode < Struct.new(:code)
-#   include ActiveModel::Model
-# end
-
-class ConfirmationCode
-  include ActiveModel::Model
-  attr_accessor :value
-  validates :value, presence: true
-end
-
 class UsersController < ApplicationController
   before_action :authenticate_user!
 

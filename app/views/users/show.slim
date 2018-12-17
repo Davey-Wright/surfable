@@ -1,3 +1,6 @@
 h1 Shwmae #{@user.first_name} #{@user.last_name}
 
-= link_to 'Settings', edit_user_registration_path
+- if @user.provider == nil
+  = link_to 'Edit', edit_user_registration_path,
+    class: 'columns new_spot_btn',
+    remote: true

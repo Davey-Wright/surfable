@@ -8,10 +8,13 @@ class User < ApplicationRecord
   after_update_commit   :send_update_confirmation
   after_destroy_commit  :send_delete_confirmation
 
-
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :timeoutable,
+         :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[facebook google_oauth2]
+
+  def remember_me
+    true
+  end
 
   def self.from_omniauth(auth)
     UserAuthentication::Omniauth.call(self, auth)

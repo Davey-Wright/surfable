@@ -20,14 +20,14 @@ html
       .modal_content
 
     body.surfable-wrapper
-      / p.notice= notice
-      / p.alert= alert
+      p.notice= notice
+      p.alert= alert
       - if user_signed_in?
         .top-bar
           = image_tag "logo.png", class: 'logo'
           ul.menu.primary-nav.menu-hover-lines
             li.active
-              = link_to 'Forecast', user_forecast_path(current_user)
+              = link_to 'Forecast', forecast_path
             li
               = link_to 'Spots', spots_path
             li
@@ -42,7 +42,7 @@ html
             #offCanvas.off-canvas.position-right data-off-canvas=""
               ul.menu.vertical
                 li
-                  = link_to 'Forecast', user_forecast_path(current_user)
+                  = link_to 'Forecast', forecast_path
                 li
                   = link_to 'Spots', spots_path
                 li

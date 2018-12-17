@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   }
   get 'users/:id/confirm_destroy', to: 'users#confirm_destroy', as: 'user_confirm_destroy'
 
-  resources :users, only: [:show, :destroy] do
-    get '/forecast' => 'static_pages#user_forecast'
-  end
+  resources :users, only: [:show, :destroy]
+
+  get '/forecast' => 'static_pages#forecast'
 
   resources :spots do
     namespace :conditions do

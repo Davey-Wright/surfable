@@ -1,5 +1,6 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
+    respond_to :html, :js
 
     def new
       build_resource
@@ -15,7 +16,7 @@ module Users
         if resource.active_for_authentication?
           set_flash_message! :notice, :signed_up
           sign_up(resource_name, resource)
-          respond_with resource, location: after_sign_up_path_for(resource)
+          sign_in_and_redirect @user, event: :authentication
         else
           set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
           expire_data_after_sign_in!
@@ -25,6 +26,32 @@ module Users
         clean_up_passwords resource
         set_minimum_password_length
         respond_with { |f| f.js { render 'new', layout: false } }
+      end
+    end
+
+    def edit
+      respond_with { |f| f.js { render 'edit', layout: false } }
+    end
+
+    def update
+      self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+      prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+      resource_updated = update_resource(resource, account_update_params)
+      yield resource if block_given?
+      if resource_updated
+        if is_flashing_format?
+          flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
+            :update_needs_confirmation : :updated
+          set_flash_message :notice, flash_key
+        end
+        bypass_sign_in resource, scope: resource_name
+        after_update_path_for(@user)
+      else
+        clean_up_passwords resource
+        set_minimum_password_length
+        # respond_with resource
+        respond_with { |f| f.js { render 'edit', layout: false } }
       end
     end
 
@@ -38,12 +65,12 @@ module Users
         params.require(:user).permit(:first_name, :last_name, :email, :current_password)
       end
 
-      def after_sign_up_path_for(user)
-        user_forecast_path(user)
+      def after_sign_up_path_for(resource)
+        return redirect_to forecast_path if is_navigational_format?
       end
 
       def after_update_path_for(user)
-        user_path(user)
+        return redirect_to user_path(user) if is_navigational_format?
       end
   end
 end

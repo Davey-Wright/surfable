@@ -1,11 +1,12 @@
 class StaticPagesController < ApplicationController
-  before_action :authenticate_user!, only: :user_forecast
+  before_action :authenticate_user!, only: :forecast
+  respond_to :html, :js
 
   def home
-    redirect_to user_forecast_path(current_user) if user_signed_in?
+    redirect_to forecast_path(current_user) if user_signed_in?
   end
 
-  def user_forecast
+  def forecast
   end
 
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
@@ -25,5 +26,5 @@ class StaticPagesController < ApplicationController
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
-  
+
 end
