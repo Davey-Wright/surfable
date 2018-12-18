@@ -2,6 +2,8 @@ class CreateSpots < ActiveRecord::Migration[5.2]
   def change
     create_table :spots do |t|
       t.string :name, null: false
+      t.decimal :latitude
+      t.decimal :longitude
       t.string :wave_break_type,   default: [],  array: true
       t.string :wave_shape,        default: [],  array: true
       t.string :wave_length,       default: [],  array: true

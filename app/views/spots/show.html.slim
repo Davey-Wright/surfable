@@ -1,7 +1,14 @@
+- provide :head_tags do
+  script
+    |
+      document.addEventListener("turbolinks:load", function(){
+        initSpotShowMap(#{@spot.latitude}, #{@spot.longitude});
+      });
+
 #spot-show
   .row
     .columns.small-6
-      = image_tag 'map-show.png'
+      #spot_show_map.map
 
     .columns.small-6.spot
       .row

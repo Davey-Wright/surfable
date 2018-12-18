@@ -48,6 +48,8 @@ class SpotsController < ApplicationController
     def spot_params
       params.require(:spot).permit(
         :name,
+        :latitude,
+        :longitude,
         wave_break_type: [],
         wave_shape: [],
         wave_length: [],

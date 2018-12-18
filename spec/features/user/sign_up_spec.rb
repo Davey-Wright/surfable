@@ -39,7 +39,7 @@ feature 'New User registration', js: true do
         fill_form
         click_on('Sign up')
       end
-      user_sign_up_expectations(page)
+      expect(page.body).to have_content(/surfable forecast/i)
     }
   end
 
@@ -47,7 +47,7 @@ feature 'New User registration', js: true do
     it {
       omniauth_stub(provider: :google_oauth2)
       click_on('Sign up with Google')
-      user_sign_up_expectations(page)
+      expect(page.body).to have_content(/surfable forecast/i)
     }
   end
 
@@ -55,7 +55,7 @@ feature 'New User registration', js: true do
     it {
       omniauth_stub(provider: :facebook)
       click_on('Sign up with Facebook')
-      user_sign_up_expectations(page)
+      expect(page.body).to have_content(/surfable forecast/i)
     }
   end
 

@@ -6,6 +6,10 @@ h2.major
   .form-inputs
     = f.input :name
 
+    #spot_new_map.map
+    = f.input :latitude
+    = f.input :longitude
+
     = f.input :wave_break_type,
       as: :check_boxes,
       collection: Spot.wave_attribute_options[:break_type]

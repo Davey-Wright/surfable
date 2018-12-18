@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
 
   create_table "spots", force: :cascade do |t|
     t.string "name", null: false
+    t.decimal "latitude"
+    t.decimal "longitude"
     t.string "wave_break_type", default: [], array: true
     t.string "wave_shape", default: [], array: true
     t.string "wave_length", default: [], array: true

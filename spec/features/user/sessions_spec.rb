@@ -45,8 +45,6 @@ feature 'User Sessions', js: true do
         fill_in 'user_password', with: user.password
         click_on('Log in')
       end
-      visit forecast_path
-      save_and_open_page
       click_on('Sign Out')
       expect(page).to have_current_path(root_path)
       expect(page).to have_content('Signed out successfully.')

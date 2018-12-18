@@ -1,30 +1,57 @@
-user1 = User.create({
-  email: 'saltydog@test.com',
-  password: 'saltysender',
-  first_name: 'Salty',
-  last_name: 'Dog',
-})
-
-user2 = User.create({
-  email: 'riktersender@test.com',
-  password: 'riktersender',
+demo_user = User.create({
+  email: 'surfable@demo.com',
+  password: 'demosender',
   first_name: 'Rikter',
   last_name: 'Sender',
 })
 
+demo_user.spots.create({
+  name: 'Rest Bay',
+  latitude: '51.489510',
+  longitude: '-3.726244',
+  wave_break_type: ['beach'],
+  wave_shape: ['crumbling'],
+  wave_length: ['average'],
+  wave_speed: ['average'],
+  wave_direction: ['left', 'right']
+})
 
-def create_spots_for(user)
-  5.times do
-    user.spots.create({
-      name: 'Morfa',
-      wave_break_type: ['beach', 'reef'],
-      wave_shape: ['crumbling', 'steep'],
-      wave_length: ['short', 'average'],
-      wave_speed: ['average'],
-      wave_direction: ['left', 'right']
-    })
-  end
-end
+demo_user.spots.create({
+  name: 'Ogmore River Mouth',
+  latitude: '51.470546',
+  longitude: '-3.640436',
+  wave_break_type: ['beach', 'point'],
+  wave_shape: ['steep', 'hollow'],
+  wave_length: ['average', 'long'],
+  wave_speed: ['average', 'fast'],
+  wave_direction: ['right']
+})
+
+demo_user.spots.create({
+  name: 'Southerndown',
+  latitude: '51.445826',
+  longitude: '-3.605846',
+  wave_break_type: ['beach'],
+  wave_shape: ['crumbling'],
+  wave_length: ['average'],
+  wave_speed: ['average'],
+  wave_direction: ['left', 'right']
+})
+
+demo_user.spots.create({
+  name: 'Llanttwit Major',
+  latitude: '51.396031',
+  longitude: '-3.501640',
+  wave_break_type: ['reef', 'point'],
+  wave_shape: ['steep', 'hollow'],
+  wave_length: ['average', 'long'],
+  wave_speed: ['average', 'fast'],
+  wave_direction: ['right']
+})
+
+
+
+
 
 def create_conditions_for(spot)
   spot.swell_conditions.create({
@@ -48,14 +75,4 @@ def create_conditions_for(spot)
       direction: ['w', 'sw', 's'],
       speed: 13
     })
-
-end
-
-
-create_spots_for user1
-
-user1.spots.each do |spot|
-  (1 + rand(5)).times do
-    create_conditions_for spot
-  end
 end
