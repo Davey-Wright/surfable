@@ -10,12 +10,12 @@ class Conditions::SwellsController < ApplicationController
   end
 
   def new
-    @swell = @spot.swell_conditions.new
+    @swell = @spot.swells.new
     respond_with { |f| f.js { render 'new', layout: false } }
   end
 
   def create
-    @swell = @spot.swell_conditions.create(swell_params)
+    @swell = @spot.swells.create(swell_params)
     if @swell.valid?
       flash[:success] = "Successfully added Swell conditions to #{ @swell.spot.name }"
       respond_with { |f| f.js { render 'spots/show', layout: false } }

@@ -15,16 +15,6 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "condition_conditions", force: :cascade do |t|
-    t.string "rating"
-    t.string "name", null: false
-    t.string "board_selection", default: [], array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "spot_id"
-    t.index ["spot_id"], name: "index_condition_conditions_on_spot_id"
-  end
-
   create_table "condition_swells", force: :cascade do |t|
     t.integer "rating", null: false
     t.float "min_height"
@@ -39,9 +29,9 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
 
   create_table "condition_tides", force: :cascade do |t|
     t.integer "rating", null: false
-    t.float "rising", default: [], null: false, array: true
-    t.float "dropping", default: [], null: false, array: true
-    t.string "size", default: [], array: true
+    t.float "rising", default: [], array: true
+    t.float "dropping", default: [], array: true
+    t.integer "size", default: [], array: true
     t.bigint "spot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -92,5 +82,4 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "condition_conditions", "spots", on_delete: :cascade
 end

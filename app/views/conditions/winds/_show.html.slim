@@ -7,13 +7,13 @@ li(class='accordion-item' data-accordion-item)
       class: 'columns new_swell_btn',
       remote: true
 
-    - if !@spot.wind_conditions.blank?
+    - if !@spot.winds.blank?
       = link_to 'Delete conditions',
         spot_conditions_winds_path(@spot),
         class: 'columns edit_conditions',
         remote: true
 
-      - @spot.wind_conditions.each do |wind|
+      - @spot.winds.each do |wind|
         ul
           li= "Rating #{ wind.rating }"
 

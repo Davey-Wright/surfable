@@ -4,32 +4,59 @@ require 'support/day_forecast_stub'
 RSpec.describe Surfable::Windows do
 
   let(:forecast) { Forecast::Day.new(day_forecast_stub) }
-  let(:conditions) do
-    t = FactoryBot.build(:conditions)
-    t.tide.position_high_low = [0, -3]
-    t.tide.position_low_high = [0, -2.5]
-    t
-  end
-  subject { described_class.call(conditions, forecast) }
+  let(:spot) { FactoryBot.create(:spot_with_conditions) }
 
-  describe 'time attribute' do
-    it {
-      expect(subject.times.count).to eq(2)
-      expect(time_str(subject.times[0][:from])).to eq('8:07')
-      expect(time_str(subject.times[0][:to])).to eq('11:07')
-      expect(time_str(subject.times[1][:from])).to eq('14:56')
-      expect(time_str(subject.times[1][:to])).to eq('17:04')
-    }
+  subject { described_class.call(spot, forecast) }
 
+  describe do
+    it { subject }
   end
 
-  describe 'reports attribute' do
-    it {
-      expect(subject.reports.count).to eq(subject.times.count)
-      expect(subject.reports[0].count).to eq(subject.times[0][:to].hour - subject.times[0][:from].hour + 1)
-      expect(subject.reports[1].count).to eq(subject.times[1][:to].hour - subject.times[1][:from].hour + 1)
-    }
+  describe 'surfable window times' do
+    context 'no offset times' do
+      subject.tide.rising = []
+      subject.tide.dropping = []
+      expect(subject.times.count).to eq(0)
+    end
+
+    context 'consecutive offset times' do
+      it {
+        subject.tide.rising = [0, 1, 2, 3]
+        subject.tide.dropping = [3, 4, 5]
+        expect(subject.times.count).to eq(2)
+        expect(subject.times[0][:from]).to eq(11:06)
+        expect(subject.times[0][:to]).to eq(15:06)
+        expect(subject.times[1][:from]).to eq(8:06)
+        expect(subject.times[1][:to]).to eq(11:06)
+      }
+    end
+
+    context 'scattered offset times' do
+      subject.tide.rising = [0, 5]
+      subject.tide.dropping = [1, 4]
+      expect(subject.times.count).to eq(4)
+      expect(subject.times[0][:from]).to eq(11:06)
+      expect(subject.times[0][:to]).to eq(12:06)
+      expect(subject.times[1][:from]).to eq(16:04)
+      expect(subject.times[1][:to]).to eq(17:04)
+      expect(subject.times[2][:from]).to eq(6:52)
+      expect(subject.times[2][:to]).to eq(7:06)
+      expect(subject.times[3][:from]).to eq(9:06)
+      expect(subject.times[3][:to]).to eq(10:06)
+    end
   end
+
+  describe 'Reports' do
+
+  end
+
+  # describe 'reports attribute' do
+  #   it {
+  #     expect(subject.reports.count).to eq(subject.times.count)
+  #     expect(subject.reports[0].count).to eq(subject.times[0][:to].hour - subject.times[0][:from].hour + 1)
+  #     expect(subject.reports[1].count).to eq(subject.times[1][:to].hour - subject.times[1][:from].hour + 1)
+  #   }
+  # end
 
   def t(str)
     Time.parse(str)

@@ -54,7 +54,7 @@ demo_user.spots.create({
 
 
 def create_conditions_for(spot)
-  spot.swell_conditions.create({
+  spot.swells.create({
       rating: 4,
       min_height: 4,
       max_height: nil,
@@ -62,7 +62,7 @@ def create_conditions_for(spot)
       direction: ['w', 'sw', 's']
     })
 
-  spot.tide_conditions.create({
+  spot.tide.create({
       rating: 3,
       rising: [1, 2, 3],
       dropping: [1, 2, 3],

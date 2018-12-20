@@ -7,13 +7,13 @@ li(class='accordion-item' data-accordion-item)
       class: 'columns new_swell_btn',
       remote: true
 
-    - if !@spot.swell_conditions.blank?
+    - if !@spot.swells.blank?
       = link_to 'Delete conditions',
         spot_conditions_swells_path(@spot),
         class: 'columns edit_conditions',
         remote: true
 
-      - @spot.swell_conditions.each do |swell|
+      - @spot.swells.each do |swell|
         ul
           li= "Rating #{ swell.min_height }"
           li= "Minimum Height #{ swell.min_height }"

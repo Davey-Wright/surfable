@@ -10,12 +10,12 @@ class Conditions::TidesController < ApplicationController
   end
 
   def new
-    @tide = @spot.tide_conditions.new
+    @tide = @spot.tide.new
     respond_with { |f| f.js { render 'new', layout: false } }
   end
 
   def create
-    @tide = @spot.tide_conditions.create(tide_params)
+    @tide = @spot.tide.create(tide_params)
     if @tide.valid?
       flash[:success] = "Successfully added Tide conditions to #{ @tide.spot.name }"
       respond_with { |f| f.js { render 'spots/show', layout: false } }

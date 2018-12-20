@@ -10,12 +10,12 @@ class Conditions::WindsController < ApplicationController
   end
 
   def new
-    @wind = @spot.wind_conditions.new
+    @wind = @spot.winds.new
     respond_with { |f| f.js { render 'new', layout: false } }
   end
 
   def create
-    @wind = @spot.wind_conditions.create(wind_params)
+    @wind = @spot.winds.create(wind_params)
     if @wind.valid?
       flash[:success] = "Successfully added Wind conditions to #{ @wind.spot.name }"
       respond_with { |f| f.js { render 'spots/show', layout: false } }

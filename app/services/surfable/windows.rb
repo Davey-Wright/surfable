@@ -2,10 +2,10 @@ module Surfable
   class Windows < ApplicationService
     attr_reader :times, :reports
 
-    def initialize(spot_conditions, forecast_day)
-      @spot_conditions = spot_conditions
+    def initialize(spot, forecast_day)
+      @spot = spot
       @forecast_day = forecast_day
-      tide = Matchers::Tides.call(spot_conditions, forecast_day)
+      tide = Matchers::Tides.call(spot, forecast_day)
       @times = Matchers::Daylight.call(tide, forecast_day).times
       @reports = []
     end
@@ -23,7 +23,7 @@ module Surfable
       def create_report(time, hours)
         (time[:from].hour..time[:to].hour).map do |time|
           forecast = hours.select { |h| (h.value.hour..h.value.hour + 2) === time }.first
-          Matchers::Conditions.call(time, forecast, @spot_conditions)
+          Matchers::Conditions.call(time, forecast, @spot)
         end
       end
 

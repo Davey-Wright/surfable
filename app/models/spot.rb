@@ -1,9 +1,9 @@
 class Spot < ApplicationRecord
   belongs_to :user
 
-  has_many :swell_conditions, class_name: 'Condition::Swell', dependent: :delete_all
-  has_many :tide_conditions, class_name: 'Condition::Tide', dependent: :delete_all
-  has_many :wind_conditions, class_name: 'Condition::Wind', dependent: :delete_all
+  has_many :swells, class_name: 'Condition::Swell', dependent: :delete_all
+  has_one :tide, class_name: 'Condition::Tide', dependent: :delete
+  has_many :winds, class_name: 'Condition::Wind', dependent: :delete_all
 
   validates_presence_of :user
   validates_presence_of :name

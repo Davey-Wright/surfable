@@ -20,14 +20,14 @@ RSpec.describe Condition::Tide, type: :model do
       is_expected.to be_valid
     end
 
-    it 'is not valid with no rising offset' do
+    it 'is valid with no dropping offset' do
       subject.dropping = ['']
-      is_expected.to_not be_valid
+      is_expected.to be_valid
     end
 
-    it 'is not valid with no rising offset' do
+    it 'is valid with no rising offset' do
       subject.rising = ['']
-      is_expected.to_not be_valid
+      is_expected.to be_valid
     end
 
     it 'is not valid with no rating' do

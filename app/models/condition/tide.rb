@@ -2,10 +2,7 @@ module Condition
   class Tide < ApplicationRecord
     belongs_to :spot
 
-    validates :rising, presence: true
-    validates :dropping, presence: true
     validates :rating, presence: true
-
     before_validation :remove_nil_values_from_arrays
 
     def self.position_rising_options
