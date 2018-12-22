@@ -5,7 +5,7 @@ module Surfable
     def initialize(spot, forecast_day)
       @spot = spot
       @forecast_day = forecast_day
-      @times = set_times
+      @times = Matchers::Tides.call(spot, forecast_day).times
       @reports = []
     end
 
