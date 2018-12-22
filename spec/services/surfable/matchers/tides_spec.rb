@@ -3,155 +3,122 @@ require 'support/day_forecast_stub'
 
 RSpec.describe Surfable::Matchers::Tides do
 
-  let(:forecast_tides) { Forecast::Day.new(day_forecast_stub) }
+  let(:forecast_day) { Forecast::Day.new(day_forecast_stub) }
+  let(:spot) { FactoryBot.create(:spot_with_conditions) }
 
-  describe 'Attributes' do
+  subject { described_class.call(spot, forecast_day) }
 
-    describe 'Times' do
-      context 'with 3 hours before high, 3 hours before low' do
-        let(:user_tides) do
-          t = FactoryBot.build(:conditions)
-          t.tide.position_high_low = [0, -3]
-          t.tide.position_low_high = [0, -3]
-          t
-        end
-        subject { described_class.call(user_tides, forecast_tides) }
-
-        it {
-          first_high = find_first_of_tides('high')
-          first_low = find_first_of_tides('low')
-
-          expect(subject.times.count).to eq(4)
-          expect(subject.times[0][:from]).to eq(first_low.time - 3.hours)
-          expect(subject.times[0][:to]).to eq(first_low.time)
-          expect(time_str(subject.times[1][:from])).to eq('20:32')
-          expect(time_str(subject.times[1][:to])).to eq('23:32')
-          expect(subject.times[2][:from]).to eq(first_high.time - 3.hours)
-          expect(subject.times[2][:to]).to eq(first_high.time)
-          expect(time_str(subject.times[3][:from])).to eq('14:26')
-          expect(time_str(subject.times[3][:to])).to eq('17:26')
-          time_from_less_than_time_to(subject)
-        }
-      end
-
-      context 'with 2.5 hours before high, 2.5 hours before low' do
-        let(:user_tides) do
-          t = FactoryBot.build(:conditions)
-          t.tide.position_high_low = [0, -2.5]
-          t.tide.position_low_high = [0, -2.5]
-          t
-        end
-        subject { described_class.call(user_tides, forecast_tides) }
-
-        it {
-          first_high = find_first_of_tides('high')
-          first_low = find_first_of_tides('low')
-
-          expect(subject.times.count).to eq(4)
-          expect(subject.times[0][:from]).to eq(first_low.time - 2.5.hours)
-          expect(subject.times[0][:to]).to eq(first_low.time)
-          expect(time_str(subject.times[1][:from])).to eq('21:02')
-          expect(time_str(subject.times[1][:to])).to eq('23:32')
-          expect(subject.times[2][:from]).to eq(first_high.time - 2.5.hours)
-          expect(subject.times[2][:to]).to eq(first_high.time)
-          expect(time_str(subject.times[3][:from])).to eq('14:56')
-          expect(time_str(subject.times[3][:to])).to eq('17:26')
-          time_from_less_than_time_to(subject)
-        }
-      end
-
-      context 'full range from high to low' do
-        let(:user_tides) do
-          t = FactoryBot.build(:conditions)
-          t.tide.position_high_low = [3, -3]
-          t.tide.position_low_high = [0, 0]
-          t
-        end
-        subject { described_class.call(user_tides, forecast_tides) }
-
-        it {
-          expect(subject.times.count).to eq(2)
-          expect(time_str(subject.times[0][:from])).to eq('5:06')
-          expect(time_str(subject.times[0][:to])).to eq('11:07')
-          time_from_less_than_time_to(subject)
-        }
-      end
-
-      context 'full range from low to high' do
-        let(:user_tides) do
-          t = FactoryBot.build(:conditions)
-          t.tide.position_high_low = [0, 0]
-          t.tide.position_low_high = [3, -3]
-          t
-        end
-        subject { described_class.call(user_tides, forecast_tides) }
-
-        it {
-          expect(subject.times.count).to eq(2)
-          expect(time_str(subject.times.first[:from])).to eq('11:07')
-          expect(time_str(subject.times.first[:to])).to eq('17:26')
-          time_from_less_than_time_to(subject)
-        }
-      end
-
-      context 'full range' do
-        let(:user_tides) do
-          t = FactoryBot.build(:conditions)
-          t.tide.position_high_low = [3, -3]
-          t.tide.position_low_high = [3, -3]
-          t
-        end
-        subject { described_class.call(user_tides, forecast_tides) }
-
-        it {
-          expect(subject.times.count).to eq(1)
-          expect(time_str(subject.times.first[:from])).to eq('0:00')
-          expect(time_str(subject.times.first[:to])).to eq('23:59')
-          time_from_less_than_time_to(subject)
-        }
-      end
-
-      context 'no range offsets' do
-        let(:user_tides) do
-          t = FactoryBot.build(:conditions)
-          t.tide.position_high_low = [0, 0]
-          t.tide.position_low_high = [0, 0]
-          t
-        end
-        subject { described_class.call(user_tides, forecast_tides) }
-        it {
-          expect(subject.times.count).to eq(4)
-          expect(time_str(subject.times[0][:from])).to eq('11:07')
-          expect(time_str(subject.times[0][:to])).to eq('11:07')
-        }
-      end
-
+  describe 'Times' do
+    context 'with no matching user and forecast tide sizes' do
+      it {
+        spot.tide.rising = [1, 2, 3, 4]
+        spot.tide.dropping = [3, 4, 5]
+        spot.tide.size = [7, 8]
+        expect(subject.times.count).to eq(0)
+      }
     end
 
-    describe 'size' do
-      let(:user_tides) do
-        t = FactoryBot.build(:conditions)
-        t.tide.position_high_low = [3, -3]
-        t.tide.position_low_high = [0, 0]
-        t
+    context 'with matching user and forecast tide sizes,' do
+      describe 'full range' do
+        it {
+          spot.tide.rising = [1, 2, 3, 4, 5, 6]
+          spot.tide.dropping = [1, 2, 3, 4, 5, 6]
+          expect(subject.times.count).to eq(1)
+          expect(time_str subject.times[0].min).to eq('0:00')
+          expect(time_str subject.times[0].max).to eq('23:59')
+        }
       end
-      subject { described_class.call(user_tides, forecast_tides) }
-      it { expect(subject.match_size).to eq(true) }
+
+      describe 'no range offsets' do
+        it {
+          spot.tide.rising = []
+          spot.tide.dropping = []
+          expect(subject.times.count).to eq(0)
+        }
+      end
+
+      describe 'full range for rising tide' do
+        it {
+          spot.tide.rising = [1, 2, 3, 4, 5, 6]
+          spot.tide.dropping = []
+          expect(subject.times.count).to eq(3)
+          expect(time_str subject.times[0].min).to eq('0:00')
+          expect(time_str subject.times[0].max).to eq('5:06')
+          expect(time_str subject.times[1].min).to eq('11:07')
+          expect(time_str subject.times[1].max).to eq('17:26')
+          expect(time_str subject.times[2].min).to eq('23:32')
+          expect(time_str subject.times[2].max).to eq('23:59')
+        }
+      end
+
+      describe 'full range for dropping tide' do
+        it {
+          spot.tide.rising = []
+          spot.tide.dropping = [1, 2, 3, 4, 5, 6]
+          expect(subject.times.count).to eq(2)
+          expect(time_str subject.times[0].min).to eq('5:06')
+          expect(time_str subject.times[0].max).to eq('11:07')
+          expect(time_str subject.times[1].min).to eq('17:26')
+          expect(time_str subject.times[1].max).to eq('23:32')
+        }
+      end
+
+      describe 'with consecutive offsets times' do
+        it {
+          spot.tide.rising = [1, 2, 3]
+          spot.tide.dropping = [3, 4, 5]
+          expect(subject.times.count).to eq(5)
+          expect(time_str subject.times[0].min).to eq('0:00')
+          expect(time_str subject.times[0].max).to eq('2:06')
+          expect(time_str subject.times[1].min).to eq('11:07')
+          expect(time_str subject.times[1].max).to eq('14:07')
+          expect(time_str subject.times[2].min).to eq('23:32')
+          expect(time_str subject.times[2].max).to eq('23:59')
+          expect(time_str subject.times[3].min).to eq('7:06')
+          expect(time_str subject.times[3].max).to eq('10:06')
+          expect(time_str subject.times[4].min).to eq('19:26')
+          expect(time_str subject.times[4].max).to eq('22:26')
+        }
+      end
+
+      describe 'scattered offsets times' do
+        it {
+          spot.tide.rising = [1, 6]
+          spot.tide.dropping = [1, 4]
+          expect(subject.times.count).to eq(9)
+          expect(time_str subject.times[0].min).to eq('0:00')
+          expect(time_str subject.times[0].max).to eq('0:06')
+          expect(time_str subject.times[1].min).to eq('4:06')
+          expect(time_str subject.times[1].max).to eq('5:06')
+          expect(time_str subject.times[2].min).to eq('11:07')
+          expect(time_str subject.times[2].max).to eq('12:07')
+          expect(time_str subject.times[3].min).to eq('16:07')
+          expect(time_str subject.times[3].max).to eq('17:26')
+          expect(time_str subject.times[4].min).to eq('23:32')
+          expect(time_str subject.times[4].max).to eq('23:59')
+
+          expect(time_str subject.times[5].min).to eq('5:06')
+          expect(time_str subject.times[5].max).to eq('6:06')
+          expect(time_str subject.times[6].min).to eq('8:06')
+          expect(time_str subject.times[6].max).to eq('9:06')
+          expect(time_str subject.times[7].min).to eq('17:26')
+          expect(time_str subject.times[7].max).to eq('18:26')
+          expect(time_str subject.times[8].min).to eq('20:26')
+          expect(time_str subject.times[8].max).to eq('21:26')
+
+        }
+      end
     end
   end
 
   def time_from_less_than_time_to(s)
     subject.times.each do |time|
-      expect(time[:from] < time[:to]).to eq(true)
+      expect(time.min < time.max).to eq(true)
     end
   end
 
   def time_str(t)
     t.strftime("%k:%M").strip
-  end
-
-  def find_first_of_tides(type)
-    forecast_tides.tides.data.find { |t| t.type == type }
   end
 
 end

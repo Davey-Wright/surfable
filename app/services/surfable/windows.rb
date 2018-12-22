@@ -5,8 +5,7 @@ module Surfable
     def initialize(spot, forecast_day)
       @spot = spot
       @forecast_day = forecast_day
-      tide = Matchers::Tides.call(spot, forecast_day)
-      @times = Matchers::Daylight.call(tide, forecast_day).times
+      @times = set_times
       @reports = []
     end
 
@@ -19,6 +18,11 @@ module Surfable
     end
 
     private
+
+      def set_times
+        tide_times = Matchers::Tides.call(spot, forecast_day).times
+        Matchers::Daylight.call(tide_times, forecast_day).times
+      end
 
       def create_report(time, hours)
         (time[:from].hour..time[:to].hour).map do |time|
