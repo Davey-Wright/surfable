@@ -7,6 +7,8 @@ module Surfable
         @user_tide = spot.tide
         @forecast_date = forecast_day.date
         @forecast_tides = forecast_day.tides.data
+        @first_light = forecast_day.first_light
+        @last_light = forecast_day.last_light
         @times = { rising: [], dropping: [] }
       end
 
@@ -46,6 +48,23 @@ module Surfable
           set_dropping_times
         end
 
+        def first_tide(tide, offset)
+          tide_time = @forecast_tides.first.time
+          prev_tide = tide_time - 6.hours
+          start = same_day_start? prev_tide + (offset.min - 1).hours
+          finish =
+            if offset.max == 6
+              tide_time
+            else
+              same_day_finish? prev_tide + offset.max.hours
+            end
+
+          start = filter_daylight_start(start)
+          finish = filter_daylight_end(finish)
+
+          @times[tide].push [start, finish] if start && finish
+        end
+
         def set_times(tide_type, offsets)
           times = []
           @forecast_tides.each_with_index do |tide, i|
@@ -59,14 +78,26 @@ module Surfable
                     same_day_finish? tide.time + o.max.hours
                   end
 
-                # trim times with daylight hours
-                # times = [start, finish] if start && finish
-                # @times.push Daylight.call(times, forecast_day).times
+                if start && finish
+                  start = filter_daylight_start(start)
+                  finish = filter_daylight_end(finish)
+                end
+
                 times.push [start, finish] if start && finish
               end
             end
           end
           return times
+        end
+
+        def filter_daylight_start(time)
+          return time if time > @first_light && time < @last_light
+          return @first_light if time < @first_light
+        end
+
+        def filter_daylight_end(time)
+          return time if time > @first_light && time < @last_light
+          return @last_light if time > @last_light
         end
 
         def same_day_start?(time)
@@ -79,19 +110,6 @@ module Surfable
           time = nil if time < day_start
           time = day_end if time > day_end
           time
-        end
-
-        def first_tide(tide, offset)
-          tide_time = @forecast_tides.first.time
-          prev_tide = tide_time - 6.hours
-          start = same_day_start? prev_tide + (offset.min - 1).hours
-          finish =
-            if offset.max == 6
-              tide_time
-            else
-              same_day_finish? prev_tide + offset.max.hours
-            end
-          @times[tide].push [start, finish]
         end
 
         def set_rising_times
