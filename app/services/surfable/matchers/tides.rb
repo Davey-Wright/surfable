@@ -82,12 +82,25 @@ module Surfable
                   start = filter_daylight_start(start)
                   finish = filter_daylight_end(finish)
                 end
-
                 times.push [start, finish] if start && finish
               end
             end
           end
           return times
+        end
+
+        def set_rising_times
+          tide = 'low'
+          offsets = slice_consec @user_tide.rising
+          offsets.each { |o| first_tide(:rising, o) } if tide != @forecast_tides.first.type
+          @times[:rising].concat set_times(tide, offsets)
+        end
+
+        def set_dropping_times
+          tide = 'high'
+          offsets = slice_consec @user_tide.dropping
+          offsets.each { |o| first_tide(:dropping, o) } if tide != @forecast_tides.first.type
+          @times[:dropping].concat set_times(tide, offsets)
         end
 
         def filter_daylight_start(time)
@@ -110,20 +123,6 @@ module Surfable
           time = nil if time < day_start
           time = day_end if time > day_end
           time
-        end
-
-        def set_rising_times
-          tide = 'low'
-          offsets = slice_consec @user_tide.rising
-          offsets.each { |o| first_tide(:rising, o) } if tide != @forecast_tides.first.type
-          @times[:rising].concat set_times(tide, offsets)
-        end
-
-        def set_dropping_times
-          tide = 'high'
-          offsets = slice_consec @user_tide.dropping
-          offsets.each { |o| first_tide(:dropping, o) } if tide != @forecast_tides.first.type
-          @times[:dropping].concat set_times(tide, offsets)
         end
 
         def day_start

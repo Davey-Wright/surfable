@@ -10,31 +10,40 @@ module Surfable
     end
 
     def call
-      @times.each do |time|
-        hours = select_forecast_hours(time)
-        @reports.push create_report(time, hours)
-      end
+      rising_tide_report
+      dropping_tide_report
       self
     end
 
     private
 
-      def set_times
-        tide_times = Matchers::Tides.call(spot, forecast_day).times
-        Matchers::Daylight.call(tide_times, forecast_day).times
-      end
-
-      def create_report(time, hours)
-        (time[:from].hour..time[:to].hour).map do |time|
-          forecast = hours.select { |h| (h.value.hour..h.value.hour + 2) === time }.first
-          Matchers::Conditions.call(time, forecast, @spot)
+      def rising_tide_report
+        @times[:rising].each do |time|
+          hours = filter_forecast_hours(time)
+          report = create_report(time, hours)
         end
       end
 
-      def select_forecast_hours(t)
+      def dropping_tide_report
+        @times[:dropping].each do |time|
+          hours = filter_forecast_hours(time)
+          report = create_report(time, hours)
+        end
+      end
+
+      def create_report(time, hours)
+        (time.first.hour..time.last.hour).map do |window_hour|
+          forecast_hour = hours.select do
+            |h| (h.value.hour..h.value.hour + 2) === window_hour
+          end.first
+          Matchers::Conditions.call(window_hour, forecast_hour, @spot)
+        end
+      end
+
+      def filter_forecast_hours(time)
         @forecast_day.hours.select do |h|
           v = (h.value.hour..h.value.hour + 2)
-          h if v === t[:from].hour || v === t[:to].hour
+          h if v === time.first.hour || v === time.last.hour
         end
       end
   end
