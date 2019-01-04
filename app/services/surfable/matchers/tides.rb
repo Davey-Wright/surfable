@@ -9,12 +9,11 @@ module Surfable
         @forecast_tides = forecast_day.tides.data
         @first_light = forecast_day.first_light
         @last_light = forecast_day.last_light
-        @times = { rising: [], dropping: [] }
+        @times = []
       end
 
       def call
         return self if !match_size
-        # return self if full_range?
         offset_times
         self
       end
@@ -48,59 +47,64 @@ module Surfable
           set_dropping_times
         end
 
-        def first_tide(tide, offset)
-          tide_time = @forecast_tides.first.time
-          prev_tide = tide_time - 6.hours
-          start = same_day_start? prev_tide + (offset.min - 1).hours
-          finish =
-            if offset.max == 6
-              tide_time
-            else
-              same_day_finish? prev_tide + offset.max.hours
-            end
-
-          start = filter_daylight_start(start)
-          finish = filter_daylight_end(finish)
-
-          @times[tide].push [start, finish] if start && finish
+        def set_rising_times
+          offsets = slice_consec @user_tide.rising
+          set_first_time('low', offsets) if @forecast_tides.first.type != 'low'
+          set_times('low', offsets)
         end
 
-        def set_times(tide_type, offsets)
+        def set_dropping_times
+          offsets = slice_consec @user_tide.dropping
+          set_first_time('high', offsets) if @forecast_tides.first.type != 'high'
+          set_times('high', offsets)
+        end
+
+        def time_struct
+          Struct.new :rating, :tide, :values
+        end
+
+        def tide_type(tide)
+          tide == 'low' ? 'rising' : 'dropping'
+        end
+
+        def set_first_time(tide, offsets)
+          offsets.each do |offset|
+            tide_time = @forecast_tides.first.time
+            prev_tide = tide_time - 6.hours
+            start = same_day_start? prev_tide + (offset.min - 1).hours
+            finish =
+              if offset.max == 6
+                tide_time
+              else
+                same_day_finish? prev_tide + offset.max.hours
+              end
+            start = filter_daylight_start(start)
+            finish = filter_daylight_end(finish)
+            @times.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
+          end
+        end
+
+        def set_times(tide, offsets)
           times = []
-          @forecast_tides.each_with_index do |tide, i|
-            if tide.type == tide_type
+          @forecast_tides.each_with_index do |f, i|
+            if f.type == tide
               offsets.each do |o|
-                start = same_day_start? tide.time + (o.min - 1).hours
+                start = same_day_start? f.time + (o.min - 1).hours
                 finish =
                   if o.max == 6 && @forecast_tides[i + 1] != nil
                     @forecast_tides[i + 1].time
                   else
-                    same_day_finish? tide.time + o.max.hours
+                    same_day_finish? f.time + o.max.hours
                   end
-
                 if start && finish
                   start = filter_daylight_start(start)
                   finish = filter_daylight_end(finish)
                 end
-                times.push [start, finish] if start && finish
+                @times.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
               end
             end
           end
           return times
-        end
-
-        def set_rising_times
-          tide = 'low'
-          offsets = slice_consec @user_tide.rising
-          offsets.each { |o| first_tide(:rising, o) } if tide != @forecast_tides.first.type
-          @times[:rising].concat set_times(tide, offsets)
-        end
-
-        def set_dropping_times
-          tide = 'high'
-          offsets = slice_consec @user_tide.dropping
-          offsets.each { |o| first_tide(:dropping, o) } if tide != @forecast_tides.first.type
-          @times[:dropping].concat set_times(tide, offsets)
         end
 
         def filter_daylight_start(time)
