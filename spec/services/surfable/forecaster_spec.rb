@@ -9,14 +9,17 @@ RSpec.describe Surfable::Forecaster do
 
   describe 'surfable forecast for multiple spots' do
     let(:spots) { 3.times.collect { FactoryBot.create(:spot_with_conditions) } }
+    it {
+      spots[0].tide.rising = [1, 2, 3]
+      spots[0].tide.dropping = [3, 4, 5]
+    }
   end
 
   describe 'surfable forecast for one spot' do
     let(:spots) { FactoryBot.create(:spot_with_conditions) }
     it {
-      spot.tide.rising = [1, 2, 3]
-      spot.tide.dropping = [3, 4, 5]
-      subject
+      spots.tide.rising = [1, 2, 3]
+      spots.tide.dropping = [3, 4, 5]
     }
   end
 end

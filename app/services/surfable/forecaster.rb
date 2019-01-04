@@ -1,20 +1,21 @@
-surfable_times = {
-  :date,
-  spots: [{
-    :id,
-    :name,
-    times: [{
-      :rating,
-      :tide,
-      values: []
-      }]
-    }]
-}
+# surfable_times = {
+#   :date,
+#   spots: [{
+#     :id,
+#     :name,
+#     :surfable,
+#     times: [{
+#       :rating,
+#       :tide,
+#       :values,
+#       }]
+#     }]
+# }
 
 module Surfable
   class Forecaster < ApplicationService
 
-    attr_reader :shaka
+    attr_reader :forecast
 
     def initialize(spots, surf_forecast)
       @spots = [*spots]
@@ -23,54 +24,36 @@ module Surfable
     end
 
     def call
-      @forecast = @surf_forecast.map do |day|
-        { date: day.date, spots: spots_forecast(day) }
+      @surf_forecast.each do |forecast_day|
+        @forecast.push({
+          date: forecast_day.date,
+          spots: spots_forecast(forecast_day) })
       end
+      self
     end
 
     private
 
       def spot_struct
-        Struct.new :id, :name, :rating, :times
+        Struct.new :id, :name, :surfable, :times
       end
 
-      def spots_forecast(day)
+      def spots_forecast(forecast_day)
         @spots.map do |spot|
-          surfable_tides = Matchers::Tides.call(spot, day)
-          relavent_forecast = surfable_tides.each do |tide|
+          spot_forecast = spot_struct.new(spot.id, spot.name)
+          spot_forecast.times = Matchers::Tides.call(spot, forecast_day).times
+          forecast_hours = relevant_hours(spot_forecast, forecast_day)
+          swell = Matchers::Swell.call(spot_forecast, forecast_hours)
+          spot_forecast
+        end
+      end
+
+      def relevant_hours(spot_forecast, forecast_day)
+        spot_forecast.times.map do |time|
+          forecast_day.hours.select do |h|
+            v = (h.value.hour..h.value.hour + 2)
+            h if v === time.values.first.hour || v === time.values.last.hour
           end
-          spot_struct.new(spot.id, spot.name)
-        end
-      end
-
-      def match_tides
-      end
-
-      def match_winds
-      end
-
-      def match_swells
-      end
-
-      def match_conditions
-      end
-
-      def rising_tide_report
-        @times[:rising].each do |time|
-          hours = filter_forecast_hours(time)
-        end
-      end
-
-      def dropping_tide_report
-        @times[:dropping].each do |time|
-          hours = filter_forecast_hours(time)
-        end
-      end
-
-      def filter_forecast_hours(day, time)
-        day.hours.select do |h|
-          v = (h.value.hour..h.value.hour + 2)
-          h if v === time.first.hour || v === time.last.hour
         end
       end
 
