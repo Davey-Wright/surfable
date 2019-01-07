@@ -1,0 +1,42 @@
+require 'rails_helper'
+require 'support/day_forecast_stub'
+
+RSpec.describe Surfable::Matchers::Swells do
+
+  describe 'non surfable condition' do
+    forecast_stub = day_forecast_stub
+    let(:forecast_day) { Forecast::Day.new(forecast_stub) }
+    let(:spot) { FactoryBot.create(:spot_with_conditions) }
+    subject { described_class.call(spot, forecast_day) }
+
+    context 'height' do
+      it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
+        expect(subject.forecast.length).to eq(0) }
+    end
+
+    context 'period' do
+      it { forecast_stub.hours.each { |hour| hour.swell[:period] = 1 }
+        expect(subject.forecast.length).to eq(0) }
+    end
+
+    context 'direction' do
+      it { forecast_stub.hours.each { |hour| hour.swell[:direction] = 90 }
+        expect(subject.forecast.length).to eq(0) }
+    end
+
+    context 'max_height' do
+      it { forecast_stub.hours.each { |hour| hour.swell[:period] = 3 }
+        expect(subject.forecast.length).to eq(0) }
+    end
+  end
+
+  describe 'surfable conditions' do
+    forecast_stub = day_forecast_stub
+    let(:forecast_day) { Forecast::Day.new(forecast_stub) }
+    let(:spot) { FactoryBot.create(:spot_with_conditions) }
+    subject { described_class.call(spot, forecast_day) }
+
+    it { expect(subject.forecast.length).to eq(8) }
+  end
+
+end

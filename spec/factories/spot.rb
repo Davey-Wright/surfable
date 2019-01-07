@@ -10,9 +10,9 @@ FactoryBot.define do
 
     factory :spot_with_conditions do
       after(:create) do |spot|
-        2.times do
-          create(:swell_conditions, spot: spot)
-          create(:wind_conditions, spot: spot)
+        2.times do |n|
+          create(:swell_conditions, spot: spot, rating: n + 2)
+          create(:wind_conditions, spot: spot, rating: n + 2)
         end
         create(:tide_conditions, {
           spot: spot,

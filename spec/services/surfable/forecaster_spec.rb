@@ -20,6 +20,7 @@ RSpec.describe Surfable::Forecaster do
     it {
       spots.tide.rising = [1, 2, 3]
       spots.tide.dropping = [3, 4, 5]
+      binding.pry
     }
   end
 end

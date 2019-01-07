@@ -46,5 +46,14 @@ module Surfable
           h if v === time.first.hour || v === time.last.hour
         end
       end
+
+      # def relevant_hours(spot_forecast, forecast_day)
+      #   spot_forecast.times.map do |time|
+      #     forecast_day.hours.select do |h|
+      #       v = (h.value.hour..h.value.hour + 2)
+      #       h if v === time.values.first.hour || v === time.values.last.hour
+      #     end
+      #   end
+      # end
   end
 end
