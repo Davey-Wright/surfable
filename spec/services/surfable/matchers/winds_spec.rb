@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/day_forecast_stub'
 
-RSpec.describe Surfable::Matchers::Swells do
+RSpec.describe Surfable::Matchers::Winds do
 
   describe 'non surfable condition' do
     forecast_stub = day_forecast_stub
@@ -9,23 +9,23 @@ RSpec.describe Surfable::Matchers::Swells do
     let(:spot) { FactoryBot.create(:spot_with_conditions) }
     subject { described_class.call(spot, forecast_day) }
 
-    context 'height' do
-      it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
-        expect(subject.forecast.length).to eq(0) }
-    end
-
-    context 'period' do
-      it { forecast_stub.hours.each { |hour| hour.swell[:period] = 1 }
+    context 'speed' do
+      it {
+        forecast_stub.hours.each do |hour|
+          hour.wind[:speed] = 50
+          hour.wind[:gusts] = 30
+          hour.wind[:direction] = 270
+        end
         expect(subject.forecast.length).to eq(0) }
     end
 
     context 'direction' do
-      it { forecast_stub.hours.each { |hour| hour.swell[:direction] = 90 }
-        expect(subject.forecast.length).to eq(0) }
-    end
-
-    context 'max_height' do
-      it { forecast_stub.hours.each { |hour| hour.swell[:period] = 3 }
+      it {
+        forecast_stub.hours.each do |hour|
+          hour.wind[:speed] = 3
+          hour.wind[:gusts] = 2
+          hour.wind[:direction] = 90
+        end
         expect(subject.forecast.length).to eq(0) }
     end
   end
@@ -36,11 +36,17 @@ RSpec.describe Surfable::Matchers::Swells do
     let(:spot) { FactoryBot.create(:spot_with_conditions) }
     subject { described_class.call(spot, forecast_day) }
 
-    it { expect(subject.forecast.length).to eq(8) }
+    it {
+      forecast_stub.hours.each do |hour|
+        hour.wind[:speed] = 3
+        hour.wind[:gusts] = 2
+        hour.wind[:direction] = 270
+      end
+      expect(subject.forecast.length).to eq(8) }
 
     it 'should only forecast highest rated spot condtions' do
-      lowest_rating = spot.swells.min_by { |e| e.rating }.rating
-      highest_rating = spot.swells.max_by { |e| e.rating }.rating
+      lowest_rating = spot.winds.min_by { |e| e.rating }.rating
+      highest_rating = spot.winds.max_by { |e| e.rating }.rating
       ratings = subject.forecast.collect { |f| f[:rating] }
       expect(ratings.exclude?(lowest_rating)).to eq(true)
       expect(ratings.include?(highest_rating)).to eq(true)

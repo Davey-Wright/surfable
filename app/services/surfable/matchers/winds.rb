@@ -1,21 +1,21 @@
 module Surfable
   module Matchers
-    class Swells < ApplicationService
+    class Winds < ApplicationService
 
       attr_reader :forecast, :times
 
       def initialize(spot, day)
         @spot = spot
         @day = day
-        @swells = spot.swells.sort.sort_by{ |w| w.rating }.reverse!
+        @winds = spot.winds.sort.sort_by{ |w| w.rating }.reverse!
         @forecast = []
       end
 
       def call
         @day.hours.each do |hour|
-          @swells.each do |swell|
-            if matcher(swell, hour.swell)
-              @forecast.push ({ hour: hour, rating: swell.rating })
+          @winds.each do |wind|
+            if matcher(wind, hour.wind)
+              @forecast.push ({ hour: hour.value, rating: wind.rating })
               break
             end
           end
@@ -25,13 +25,9 @@ module Surfable
 
       private
 
-       def matcher(swell, forecast)
-         if swell.max_height != nil
-           return false if swell.max_height < forecast.height
-         end
-         return false if swell.min_height > forecast.height
-         return false if swell.min_period > forecast.period
-         return false unless swell.direction.include? forecast_direction(forecast.direction)
+       def matcher(wind, forecast)
+         return false if wind.speed < forecast.average_speed
+         return false unless wind.direction.include? forecast_direction(forecast.direction)
          return true
        end
 
