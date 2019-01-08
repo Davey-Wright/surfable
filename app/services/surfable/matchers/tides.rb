@@ -1,7 +1,7 @@
 module Surfable
   module Matchers
     class Tides < ApplicationService
-      attr_reader :times
+      attr_reader :forecast
 
       def initialize(spot, forecast_day)
         @user_tide = spot.tide
@@ -9,7 +9,7 @@ module Surfable
         @forecast_tides = forecast_day.tides.data
         @first_light = forecast_day.first_light
         @last_light = forecast_day.last_light
-        @times = []
+        @forecast = []
       end
 
       def call
@@ -28,7 +28,7 @@ module Surfable
 
         def full_range?
           if full_range_rising? && full_range_dropping?
-            @times.push [day_start, day_end]
+            @forecast.push [day_start, day_end]
             return true
           end
         end
@@ -80,7 +80,7 @@ module Surfable
               end
             start = filter_daylight_start(start)
             finish = filter_daylight_end(finish)
-            @times.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
+            @forecast.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
           end
         end
 
@@ -100,7 +100,7 @@ module Surfable
                   start = filter_daylight_start(start)
                   finish = filter_daylight_end(finish)
                 end
-                @times.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
+                @forecast.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
               end
             end
           end

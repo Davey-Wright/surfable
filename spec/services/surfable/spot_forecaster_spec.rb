@@ -3,33 +3,29 @@ require 'support/day_forecast_stub'
 
 RSpec.describe Surfable::SpotForecaster do
 
-  let(:forecast_day) { day_forecast_stub }
   let(:spot) { FactoryBot.create(:spot_with_conditions) }
+  subject { described_class.call(spot, forecast_day) }
 
-  before(:each) do
-    spot.tide.rising = [1, 2, 3]
-    spot.tide.dropping = [3, 4, 5]
+  describe 'no surfable conditions' do
+    let(:forecast_stub) { day_forecast_stub }
+    let(:forecast_day) { Forecast::Day.new(forecast_stub) }
+
+    context 'no surfable winds' do
+      it { forecast_stub.hours.each { |hour| hour.wind[:speed] = 50 }
+        expect(subject).to eq(nil) }
+    end
+
+    context 'no surfable swells' do
+      it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
+        expect(subject).to eq(nil) }
+    end
   end
 
-  subject { described_class.new(spot, forecast_day) }
-
-  describe 'tides forecast method' do
-    it {
-      subject.tides_forecast
-      expect(subject.times.count).to eq(2)
-      expect(time_start(0)).to eq('11:07')
-      expect(time_end(0)).to eq('14:07')
-      expect(time_start(1)).to eq('7:06')
-      expect(time_end(1)).to eq('10:06')
-    }
-  end
-
-  describe 'swells_forecast' do
-
-  end
-
-  describe '' do
-
+  describe 'surfable conditions' do
+    let(:forecast_stub) { day_forecast_stub }
+    let(:forecast_day) { Forecast::Day.new(forecast_stub) }
+    
+    it { subject }
   end
 
 end

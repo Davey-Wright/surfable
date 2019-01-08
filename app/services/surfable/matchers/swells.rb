@@ -15,7 +15,7 @@ module Surfable
         @day.hours.each do |hour|
           @swells.each do |swell|
             if matcher(swell, hour.swell)
-              @forecast.push ({ hour: hour, rating: swell.rating })
+              @forecast.push ({ hour: hour.value, rating: swell.rating })
               break
             end
           end

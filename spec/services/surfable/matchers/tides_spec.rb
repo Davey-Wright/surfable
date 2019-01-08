@@ -14,7 +14,7 @@ RSpec.describe Surfable::Matchers::Tides do
         spot.tide.rising = [1, 2, 3, 4]
         spot.tide.dropping = [3, 4, 5]
         spot.tide.size = [7, 8]
-        expect(subject.times.count).to eq(0)
+        expect(subject.forecast.length).to eq(0)
       }
     end
 
@@ -23,7 +23,7 @@ RSpec.describe Surfable::Matchers::Tides do
         it {
           spot.tide.rising = [1, 2, 3, 4, 5, 6]
           spot.tide.dropping = [1, 2, 3, 4, 5, 6]
-          expect(subject.times.count).to eq(2)
+          expect(subject.forecast.length).to eq(2)
           expect(time_start(0)).to eq('11:07')
           expect(time_end(0)).to eq('17:14')
           expect(time_start(1)).to eq('6:42')
@@ -35,7 +35,7 @@ RSpec.describe Surfable::Matchers::Tides do
         it {
           spot.tide.rising = []
           spot.tide.dropping = []
-          expect(subject.times.count).to eq(0)
+          expect(subject.forecast.length).to eq(0)
         }
       end
 
@@ -43,7 +43,7 @@ RSpec.describe Surfable::Matchers::Tides do
         it {
           spot.tide.rising = [1, 2, 3, 4, 5, 6]
           spot.tide.dropping = []
-          expect(subject.times.count).to eq(1)
+          expect(subject.forecast.length).to eq(1)
           expect(time_start(0)).to eq('11:07')
           expect(time_end(0)).to eq('17:14')
         }
@@ -53,7 +53,7 @@ RSpec.describe Surfable::Matchers::Tides do
         it {
           spot.tide.rising = []
           spot.tide.dropping = [1, 2, 3, 4, 5, 6]
-          expect(subject.times.count).to eq(1)
+          expect(subject.forecast.length).to eq(1)
           expect(time_start(0)).to eq('6:42')
           expect(time_end(0)).to eq('11:07')
         }
@@ -63,7 +63,7 @@ RSpec.describe Surfable::Matchers::Tides do
         it {
           spot.tide.rising = [1, 2, 3]
           spot.tide.dropping = [3, 4, 5]
-          expect(subject.times.count).to eq(2)
+          expect(subject.forecast.length).to eq(2)
           expect(time_start(0)).to eq('11:07')
           expect(time_end(0)).to eq('14:07')
           expect(time_start(1)).to eq('7:06')
@@ -75,7 +75,7 @@ RSpec.describe Surfable::Matchers::Tides do
         it {
           spot.tide.rising = [1, 6]
           spot.tide.dropping = [1, 4]
-          expect(subject.times.count).to eq(3)
+          expect(subject.forecast.length).to eq(3)
           expect(time_start(0)).to eq('11:07')
           expect(time_end(0)).to eq('12:07')
           expect(time_start(1)).to eq('16:07')
@@ -88,11 +88,11 @@ RSpec.describe Surfable::Matchers::Tides do
   end
 
   def time_start(i)
-    time_str subject.times[i].values.min
+    time_str subject.forecast[i].values.min
   end
 
   def time_end(i)
-    time_str subject.times[i].values.max
+    time_str subject.forecast[i].values.max
   end
 
   def time_str(t)

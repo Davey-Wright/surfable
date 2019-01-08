@@ -58,8 +58,8 @@ end
 
 def wind
   wind = Forecast::Mappers.wind_struct.new
-  wind[:speed] = 7
-  wind[:gusts] = 11
+  wind[:speed] = 3
+  wind[:gusts] = 5
   wind[:direction] = 315
   wind
 end

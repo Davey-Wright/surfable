@@ -23,7 +23,7 @@ module Surfable
 
       def spots_forecast(day)
         @spots.map do |spot|
-          spot_forecast = Surfable::SpotForecast.new(spot, day).tides_forecast
+          spot_forecast = Surfable::SpotForecaster.call(spot, day)
         end
       end
 

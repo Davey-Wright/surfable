@@ -3,11 +3,12 @@ require 'support/day_forecast_stub'
 
 RSpec.describe Surfable::Matchers::Swells do
 
+  let(:spot) { FactoryBot.create(:spot_with_conditions) }
+  subject { described_class.call(spot, forecast_day) }
+
   describe 'non surfable condition' do
     forecast_stub = day_forecast_stub
     let(:forecast_day) { Forecast::Day.new(forecast_stub) }
-    let(:spot) { FactoryBot.create(:spot_with_conditions) }
-    subject { described_class.call(spot, forecast_day) }
 
     context 'height' do
       it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
@@ -33,8 +34,6 @@ RSpec.describe Surfable::Matchers::Swells do
   describe 'surfable conditions' do
     forecast_stub = day_forecast_stub
     let(:forecast_day) { Forecast::Day.new(forecast_stub) }
-    let(:spot) { FactoryBot.create(:spot_with_conditions) }
-    subject { described_class.call(spot, forecast_day) }
 
     it { expect(subject.forecast.length).to eq(8) }
 
