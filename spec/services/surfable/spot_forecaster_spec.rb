@@ -4,7 +4,12 @@ require 'support/day_forecast_stub'
 RSpec.describe Surfable::SpotForecaster do
 
   let(:spot) { FactoryBot.create(:spot_with_conditions) }
-  subject { described_class.call(spot, forecast_day) }
+
+  subject {
+    spot.tide.rising = [1, 2, 3]
+    spot.tide.dropping = [3, 4, 5]
+    described_class.call(spot, forecast_day)
+  }
 
   describe 'no surfable conditions' do
     let(:forecast_stub) { day_forecast_stub }
@@ -24,7 +29,7 @@ RSpec.describe Surfable::SpotForecaster do
   describe 'surfable conditions' do
     let(:forecast_stub) { day_forecast_stub }
     let(:forecast_day) { Forecast::Day.new(forecast_stub) }
-    
+
     it { subject }
   end
 

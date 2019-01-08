@@ -1,12 +1,11 @@
 module Surfable
   class SpotForecaster < ApplicationService
 
-    attr_accessor :spot, :surfable, :forecast
+    attr_accessor :spot, :forecast
 
     def initialize(spot, day)
       @spot = spot
       @day = day
-      @surfable
       @forecast
     end
 
@@ -15,9 +14,20 @@ module Surfable
       swells = Matchers::Swells.call(spot, @day).forecast
       winds = Matchers::Winds.call(spot, @day).forecast
       return nil if swells.blank? || winds.blank?
-      binding.pry
+      surfable_forecast(swells)
+      surfable_forecast(winds)
       self
     end
+
+    private
+
+      def surfable_forecast(conditions)
+        @forecast.each do |t|
+          forecast_hours = [*t.values.first.hour..t.values.last.hour]
+          forecast_hours = forecast_hours
+          binding.pry
+        end
+      end
 
     # def spots_forecast(day)
     #   @spots.map do |spot|
@@ -32,7 +42,7 @@ module Surfable
     #   spot_forecast.times.each_with_index do |t, i|
     #
     #     spot_forecast_hours = [*t.values.first.hour..t.values.last.hour]
-    #
+    # => *t.values.first.hour..t.values.last.hour
     #     rating = []
     #     new_forecast_hours = []
     #     winds = spot_forecast.spot.winds.sort.sort_by{ |w| w.rating }.reverse!

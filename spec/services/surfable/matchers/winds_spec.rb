@@ -41,14 +41,20 @@ RSpec.describe Surfable::Matchers::Winds do
         hour.wind[:gusts] = 2
         hour.wind[:direction] = 270
       end
-      expect(subject.forecast.length).to eq(8) }
+      expect(subject.forecast.length).to eq(1) }
 
     it 'should only forecast highest rated spot condtions' do
       lowest_rating = spot.winds.min_by { |e| e.rating }.rating
       highest_rating = spot.winds.max_by { |e| e.rating }.rating
-      ratings = subject.forecast.collect { |f| f[:rating] }
+      ratings = subject.forecast.first.collect { |f| f[:rating] }
       expect(ratings.exclude?(lowest_rating)).to eq(true)
       expect(ratings.include?(highest_rating)).to eq(true)
+    end
+
+    context 'with multiple blocks of surfable times' do
+      it { forecast_stub.hours[4].wind[:speed] = 50
+        expect(subject.forecast.length).to eq(2)
+      }
     end
   end
 

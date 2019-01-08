@@ -35,14 +35,22 @@ RSpec.describe Surfable::Matchers::Swells do
     forecast_stub = day_forecast_stub
     let(:forecast_day) { Forecast::Day.new(forecast_stub) }
 
-    it { expect(subject.forecast.length).to eq(8) }
+    it { expect(subject.forecast.length).to eq(1) }
 
     it 'should only forecast highest rated spot condtions' do
       lowest_rating = spot.swells.min_by { |e| e.rating }.rating
       highest_rating = spot.swells.max_by { |e| e.rating }.rating
-      ratings = subject.forecast.collect { |f| f[:rating] }
+      ratings = subject.forecast.first.collect { |f| f[:rating] }
       expect(ratings.exclude?(lowest_rating)).to eq(true)
       expect(ratings.include?(highest_rating)).to eq(true)
+    end
+
+    context 'with multiple blocks of surfable times' do
+
+      it { forecast_stub.hours[4].swell[:height] = 1
+        binding.pry
+        expect(subject.forecast.length).to eq(2)
+      }
     end
   end
 

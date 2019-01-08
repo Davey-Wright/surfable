@@ -15,11 +15,12 @@ module Surfable
         @day.hours.each do |hour|
           @swells.each do |swell|
             if matcher(swell, hour.swell)
-              @forecast.push ({ hour: hour.value, rating: swell.rating })
+              @forecast.push ({ hour: hour.value.hour, rating: swell.rating })
               break
             end
           end
         end
+        slice_forecast
         self
       end
 
@@ -33,6 +34,12 @@ module Surfable
          return false if swell.min_period > forecast.period
          return false unless swell.direction.include? forecast_direction(forecast.direction)
          return true
+       end
+
+       def slice_forecast
+         @forecast = @forecast.slice_when do |prev, curr|
+           prev[:hour] + 3 != curr[:hour]
+         end.to_a
        end
 
        def forecast_direction(d)

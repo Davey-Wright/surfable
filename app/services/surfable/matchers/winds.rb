@@ -2,7 +2,7 @@ module Surfable
   module Matchers
     class Winds < ApplicationService
 
-      attr_reader :forecast, :times
+      attr_reader :forecast
 
       def initialize(spot, day)
         @spot = spot
@@ -15,11 +15,12 @@ module Surfable
         @day.hours.each do |hour|
           @winds.each do |wind|
             if matcher(wind, hour.wind)
-              @forecast.push ({ hour: hour.value, rating: wind.rating })
+              @forecast.push ({ hour: hour.value.hour, rating: wind.rating })
               break
             end
           end
         end
+        slice_forecast
         self
       end
 
@@ -29,6 +30,12 @@ module Surfable
          return false if wind.speed < forecast.average_speed
          return false unless wind.direction.include? forecast_direction(forecast.direction)
          return true
+       end
+
+       def slice_forecast
+         @forecast = @forecast.slice_when do |prev, curr|
+           prev[:hour] + 3 != curr[:hour]
+         end.to_a
        end
 
        def forecast_direction(d)
