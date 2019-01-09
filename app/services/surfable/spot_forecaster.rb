@@ -11,89 +11,44 @@ module Surfable
 
     def call
       @forecast = Matchers::Tides.call(spot, @day).forecast
-      swells = Matchers::Swells.call(spot, @day).forecast
-      winds = Matchers::Winds.call(spot, @day).forecast
-      return nil if swells.blank? || winds.blank?
-      surfable_forecast(swells)
-      surfable_forecast(winds)
+      swell_forecast = Matchers::Swells.call(spot, @day).forecast
+      wind_forecast = Matchers::Winds.call(spot, @day).forecast
+      return nil if swell_forecast.blank? || wind_forecast.blank?
+      swell_forecast.each { |c| surfable_forecast(c) }
+      wind_forecast.each { |c| surfable_forecast(c) }
       self
     end
 
     private
 
-      def surfable_forecast(conditions)
-        @forecast.each do |t|
-          forecast_hours = [*t.values.first.hour..t.values.last.hour]
-          forecast_hours = forecast_hours
-          binding.pry
+      def surfable_forecast(c)
+        @forecast.each_with_index do |f, i|
+          return if f.values.blank?
+
+          c_hours = []
+          c.each { |c| c_hours.push *c[:hour]..c[:hour]+2 }
+
+          f_hours = [*f.values.first.hour..f.values.last.hour]
+          next if f_hours.length == c_hours.length
+
+          new_hours = f_hours & c_hours
+          return [] if new_hours.blank?
+
+          @forecast[i].rating = nil
+          @forecast[i].values = set_forecast_values(new_hours, f.values)
         end
       end
 
-    # def spots_forecast(day)
-    #   @spots.map do |spot|
-    #     spot_forecast = Surfable::SpotForecast.new(spot, day).tides_forecast
-    #     # spot_forecast.times = Matchers::Tides.call(spot, day).times
-    #     # spot_forecast = surfable_conditions(spot_forecast, day)
-    #     spot_forecast
-    #   end
-    # end
-
-    # def surfable_conditions(spot_forecast, day)
-    #   spot_forecast.times.each_with_index do |t, i|
-    #
-    #     spot_forecast_hours = [*t.values.first.hour..t.values.last.hour]
-    # => *t.values.first.hour..t.values.last.hour
-    #     rating = []
-    #     new_forecast_hours = []
-    #     winds = spot_forecast.spot.winds.sort.sort_by{ |w| w.rating }.reverse!
-    #     swells = spot_forecast.spot.swells.sort.sort_by{ |w| w.rating }.reverse!
-    #
-    #     # REFACTOR - new method or class?
-    #     spot_forecast_hours.each do |hour|
-    #
-    #       surf_forecast_hour = get_surf_forecast_hour(day, hour)
-    #
-    #       winds.each do |wind|
-    #         if wind_matcher(wind, hour, surf_forecast_hour)
-    #           rating.push wind.rating
-    #           new_forecast_hours.push hour
-    #           break
-    #         end
-    #       end
-    #
-    #       swells.each do |swell|
-    #         if swell_matcher(swell, hour, surf_forecast_hour)
-    #           rating.push swell.rating
-    #           new_forecast_hours.push hour
-    #           break
-    #         end
-    #       end
-    #
-    #     end
-    #
-    #     spot_forecast.times[i].rating = rating.inject(:+) / rating.size.to_f
-    #
-    #     if spot_forecast_hours.sort != new_forecast_hours.sort ||
-    #       spot_forecast_hours.sort.first == new_forecast_hours.sort.first &&
-    #       spot_forecast_hours.sort.last == new_forecast_hours.sort.last
-    #         spot_forecast.times[i].values = spot_times(t.values, spot_forecast_hours, new_forecast_hours)
-    #     end
-    #
-    #   end
-    #   return spot_forecast
-    # end
-    #
-    # def get_surf_forecast_hour(day, spot_forecast_hour)
-    #   day.hours.select do |h|
-    #     (h.value.hour..h.value.hour + 2) === spot_forecast_hour
-    #   end.first
-    # end
-    #
-    # def spot_times(t, spot_times_arr, new_times_arr)
-    #   s = new_times_arr.first - spot_times_arr.first
-    #   f = new_times_arr.last - spot_times_arr.last
-    #   [t.first + s.hours, t.last + f.hours]
-    # end
+      def set_forecast_values(new_hours, forecast)
+        start = forecast.min + (new_hours.min - forecast.min.hour).hours
+        finish = if new_hours.max == forecast.max.hour
+          forecast.max
+        else
+          diff = (new_hours.max - forecast.max.hour)
+          forecast.max + diff.hours + 1.hours
+        end
+        return [start, finish]
+      end
 
   end
 end

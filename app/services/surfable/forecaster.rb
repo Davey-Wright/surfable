@@ -7,7 +7,6 @@ module Surfable
       @spots = [*spots]
       @surf_forecast = [*surf_forecast]
       @forecast = []
-      @times
     end
 
     def call
