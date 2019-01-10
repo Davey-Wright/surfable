@@ -59,10 +59,6 @@ module Surfable
           set_times('high', offsets)
         end
 
-        def time_struct
-          Struct.new :rating, :tide, :values
-        end
-
         def tide_type(tide)
           tide == 'low' ? 'rising' : 'dropping'
         end
@@ -80,7 +76,7 @@ module Surfable
               end
             start = filter_daylight_start(start)
             finish = filter_daylight_end(finish)
-            @forecast.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
+            @forecast.push Surfable::Forecast.new(nil, tide_type(tide), [start, finish]) if start && finish
           end
         end
 
@@ -100,7 +96,7 @@ module Surfable
                   start = filter_daylight_start(start)
                   finish = filter_daylight_end(finish)
                 end
-                @forecast.push time_struct.new(nil, tide_type(tide), [start, finish]) if start && finish
+                @forecast.push Surfable::Forecast.new(nil, tide_type(tide), [start, finish]) if start && finish
               end
             end
           end

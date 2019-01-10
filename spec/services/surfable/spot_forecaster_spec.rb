@@ -87,13 +87,12 @@ RSpec.describe Surfable::SpotForecaster do
       it { spot.tide.rising = [1, 2, 3, 4, 5, 6]
         spot.tide.dropping = []
         forecast_stub.hours[4].wind[:speed] = 50
-        subject
-        # expect(subject.forecast.length).to eq(1)
-        # expect(subject.forecast.first.values.length).to eq(2)
-        # expect(time_start(0)).to eq('11:07')
-        # expect(time_end(0)).to eq('12:14')
-        # expect(time_start(1)).to eq('17:07')
-        # expect(time_end(1)).to eq('17:14') }
+        expect(subject.forecast.length).to eq(1)
+        expect(subject.forecast.first.values.length).to eq(2)
+        expect(time_start(0)).to eq('11:07')
+        expect(time_end(0)).to eq('12:14')
+        expect(time_start(1)).to eq('15:07')
+        expect(time_end(1)).to eq('17:14') }
       }
     end
   end

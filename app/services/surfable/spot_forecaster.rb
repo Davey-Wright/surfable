@@ -1,28 +1,30 @@
 module Surfable
   class SpotForecaster < ApplicationService
 
-    attr_accessor :spot, :forecast
+    attr_accessor :spot, :forecast, :new_forecast
 
     def initialize(spot, day)
       @spot = spot
       @day = day
-      @forecast
+      @forecast = []
+      @new_forecast
     end
 
     def call
-      @forecast = Matchers::Tides.call(spot, @day).forecast
+      shaka = Matchers::Tides.call(spot, @day).forecast
       swell_forecast = Matchers::Swells.call(spot, @day).forecast
       wind_forecast = Matchers::Winds.call(spot, @day).forecast
       return nil if swell_forecast.blank? || wind_forecast.blank?
-      swell_forecast.each { |c| surfable_forecast(c) }
-      wind_forecast.each { |c| surfable_forecast(c) }
+      
+      swell_forecast.each { |c| surfable_forecast(c, new_forecast) }
+      wind_forecast.each { |c| surfable_forecast(c, shaka) }
       self
     end
 
     private
 
       def surfable_forecast(c)
-        @forecast.each_with_index do |f, i|
+        shaka.each do |f, i|
           return if f.values.blank?
 
           c_hours = []
@@ -34,18 +36,24 @@ module Surfable
           new_hours = f_hours & c_hours
           return [] if new_hours.blank?
 
-          @forecast[i].rating = nil
-          @forecast[i].values = set_forecast_values(new_hours, f.values)
+          push_forecast(f)
         end
       end
 
-      def set_forecast_values(new_hours, forecast)
-        start = forecast.min + (new_hours.min - forecast.min.hour).hours
-        finish = if new_hours.max == forecast.max.hour
-          forecast.max
+      def push_forecast(f)
+        new_forecast = Marshal.load(Marshal.dump(f))
+        new_forecast.rating = nil
+        new_forecast.values = set_forecast_values(new_hours, nf.values)
+        @forecast.push new_forecast
+      end
+
+      def set_forecast_values(new_hours, f)
+        start = f.min + (new_hours.min - f.min.hour).hours
+        finish = if new_hours.max == f.max.hour
+          f.max
         else
-          diff = (new_hours.max - forecast.max.hour)
-          forecast.max + diff.hours + 1.hours
+          diff = (new_hours.max - f.max.hour)
+          f.max + diff.hours + 1.hours
         end
         return [start, finish]
       end
