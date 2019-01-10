@@ -1,50 +1,65 @@
 module Surfable
   class SpotForecaster < ApplicationService
 
-    attr_accessor :spot, :forecast, :new_forecast
+    attr_reader :forecast
 
     def initialize(spot, day)
       @spot = spot
       @day = day
-      @forecast = []
-      @new_forecast
+      @forecast
     end
 
     def call
-      shaka = Matchers::Tides.call(spot, @day).forecast
-      swell_forecast = Matchers::Swells.call(spot, @day).forecast
-      wind_forecast = Matchers::Winds.call(spot, @day).forecast
-      return nil if swell_forecast.blank? || wind_forecast.blank?
-      
-      swell_forecast.each { |c| surfable_forecast(c, new_forecast) }
-      wind_forecast.each { |c| surfable_forecast(c, shaka) }
+      new_forecast = Matchers::Tides.call(@spot, @day).forecast
+      new_forecast = match_swell_forecast(new_forecast) if new_forecast != nil
+      new_forecast = match_wind_forecast(new_forecast) if new_forecast != nil
+      @forecast = new_forecast
       self
     end
 
     private
 
-      def surfable_forecast(c)
-        shaka.each do |f, i|
-          return if f.values.blank?
-
-          c_hours = []
-          c.each { |c| c_hours.push *c[:hour]..c[:hour]+2 }
-
-          f_hours = [*f.values.first.hour..f.values.last.hour]
-          next if f_hours.length == c_hours.length
-
-          new_hours = f_hours & c_hours
-          return [] if new_hours.blank?
-
-          push_forecast(f)
+      def match_swell_forecast(f)
+        swells = Matchers::Swells.call(@spot, @day).forecast
+        return nil if swells.blank?
+        new_forecast = []
+        swells.each do |s|
+          x = surfable_forecast(s, f)
+          new_forecast.push x unless x.nil?
         end
+        return new_forecast.flatten!
       end
 
-      def push_forecast(f)
+      def match_wind_forecast(f)
+        winds = Matchers::Winds.call(@spot, @day).forecast
+        return nil if winds.blank?
+        new_forecast = []
+        winds.each do |s|
+          x = surfable_forecast(s, f)
+          new_forecast.push x unless x.nil?
+        end
+        return new_forecast.flatten!
+      end
+
+      def surfable_forecast(c, new_forecast)
+        a = []
+        new_forecast.each do |f|
+          return if f.values.blank?
+          c_hours = []
+          c.each { |c| c_hours.push *c[:hour]..c[:hour]+2 }
+          f_hours = [*f.values.first.hour..f.values.last.hour]
+          new_hours = f_hours & c_hours
+          next if new_hours.blank?
+          a.push set_new_forecast(f, new_hours)
+        end
+        return a
+      end
+
+      def set_new_forecast(f, h)
         new_forecast = Marshal.load(Marshal.dump(f))
         new_forecast.rating = nil
-        new_forecast.values = set_forecast_values(new_hours, nf.values)
-        @forecast.push new_forecast
+        new_forecast.values = set_forecast_values(h, new_forecast.values)
+        return new_forecast
       end
 
       def set_forecast_values(new_hours, f)

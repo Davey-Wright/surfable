@@ -15,12 +15,12 @@ RSpec.describe Surfable::SpotForecaster do
 
     context 'no surfable winds' do
       it { forecast_stub.hours.each { |hour| hour.wind[:speed] = 50 }
-        expect(subject).to eq(nil) }
+        expect(subject.forecast).to eq(nil) }
     end
 
     context 'no surfable swells' do
       it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
-        expect(subject).to eq(nil) }
+        expect(subject.forecast).to eq(nil) }
     end
   end
 
@@ -64,11 +64,12 @@ RSpec.describe Surfable::SpotForecaster do
         it { spot.tide.rising = [1, 2, 3]
           spot.tide.dropping = [3, 4, 5]
           forecast_stub.hours[3].swell[:height] = 1
+          subject
           expect(subject.forecast.length).to eq(2)
-          expect(time_start(0)).to eq('12:07')
-          expect(time_end(0)).to eq('14:07')
-          expect(time_start(1)).to eq('7:06')
-          expect(time_end(1)).to eq('10:06') }
+          expect(time_start(1)).to eq('12:07')
+          expect(time_end(1)).to eq('14:07')
+          expect(time_start(0)).to eq('7:06')
+          expect(time_end(0)).to eq('9:06') }
       end
 
       context 'multiple tide, wind forecasts, one swell forecast' do
@@ -87,12 +88,12 @@ RSpec.describe Surfable::SpotForecaster do
       it { spot.tide.rising = [1, 2, 3, 4, 5, 6]
         spot.tide.dropping = []
         forecast_stub.hours[4].wind[:speed] = 50
-        expect(subject.forecast.length).to eq(1)
+        expect(subject.forecast.length).to eq(2)
         expect(subject.forecast.first.values.length).to eq(2)
         expect(time_start(0)).to eq('11:07')
         expect(time_end(0)).to eq('12:14')
         expect(time_start(1)).to eq('15:07')
-        expect(time_end(1)).to eq('17:14') }
+        expect(time_end(1)).to eq('17:14')
       }
     end
   end
