@@ -50,16 +50,25 @@ module Surfable
           f_hours = [*f.values.first.hour..f.values.last.hour]
           new_hours = f_hours & c_hours
           next if new_hours.blank?
-          a.push set_new_forecast(f, new_hours)
+          rating = set_forecast_rating(c, new_hours)
+          rating = (rating + f.rating) / 2 unless f.rating.nil?
+          a.push set_new_forecast(f, new_hours, rating)
         end
         return a
       end
 
-      def set_new_forecast(f, h)
+      def set_new_forecast(f, h, r)
         new_forecast = Marshal.load(Marshal.dump(f))
-        new_forecast.rating = nil
+        new_forecast.rating = r
         new_forecast.values = set_forecast_values(h, new_forecast.values)
         return new_forecast
+      end
+
+      def set_forecast_rating(c, n)
+        rating = c.map do |h|
+          h[:rating] if (n & [*h[:hour]..h[:hour]+2]).present?
+        end
+        return rating.compact!.inject(:+).to_f / rating.size
       end
 
       def set_forecast_values(new_hours, f)

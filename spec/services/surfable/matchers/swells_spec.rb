@@ -46,9 +46,7 @@ RSpec.describe Surfable::Matchers::Swells do
     end
 
     context 'with multiple blocks of surfable times' do
-
       it { forecast_stub.hours[4].swell[:height] = 1
-        binding.pry
         expect(subject.forecast.length).to eq(2)
       }
     end

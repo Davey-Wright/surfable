@@ -35,6 +35,7 @@ RSpec.describe Surfable::SpotForecaster do
           forecast_stub.hours[3].swell[:height] = 1
           forecast_stub.hours[5].wind[:speed] = 50
           expect(subject.forecast.length).to eq(1)
+          expect(subject.forecast[0].rating).to eq(4.0)
           expect(time_start(0)).to eq('6:42')
           expect(time_end(0)).to eq('9:07') }
       end
@@ -44,6 +45,7 @@ RSpec.describe Surfable::SpotForecaster do
           spot.tide.dropping = []
           forecast_stub.hours[3].swell[:height] = 1
           expect(subject.forecast.length).to eq(1)
+          expect(subject.forecast[0].rating).to eq(4.0)
           expect(time_start(0)).to eq('12:07')
           expect(time_end(0)).to eq('17:14') }
       end
@@ -54,6 +56,7 @@ RSpec.describe Surfable::SpotForecaster do
           forecast_stub.hours[4].swell[:height] = 1
           forecast_stub.hours[2].wind[:speed] = 50
           expect(subject.forecast.length).to eq(2)
+          expect(subject.forecast[0].rating).to eq(4.0)
           expect(time_start(0)).to eq('11:07')
           expect(time_end(0)).to eq('12:07')
           expect(time_start(1)).to eq('9:06')
@@ -66,6 +69,7 @@ RSpec.describe Surfable::SpotForecaster do
           forecast_stub.hours[3].swell[:height] = 1
           subject
           expect(subject.forecast.length).to eq(2)
+          expect(subject.forecast[0].rating).to eq(4.0)
           expect(time_start(1)).to eq('12:07')
           expect(time_end(1)).to eq('14:07')
           expect(time_start(0)).to eq('7:06')
@@ -77,6 +81,7 @@ RSpec.describe Surfable::SpotForecaster do
           spot.tide.dropping = [3, 4, 5]
           forecast_stub.hours[2].wind[:speed] = 50
           expect(subject.forecast.length).to eq(2)
+          expect(subject.forecast[0].rating).to eq(4.0)
           expect(time_start(0)).to eq('11:07')
           expect(time_end(0)).to eq('14:07')
           expect(time_start(1)).to eq('9:06')
@@ -90,12 +95,40 @@ RSpec.describe Surfable::SpotForecaster do
         forecast_stub.hours[4].wind[:speed] = 50
         expect(subject.forecast.length).to eq(2)
         expect(subject.forecast.first.values.length).to eq(2)
+        expect(subject.forecast[0].rating).to eq(4.0)
         expect(time_start(0)).to eq('11:07')
         expect(time_end(0)).to eq('12:14')
         expect(time_start(1)).to eq('15:07')
         expect(time_end(1)).to eq('17:14')
       }
     end
+
+    context 'rating is an average of swell and wind ratings' do
+      it { spot.tide.rising = [1, 2, 3, 4, 5, 6]
+        spot.tide.dropping = []
+        forecast_stub.hours[4].wind[:speed] = 50
+        swell_rating = spot.swells.max_by { |i| i.rating }.rating
+        wind_rating = spot.winds.max_by { |i| i.rating }.rating
+        rating = (swell_rating + wind_rating) / 2
+        expect(subject.forecast[0].rating).to eq(4.0)
+      }
+    end
+
+    # context 'returns two sets of forecast values' do
+    #   it { spot.tide.rising = [1, 2, 3, 4, 5, 6]
+    #     spot.tide.dropping = []
+    #     forecast_stub.hours[4].wind[:speed] = 50
+    #     forecast_stub.hours[5].swell[:height] = 1
+    #     expect(subject.forecast.length).to eq(2)
+    #     expect(subject.forecast.first.values.length).to eq(2)
+    #     expect(time_start(0)).to eq('11:07')
+    #     expect(time_end(0)).to eq('12:14')
+    #     expect(time_start(1)).to eq('15:07')
+    #     expect(time_end(1)).to eq('17:14')
+    #   }
+    # end
+
+    # test for ratings!!
   end
 
   def time_start(i)
