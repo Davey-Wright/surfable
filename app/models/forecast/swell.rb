@@ -6,7 +6,7 @@ module Forecast
       @hour = hour
       @height = data.height
       @period = data.period
-      @direction = data.direction
+      @direction = data.direction.to_i
     end
   end
 end

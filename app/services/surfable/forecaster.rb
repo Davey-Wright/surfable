@@ -5,7 +5,7 @@ module Surfable
 
     def initialize(spots, surf_forecast)
       @spots = [*spots]
-      @surf_forecast = [*surf_forecast]
+      @surf_forecast = surf_forecast.days
       @forecast = []
     end
 
@@ -23,9 +23,9 @@ module Surfable
       def spots_forecast(day)
         spot_forecast = []
         @spots.each do |spot|
-          unless spot.tide.nil? || spot.swells.blank? || spot.winds.blank?
-            spot_forecast.push Surfable::SpotForecaster.call(spot, day)
-          end
+          next if spot.tide.nil? || spot.swells.blank? || spot.winds.blank?
+          forecast = Surfable::SpotForecaster.call(spot, day).forecast
+          spot_forecast.push Surfable::SpotForecaster.call(spot, day) if !forecast.nil?
         end
         return spot_forecast
       end

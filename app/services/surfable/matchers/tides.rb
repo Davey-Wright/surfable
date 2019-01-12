@@ -74,8 +74,10 @@ module Surfable
               else
                 same_day_finish? prev_tide + offset.max.hours
               end
-            start = filter_daylight_start(start)
-            finish = filter_daylight_end(finish)
+              if start && finish
+                start = filter_daylight_start(start)
+                finish = filter_daylight_end(finish)
+              end
             @forecast.push Surfable::Forecast.new(nil, tide_type(tide), [start, finish]) if start && finish
           end
         end
@@ -114,13 +116,13 @@ module Surfable
         end
 
         def same_day_start?(time)
+          return if time > day_end
           time = day_start if time < day_start
-          time = nil if time > day_end
           time
         end
 
         def same_day_finish?(time)
-          time = nil if time < day_start
+          return if time < day_start
           time = day_end if time > day_end
           time
         end

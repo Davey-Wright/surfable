@@ -7,10 +7,11 @@ class StaticPagesController < ApplicationController
   end
 
   def forecast
-    @forecast = Forecast::Mappers.call
+    forecast = Forecast::Mappers.call
+    @forecast = Forecast::Days.new(forecast)
     spots = current_user.spots.all
-    return if spots.tide.blank? || spots.swells.blank? || spots.winds.blank?
-    @surfable = Surfable::Forecaster.call(@forecast)
+    @surfable = Surfable::Forecaster.call(spots, @forecast)
+    binding.pry
   end
 
   helper_method :resource_name, :resource, :devise_mapping, :resource_class

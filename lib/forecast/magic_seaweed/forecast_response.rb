@@ -57,6 +57,7 @@ module Forecast
         end
 
         def get_date(res)
+          # Time.at(res['localTimestamp'])
           Time.at(res['localTimestamp']).strftime('%F')
         end
 

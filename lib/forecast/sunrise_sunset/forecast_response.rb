@@ -1,10 +1,9 @@
 module Forecast
   module SunriseSunset
     class ForecastResponse
-      attr_reader :spot, :day, :http_res
+      attr_reader :day, :http_res
 
-      def initialize(spot, day, http_res)
-        @spot = spot
+      def initialize(day, http_res)
         @day = day
         @http_res = http_res
       end
@@ -28,7 +27,7 @@ module Forecast
 
       def set_time_for(key, res)
         time = res['results'][key]
-        zone = spot == 'porthcawl' ? 'London' : 'Pacific Time (US & Canada)'
+        zone = 'London'
         Time.use_zone(zone) { Time.zone.parse(time) }
       end
 

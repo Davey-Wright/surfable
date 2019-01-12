@@ -11,6 +11,7 @@ RSpec.describe Surfable::Matchers::Tides do
   describe 'Times' do
     context 'with no matching user and forecast tide sizes' do
       it {
+        binding.pry
         spot.tide.rising = [1, 2, 3, 4]
         spot.tide.dropping = [3, 4, 5]
         spot.tide.size = [7, 8]

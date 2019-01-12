@@ -1,5 +1,4 @@
 module Forecast
-
   class Days
     extend ActiveModel
 
