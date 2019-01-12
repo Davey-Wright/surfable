@@ -22,6 +22,7 @@ module Surfable
 
       def spots_forecast(day)
         @spots.map do |spot|
+          binding.pry
           spot_forecast = Surfable::SpotForecaster.call(spot, day)
         end
       end

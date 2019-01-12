@@ -6,15 +6,15 @@ module Surfable
       def initialize(spot, forecast_day)
         @user_tide = spot.tide
         @forecast_date = forecast_day.date
-        @forecast_tides = forecast_day.tides.data
+        @forecast_tides = forecast_day.tides
         @first_light = forecast_day.first_light
         @last_light = forecast_day.last_light
         @forecast = []
       end
 
       def call
-        return self if !match_size
-        offset_times
+        # return self if !match_size
+        # offset_times
         self
       end
 

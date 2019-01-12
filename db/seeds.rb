@@ -5,7 +5,9 @@ demo_user = User.create({
   last_name: 'Sender',
 })
 
-demo_user.spots.create({
+
+# Porthcawl
+porthcawl = demo_user.spots.create({
   name: 'Rest Bay',
   latitude: '51.489510',
   longitude: '-3.726244',
@@ -16,7 +18,44 @@ demo_user.spots.create({
   wave_direction: ['left', 'right']
 })
 
-demo_user.spots.create({
+porthcawl.create_tide({
+  rising: [1, 2, 3, 4, 5],
+  dropping: [1, 2, 3, 4, 5],
+  size: [5, 6, 7, 8]
+})
+
+porthcawl.swells.create({
+  rating: 4,
+  min_height: 3,
+  max_height: nil,
+  min_period: 10,
+  direction: ['w', 'sw', 's']
+})
+
+porthcawl.swells.create({
+  rating: 5,
+  min_height: 6,
+  max_height: nil,
+  min_period: 12,
+  direction: ['w', 'sw', 's']
+})
+
+porthcawl.winds.create({
+  rating: 4,
+  name: ['onshore'],
+  direction: ['w', 'sw', 's'],
+  speed: 5
+})
+
+porthcawl.winds.create({
+  rating: 5,
+  name: ['onshore'],
+  direction: ['w', 'sw', 's'],
+  speed: 3
+})
+
+# Ogmore
+ogmore = demo_user.spots.create({
   name: 'Ogmore River Mouth',
   latitude: '51.470546',
   longitude: '-3.640436',
@@ -27,7 +66,60 @@ demo_user.spots.create({
   wave_direction: ['right']
 })
 
-demo_user.spots.create({
+ogmore.create_tide({
+  rising: [5, 6],
+  dropping: [1, 2],
+  size: [7, 8]
+})
+
+ogmore.swells.create({
+  rating: 3,
+  min_height: 3,
+  max_height: nil,
+  min_period: 10,
+  direction: ['w', 'sw', 's']
+})
+
+ogmore.swells.create({
+  rating: 4,
+  min_height: 5,
+  max_height: nil,
+  min_period: 12,
+  direction: ['w', 'sw', 's']
+})
+
+ogmore.swells.create({
+  rating: 5,
+  min_height: 7,
+  max_height: nil,
+  min_period: 12,
+  direction: ['w', 'sw', 's']
+})
+
+ogmore.winds.create({
+  rating: 4,
+  name: ['onshore'],
+  direction: ['w', 'sw', 'nw'],
+  speed: 5
+})
+
+ogmore.winds.create({
+  rating: 5,
+  name: ['onshore'],
+  direction: ['w', 'sw', 'nw'],
+  speed: 3
+})
+
+ogmore.winds.create({
+  rating: 5,
+  name: ['offshore'],
+  direction: ['ne', 'e', 'se', 's'],
+  speed: 15
+})
+
+
+# Southerndown
+southerndown = demo_user.spots.create({
   name: 'Southerndown',
   latitude: '51.445826',
   longitude: '-3.605846',
@@ -38,6 +130,50 @@ demo_user.spots.create({
   wave_direction: ['left', 'right']
 })
 
+southerndown.create_tide({
+  rising: [4, 5, 6],
+  dropping: [1, 2, 3],
+  size: [5, 6, 7, 8, 9]
+})
+
+southerndown.swells.create({
+  rating: 3,
+  min_height: 3,
+  max_height: nil,
+  min_period: 10,
+  direction: ['w', 'sw', 's']
+})
+
+southerndown.swells.create({
+  rating: 5,
+  min_height: 6,
+  max_height: nil,
+  min_period: 12,
+  direction: ['w', 'sw', 's']
+})
+
+southerndown.winds.create({
+  rating: 4,
+  name: ['onshore'],
+  direction: ['w', 'sw', 's'],
+  speed: 5
+})
+
+southerndown.winds.create({
+  rating: 5,
+  name: ['onshore'],
+  direction: ['w', 'sw', 's'],
+  speed: 3
+})
+
+southerndown.winds.create({
+  rating: 5,
+  name: ['offshore'],
+  direction: ['ne', 'e', 'se'],
+  speed: 20
+})
+
+# Llanttwit
 demo_user.spots.create({
   name: 'Llanttwit Major',
   latitude: '51.396031',

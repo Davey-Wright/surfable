@@ -20,7 +20,20 @@ RSpec.describe Surfable::Forecaster do
     it {
       spots.tide.rising = [1, 2, 3]
       spots.tide.dropping = [3, 4, 5]
-      binding.pry
     }
+  end
+
+  describe 'non surfable forecast' do
+    context 'with no tides' do
+      binding.pry
+    end
+
+    context 'with no wind conditions' do
+
+    end
+
+    context 'with no swell conditions' do
+
+    end
   end
 end
