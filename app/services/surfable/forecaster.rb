@@ -1,7 +1,7 @@
 module Surfable
   class Forecaster < ApplicationService
 
-    attr_reader :forecast, :times
+    attr_reader :forecast
 
     def initialize(spots, surf_forecast)
       @spots = [*spots]
@@ -21,10 +21,13 @@ module Surfable
     private
 
       def spots_forecast(day)
-        @spots.map do |spot|
-          binding.pry
-          spot_forecast = Surfable::SpotForecaster.call(spot, day)
+        spot_forecast = []
+        @spots.each do |spot|
+          unless spot.tide.nil? || spot.swells.blank? || spot.winds.blank?
+            spot_forecast.push Surfable::SpotForecaster.call(spot, day)
+          end
         end
+        return spot_forecast
       end
 
   end

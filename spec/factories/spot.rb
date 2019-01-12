@@ -16,7 +16,6 @@ FactoryBot.define do
         end
         create(:tide_conditions, {
           spot: spot,
-          rating: 5,
           rising: [0, 1, 2, 3],
           dropping: [],
           size: [7, 8, 9]

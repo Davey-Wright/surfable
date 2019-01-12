@@ -22,6 +22,27 @@ RSpec.describe Surfable::SpotForecaster do
       it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
         expect(subject.forecast).to eq(nil) }
     end
+
+    context 'with no tides' do
+      it {
+        spot.tide = nil
+        expect(subject.forecast).to eq(nil)
+      }
+    end
+
+    context 'with no wind conditions' do
+      it {
+        spot.winds = []
+        expect(subject.forecast).to eq(nil)
+      }
+    end
+
+    context 'with no swell conditions' do
+      it {
+        spot.swells = []
+        expect(subject.forecast).to eq(nil)
+      }
+    end
   end
 
   describe 'surfable forecast' do

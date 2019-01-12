@@ -10,8 +10,7 @@ module Surfable
     end
 
     def call
-      return
-      new_forecast = Matchers::Tides.call(@spot, @day).forecast
+      new_forecast = match_tide_forecast
       new_forecast = match_swell_forecast(new_forecast) if new_forecast != nil
       new_forecast = match_wind_forecast(new_forecast) if new_forecast != nil
       @forecast = new_forecast
@@ -19,6 +18,12 @@ module Surfable
     end
 
     private
+
+      def match_tide_forecast
+        return nil if @spot.tide.nil?
+        tide = Matchers::Tides.call(@spot, @day).forecast
+        tide.blank? ? nil : tide
+      end
 
       def match_swell_forecast(f)
         swells = Matchers::Swells.call(@spot, @day).forecast
