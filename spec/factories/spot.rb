@@ -20,6 +20,21 @@ FactoryBot.define do
           dropping: [],
           size: [7, 8, 9]
           })
+        create(:swell_conditions, {
+          spot: spot,
+          rating: 1,
+          min_height: 1,
+          max_height: nil,
+          min_period: 4,
+          direction: ['n', 'ne', 'e', 'w', 'sw', 'w', 's']
+          })
+        create(:wind_conditions, {
+          spot: spot,
+          rating: 1,
+          name: ['onshore'],
+          speed: 50,
+          direction: ['n', 'ne', 'e', 'w', 'sw', 'w', 's']
+          })
       end
     end
 

@@ -13,18 +13,18 @@ li(class='accordion-item' data-accordion-item)
         class: 'columns edit_conditions',
         remote: true
 
-      - @spot.tide.each do |tide|
-        ul
-          li= "Rating #{ tide.rating }"
-
-          li Rising tide offset surf times
-          - tide.rising.each do |t|
-            = "#{ t } "
-
-          li Dropping tide offset surf times
-          - tide.dropping.each do |t|
-            = "#{ t } "
-
-          li Sizes
-          - tide.size.each do |t|
-            = "#{ t } "
+      / - @spot.tide.each do |tide|
+      /   ul
+      /     li= "Rating #{ tide.rating }"
+      /
+      /     li Rising tide offset surf times
+      /     - tide.rising.each do |t|
+      /       = "#{ t } "
+      /
+      /     li Dropping tide offset surf times
+      /     - tide.dropping.each do |t|
+      /       = "#{ t } "
+      /
+      /     li Sizes
+      /     - tide.size.each do |t|
+      /       = "#{ t } "

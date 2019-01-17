@@ -61,6 +61,8 @@ group :development, :test do
   gem 'awesome_print'
   gem 'html2slim'
   gem 'rails-controller-testing'
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :development do

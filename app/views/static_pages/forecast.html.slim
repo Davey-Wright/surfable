@@ -1,4 +1,20 @@
-.forecast_charts
-  = image_tag 'chart.gif'
+.row
+  .columns.medium-6
+    = image_tag 'chart.gif'
 
-h1.surfable_forecast Surfable Forecast
+  .columns.medium-6
+    h1.surfable_forecast Surfable Forecast
+
+    - @surfable.forecast.each do |surfable|
+      li
+        p = surfable[:date]
+
+        - if !surfable[:spots].blank?
+          - surfable[:spots].each do |spot|
+            - spot.forecast.each do |surfable_forecast|
+              li
+                = link_to spot.spot.name, spot_path(spot.spot.id)
+                p = surfable_forecast.rating
+                p = surfable_forecast.tide
+                = surfable_forecast.values.each do |time|
+                /   p "#{ time.first } - #{ time.last }"

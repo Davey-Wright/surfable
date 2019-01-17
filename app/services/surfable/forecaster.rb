@@ -13,14 +13,14 @@ module Surfable
       @surf_forecast.each do |day|
         @forecast.push({
           date: day.date,
-          spots: spots_forecast(day) })
+          spots: get_spots_forecast(day) })
       end
       self
     end
 
     private
 
-      def spots_forecast(day)
+      def get_spots_forecast(day)
         spot_forecast = []
         @spots.each do |spot|
           next if spot.tide.nil? || spot.swells.blank? || spot.winds.blank?

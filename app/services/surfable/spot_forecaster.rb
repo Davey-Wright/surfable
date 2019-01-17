@@ -1,7 +1,7 @@
 module Surfable
   class SpotForecaster < ApplicationService
 
-    attr_reader :forecast
+    attr_reader :forecast, :spot
 
     def initialize(spot, day)
       @spot = spot
@@ -74,7 +74,8 @@ module Surfable
         rating = c.map do |h|
           h[:rating] if (n & [*h[:hour]..h[:hour]+2]).present?
         end
-        return rating.compact!.inject(:+).to_f / rating.size
+        rating.compact!
+        return rating.inject(:+).to_f / rating.size unless rating.nil?
       end
 
       def set_forecast_values(new_hours, f)

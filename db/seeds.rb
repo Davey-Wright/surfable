@@ -16,13 +16,21 @@ porthcawl = demo_user.spots.create({
   wave_length: ['average'],
   wave_speed: ['average'],
   wave_direction: ['left', 'right']
-})
+  })
 
 porthcawl.create_tide({
   rising: [1, 2, 3, 4, 5],
   dropping: [1, 2, 3, 4, 5],
   size: [5, 6, 7, 8]
-})
+  })
+
+porthcawl.swells.create({
+  rating: 1,
+  min_height: 1,
+  max_height: nil,
+  min_period: 1,
+  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw']
+  })
 
 porthcawl.swells.create({
   rating: 4,
@@ -30,7 +38,7 @@ porthcawl.swells.create({
   max_height: nil,
   min_period: 10,
   direction: ['w', 'sw', 's']
-})
+  })
 
 porthcawl.swells.create({
   rating: 5,
@@ -38,21 +46,28 @@ porthcawl.swells.create({
   max_height: nil,
   min_period: 12,
   direction: ['w', 'sw', 's']
-})
+  })
 
 porthcawl.winds.create({
   rating: 4,
   name: ['onshore'],
   direction: ['w', 'sw', 's'],
   speed: 5
-})
+  })
 
 porthcawl.winds.create({
   rating: 5,
   name: ['onshore'],
   direction: ['w', 'sw', 's'],
   speed: 3
-})
+  })
+
+porthcawl.winds.create({
+  rating: 1,
+  name: ['strong onshore'],
+  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw'],
+  speed: 100
+  })
 
 # Ogmore
 ogmore = demo_user.spots.create({
@@ -64,13 +79,21 @@ ogmore = demo_user.spots.create({
   wave_length: ['average', 'long'],
   wave_speed: ['average', 'fast'],
   wave_direction: ['right']
-})
+  })
 
 ogmore.create_tide({
   rising: [5, 6],
   dropping: [1, 2],
   size: [7, 8]
-})
+  })
+
+ogmore.swells.create({
+  rating: 1,
+  min_height: 1,
+  max_height: nil,
+  min_period: 1,
+  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw']
+  })
 
 ogmore.swells.create({
   rating: 3,
@@ -78,7 +101,7 @@ ogmore.swells.create({
   max_height: nil,
   min_period: 10,
   direction: ['w', 'sw', 's']
-})
+  })
 
 ogmore.swells.create({
   rating: 4,
@@ -86,7 +109,7 @@ ogmore.swells.create({
   max_height: nil,
   min_period: 12,
   direction: ['w', 'sw', 's']
-})
+  })
 
 ogmore.swells.create({
   rating: 5,
@@ -94,28 +117,35 @@ ogmore.swells.create({
   max_height: nil,
   min_period: 12,
   direction: ['w', 'sw', 's']
-})
+  })
+
+ogmore.winds.create({
+  rating: 1,
+  name: ['strong onshore'],
+  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw'],
+  speed: 100
+  })
 
 ogmore.winds.create({
   rating: 4,
   name: ['onshore'],
   direction: ['w', 'sw', 'nw'],
   speed: 5
-})
+  })
 
 ogmore.winds.create({
   rating: 5,
   name: ['onshore'],
   direction: ['w', 'sw', 'nw'],
   speed: 3
-})
+  })
 
 ogmore.winds.create({
   rating: 5,
   name: ['offshore'],
   direction: ['ne', 'e', 'se', 's'],
   speed: 15
-})
+  })
 
 
 # Southerndown
@@ -128,13 +158,21 @@ southerndown = demo_user.spots.create({
   wave_length: ['average'],
   wave_speed: ['average'],
   wave_direction: ['left', 'right']
-})
+  })
 
 southerndown.create_tide({
   rising: [4, 5, 6],
   dropping: [1, 2, 3],
   size: [5, 6, 7, 8, 9]
-})
+  })
+
+southerndown.swells.create({
+  rating: 1,
+  min_height: 1,
+  max_height: nil,
+  min_period: 1,
+  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw']
+  })
 
 southerndown.swells.create({
   rating: 3,
@@ -142,7 +180,7 @@ southerndown.swells.create({
   max_height: nil,
   min_period: 10,
   direction: ['w', 'sw', 's']
-})
+  })
 
 southerndown.swells.create({
   rating: 5,
@@ -150,28 +188,35 @@ southerndown.swells.create({
   max_height: nil,
   min_period: 12,
   direction: ['w', 'sw', 's']
-})
+  })
 
 southerndown.winds.create({
   rating: 4,
   name: ['onshore'],
   direction: ['w', 'sw', 's'],
   speed: 5
-})
+  })
 
 southerndown.winds.create({
   rating: 5,
   name: ['onshore'],
   direction: ['w', 'sw', 's'],
   speed: 3
-})
+  })
 
 southerndown.winds.create({
   rating: 5,
   name: ['offshore'],
   direction: ['ne', 'e', 'se'],
   speed: 20
-})
+  })
+
+southerndown.winds.create({
+  rating: 1,
+  name: ['strong onshore'],
+  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw'],
+  speed: 100
+  })
 
 # Llanttwit
 demo_user.spots.create({
@@ -183,7 +228,7 @@ demo_user.spots.create({
   wave_length: ['average', 'long'],
   wave_speed: ['average', 'fast'],
   wave_direction: ['right']
-})
+  })
 
 
 
