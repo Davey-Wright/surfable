@@ -9,8 +9,11 @@ module Forecast
 
       def response
         url = "https://api.sunrise-sunset.org/json?lat=51.48&lng=-3.69&formatted=0&date=#{day.date}"
-        http_response = HTTParty.get(url)
-        ForecastResponse.new(day, http_response)
+        response = Rails.cache.fetch("sunrise_api_#{day.date}", expires_in: 6.days) do
+          res = HTTParty.get(url)
+          res.to_h if res.success?
+        end
+        ForecastResponse.new(day, response)
       end
 
     end

@@ -7,7 +7,7 @@
 
     - @surfable.forecast.each do |surfable|
       li
-        p = surfable[:date]
+        h2 = surfable[:date]
 
         - if !surfable[:spots].blank?
           - surfable[:spots].each do |spot|

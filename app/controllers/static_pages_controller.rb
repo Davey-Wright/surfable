@@ -7,12 +7,10 @@ class StaticPagesController < ApplicationController
   end
 
   def forecast
-    fresh_when last_modified: @company.updated_at
     forecast = Forecast::Mappers.call
     @forecast = Forecast::Days.new(forecast)
     spots = current_user.spots.all
     @surfable = Surfable::Forecaster.call(spots, @forecast)
-    fresh_when last_modified: @forecast.updated_at
   end
 
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
