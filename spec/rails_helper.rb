@@ -18,7 +18,6 @@ Shoulda::Matchers.configure do |config|
    end
  end
 
-
 Timecop.safe_mode = true
 
 Capybara.register_driver :chrome do |app|
@@ -68,7 +67,7 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.include Devise::Test::ControllerHelpers, type: :controller
 
-  config.before(:suite) do
+  config.before :suite do
     DatabaseCleaner.clean_with(:truncation)
   end
 
