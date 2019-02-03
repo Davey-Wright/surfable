@@ -1,19 +1,19 @@
 require 'rails_helper'
-require 'support/spot_stub'
 
 RSpec.describe Spot, type: :model do
   let(:user) { FactoryBot.build(:user) }
 
-  subject {
-    described_class.new({
+  subject do
+    described_class.new(
       user: user,
       name: 'Hardies Bay',
       wave_break_type: 'beach',
-      wave_shape: ['crumbling', 'steep'],
-      wave_length: ['short', 'average'],
-      wave_speed: ['slow', 'average'],
-      wave_direction: ['left', 'right']
-    }) }
+      wave_shape: %w[crumbling steep],
+      wave_length: %w[short average],
+      wave_speed: %w[slow average],
+      wave_direction: %w[left right]
+    )
+  end
 
   describe 'Associations' do
     it { is_expected.to belong_to(:user) }
@@ -48,29 +48,29 @@ RSpec.describe Spot, type: :model do
 
   describe 'CRUD' do
     context 'Create' do
-      it 'Does not create new spot with invalid attributes' do
+      it 'Does not create new spot when invalid' do
         subject.name = nil
         expect(subject.save).to be(false)
         expect(Spot.all.count).to eq(0)
       end
 
-      it 'Creates a new spot with valid attributes' do
+      it 'Creates a new spot when valid' do
         expect(subject.save).to be(true)
         expect(Spot.all.count).to eq(1)
       end
     end
 
     context 'Update' do
-      it 'Does not update spot with invalid attributes' do
+      it 'Does not update spot when invalid' do
         subject.save
-        expect(subject.update_attributes({ name: nil })).to eq(false)
+        expect(subject.update_attributes(name: nil)).to eq(false)
         subject.reload
         expect(subject.name).to_not eq(nil)
       end
 
-      it 'Updates spot with valid attributes' do
+      it 'Updates spot when valid' do
         subject.save
-        expect(subject.update_attributes({ name: 'Morfa' })).to eq(true)
+        expect(subject.update_attributes(name: 'Morfa')).to eq(true)
         expect(subject.name).to eq('Morfa')
       end
     end
@@ -86,5 +86,4 @@ RSpec.describe Spot, type: :model do
       end
     end
   end
-
 end
