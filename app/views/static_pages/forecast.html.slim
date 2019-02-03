@@ -5,16 +5,19 @@
   .columns.medium-6
     h1.surfable_forecast Surfable Forecast
 
-    - @surfable.forecast.each do |surfable|
-      li
-        h2 = surfable[:date]
+    - if @surfable
+      - @surfable.forecast.each do |surfable|
+        li
+          h2 = surfable[:date]
 
-        - if !surfable[:spots].blank?
-          - surfable[:spots].each do |spot|
-            - spot.forecast.each do |surfable_forecast|
-              li
-                = link_to spot.spot.name, spot_path(spot.spot.id)
-                p = surfable_forecast.rating
-                p = surfable_forecast.tide
-                = surfable_forecast.values.each do |time|
-                /   p "#{ time.first } - #{ time.last }"
+          - if !surfable[:spots].blank?
+            - surfable[:spots].each do |spot|
+              - spot.forecast.each do |surfable_forecast|
+                li
+                  = link_to spot.spot.name, spot_path(spot.spot.id)
+                  p = surfable_forecast.rating
+                  p = surfable_forecast.tide
+                  = surfable_forecast.values.each do |time|
+                  /   p "#{ time.first } - #{ time.last }"
+    - else
+      p You don't have any surf spots or conditions to check. Add them here

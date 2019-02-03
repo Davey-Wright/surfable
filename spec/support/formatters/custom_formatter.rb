@@ -1,5 +1,7 @@
 class CustomFormatter < RSpec::Core::Formatters::DocumentationFormatter
-  RSpec::Core::Formatters.register self
+  RSpec::Core::Formatters.register self,
+                                    :example_section_finished
+                                    :example_group_finished
 
   def initialize(output)
     @output = output

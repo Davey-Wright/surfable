@@ -59,7 +59,7 @@
           }
         });
 
-        var cancel_button = $("<a class='button'>Cancel</a>").on('click', function(e) {
+        var cancel_button = $("<a href='#' class='button'>Cancel</a>").on('click', function(e) {
           modal.foundation('close').html('');
           return $el.trigger('cancel.reveal', e);
         });

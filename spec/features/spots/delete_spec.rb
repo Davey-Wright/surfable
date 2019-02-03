@@ -1,29 +1,31 @@
 require 'rails_helper'
 
-feature 'Spot Delete', js: true do
+# Test that
+  # Delete button reveals confirmation
+  # Spot is deleted on confirmation
+  # Returns to spot page on confirmation cancel
+  # After spot destroy redirect to spots index
 
-  let(:spot) { FactoryBot.create(:spot, { name: 'Melaka' }) }
+feature 'User deletes a spot', js: true do
+  let(:spot) { FactoryBot.create(:spot, name: 'Melaka') }
 
   before(:each) do
     login_as(spot.user)
     visit spot_path(spot)
-    click_on('Delete')
+    within('#spot-show') { click_on('Delete') }
   end
 
   context 'logged in user' do
-    describe 'deletes existing spot' do
-      it {
-        click_on('Confirm')
-        expect(page).to_not have_content(/melaka/i)
-      }
+    scenario 'deletes existing spot' do
+      click_on('Confirm')
+      expect(page).to have_current_path(spots_path)
+      expect(page).to_not have_content(/melaka/i)
     end
 
-    describe 'cancels delete' do
-      it {
-        find('a', text: 'Cancel').click
-        expect(page).to have_content(/melaka/i)
-      }
+    scenario 'cancels delete' do
+      click_on('Cancel')
+      expect(page).to have_current_path(spot_path(spot))
+      expect(page).to have_content(/melaka/i)
     end
   end
-
 end

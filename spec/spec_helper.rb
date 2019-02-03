@@ -1,5 +1,4 @@
-require_relative 'formatters/example_sections'
-require_relative 'formatters/custom_formatter'
+require_relative 'support/wait_for_ajax'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

@@ -7,10 +7,12 @@ class StaticPagesController < ApplicationController
   end
 
   def forecast
+    @spots = current_user.spots.all
     @forecast = Forecast::Days.new(Forecast::Mappers.call)
-    spots = current_user.spots.all
-    if !@forecast.nil? && !spots.nil?
-      @surfable = Surfable::Forecaster.call(spots, @forecast)
+    if !@forecast.nil? && !@spots.empty?
+      @surfable = Surfable::Forecaster.call(@spots, @forecast)
+    else
+      return @surfable = false
     end
   end
 

@@ -58,11 +58,11 @@ feature 'Swell Condition CRUD', js: true do
           click_on('Add new conditions')
           within '#new_condition_swell' do
             click_on("Add Conditions")
+            expect(page).to have_content(/Please review the problems below:/i)
+            expect(page).to have_content(/rating can't be blank/i)
+            expect(page).to have_content(/min height can't be blank/i)
+            expect(page).to have_content(/min period can't be blank/i)
           end
-          expect(page).to have_content(/please review the problems below:/i)
-          expect(page).to have_content(/rating can't be blank/i)
-          expect(page).to have_content(/min height can't be blank/i)
-          expect(page).to have_content(/min period can't be blank/i)
         }
       end
 

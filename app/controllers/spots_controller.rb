@@ -15,7 +15,7 @@ class SpotsController < ApplicationController
   def create
     @spot = current_user.spots.create(spot_params)
     if @spot.valid?
-      flash[:success] = 'shaka'
+      flash[:success] = "#{ @spot.name } was successfully added to your spots"
       respond_with { |f| f.js { render 'show', layout: false } }
     else
       render :new, status: :unprocessable_entity

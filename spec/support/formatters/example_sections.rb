@@ -7,6 +7,4 @@ module ExampleSections
   end
 end
 
-RSpec.configure do |config|
-  config.include ExampleSections
-end
+# RSpec.configure { |config| config.include ExampleSections }

@@ -2,7 +2,7 @@
   script
     |
       document.addEventListener("turbolinks:load", function(){
-        initSpotShowMap(#{@spot.latitude}, #{@spot.longitude});
+        initSpotShowMap(#{ @spot.latitude }, #{ @spot.longitude });
       });
 
 #spot-show
@@ -10,7 +10,7 @@
     .columns.small-6
       #spot_show_map.map
 
-    .columns.small-6.spot
+    .columns.small-6.spot_info
       .row
         h1.columns = @spot.name
         = link_to 'Edit', edit_spot_path(@spot), class: 'columns edit_spot_btn', remote: true
