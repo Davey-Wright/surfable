@@ -48,7 +48,7 @@ gem 'jquery-rails', '~> 4.0', '>= 4.0.5'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-
+gem 'draper'
 gem 'httparty'
 
 # Reduces boot times through caching; required in config/boot.rb

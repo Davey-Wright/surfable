@@ -47,7 +47,7 @@ let close_modal_and_redirect = function(url){
   }, 2000);
 
   $('#modal').on('closed.zf.reveal', function(){
-    window.location.replace(url)
+    window.location.replace(url);
   });
 }
 

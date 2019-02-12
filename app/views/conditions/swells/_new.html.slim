@@ -4,7 +4,9 @@ h2.major
 = simple_form_for(@swell, url: spot_conditions_swells_path(@spot.id), remote: true, html: { class: 'check_label_form' }) do |f|
   = f.error_notification
   .form-inputs
-    = f.input :rating, as: :radio_buttons, collection: 1..5
+    = f.input :rating,
+      as: :radio_buttons,
+      collection: 1..5
     = f.input :min_height, label: 'Min Height (ft)'
     = f.input :max_height, label: 'Max Height (ft)'
     = f.input :min_period, label: 'Min Period (ft)'

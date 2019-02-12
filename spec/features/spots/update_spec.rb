@@ -79,7 +79,7 @@ feature 'User updates Spot', js: true do
         fill_in 'Name', with: 'Melakaville'
         click_on('Update Spot')
       end
-      scoped_node = page.find('ul.accordion')
+      scoped_node = page.find('.accordion')
       expect(scoped_node).to have_content(/swell/i)
       expect(scoped_node).to have_content(/tides/i)
       expect(scoped_node).to have_content(/wind/i)

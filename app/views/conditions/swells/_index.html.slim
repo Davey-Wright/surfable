@@ -1,15 +1,25 @@
-h2.major
-  | Swell Conditions
+li(class='accordion-item' data-accordion-item)
+  a(id='accordion-swells' class='accordion-title' href='#') Swell
+  div(class='accordion-content' data-tab-content)
 
-- @spot.swells.each do |swell|
-  ul
-    li= "Rating #{ swell.min_height }"
-    li= "Minimum Height #{ swell.min_height }"
-    li= "Maximum Height #{ swell.max_height }"
-    li= "Minimum Period #{ swell.min_period }"
+    = link_to 'Add new conditions',
+      new_spot_conditions_swell_path(@spot),
+      class: 'columns new_swell_btn',
+      remote: true
 
-    li Direction
-    - swell.direction.each do |d|
-      = "#{ d } "
+    - @spot.swells.each do |swell|
+      ul id="spot_condition_#{ swell.id }"
+        li class="star_#{ swell.rating }" Rating
+        li= "Minimum Height #{ swell.min_height }"
+        li= "Maximum Height #{ swell.max_height }"
+        li= "Minimum Period #{ swell.min_period }"
+        li Direction
+        - swell.direction.each do |direction|
+          = "#{ direction }, "
 
-    = link_to 'Delete', spot_conditions_swell_path(@spot, swell), method: :delete, class: 'columns delete_condition', remote: true
+        = link_to 'Delete',
+          spot_conditions_swell_path(@spot, swell),
+          method: :delete,
+          class: 'columns delete_condition',
+          remote: true,
+          data: { confirm: { text: "Are you sure you want to delete this #{ swell.rating } star rated condition?" } }

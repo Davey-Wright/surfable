@@ -26,6 +26,11 @@ feature 'User deletes a spot', js: true do
       click_on('Cancel')
       expect(page).to have_current_path(spot_path(spot))
       expect(page).to have_content(/melaka/i)
+
+      scoped_node = page.find('.accordion')
+      expect(scoped_node).to have_content('Swell')
+      expect(scoped_node).to have_content('Tide')
+      expect(scoped_node).to have_content('Wind')
     end
   end
 end

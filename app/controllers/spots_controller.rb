@@ -23,6 +23,7 @@ class SpotsController < ApplicationController
   end
 
   def show
+    @spot.decorate
   end
 
   def edit

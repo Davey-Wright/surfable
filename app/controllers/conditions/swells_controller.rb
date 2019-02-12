@@ -5,10 +5,6 @@ class Conditions::SwellsController < ApplicationController
 
   respond_to :html, :js
 
-  def index
-    respond_with { |f| f.js { render 'index', layout: false } }
-  end
-
   def new
     @swell = @spot.swells.new
     respond_with { |f| f.js { render 'new', layout: false } }
@@ -26,7 +22,8 @@ class Conditions::SwellsController < ApplicationController
 
   def destroy
     @swell.destroy
-    respond_with { |f| f.js { render 'index', layout: false } }
+    flash[:success] = "Successfully deleted Swell conditions from #{ @swell.spot.name }"
+    respond_with { |f| f.js { render 'spots/show', layout: false } }
   end
 
   private

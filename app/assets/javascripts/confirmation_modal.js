@@ -59,8 +59,8 @@
           }
         });
 
-        var cancel_button = $("<a href='#' class='button'>Cancel</a>").on('click', function(e) {
-          modal.foundation('close').html('');
+        var cancel_button = $("<button class='button'>Cancel</button>").on('click', function(e) {
+          modal.foundation('close');
           return $el.trigger('cancel.reveal', e);
         });
 
@@ -69,16 +69,8 @@
             modal_content = $('.modal_content').html(content)
 
         $('.form-actions').append(confirm_button).append(cancel_button)
-        // modal.append(`<div class='form-actions'> ${ confirm_button } ${ cancel_button } </div>`);
 
-        // modal.append("<a class='button'>Cancel</a>").on('click', function(e) {
-        //   modal.foundation('close').html('');
-        //   return $el.trigger('cancel.reveal', e);
-        // });
-
-        modal.foundation('open').on('closed.zf.reveal', function(e) {
-          return modal.html('');
-        });
+        modal.foundation('open').on('closed.zf.reveal');
 
         return false;
       };

@@ -53,6 +53,12 @@ feature 'User views spot', js: true do
       expect(page).to have_link('Add new spot')
     end
 
+    scenario 'user reads attributes with nil values' do
+      spot.wave_shape = nil
+      spot_info = page.find('.spot_info')
+      expect(spot_info).to have_content 'N/A'
+    end
+
     scenario 'when user is logged in they can view a spot' do
       visit spot_path(spot)
       expect(page).to have_link('Edit')
