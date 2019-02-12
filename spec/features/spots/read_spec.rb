@@ -54,6 +54,7 @@ feature 'User views spot', js: true do
     end
 
     scenario 'user reads attributes with nil values' do
+      visit spot_path(spot)
       spot.wave_shape = nil
       spot_info = page.find('.spot_info')
       expect(spot_info).to have_content 'N/A'

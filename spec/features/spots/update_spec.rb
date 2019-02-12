@@ -80,9 +80,9 @@ feature 'User updates Spot', js: true do
         click_on('Update Spot')
       end
       scoped_node = page.find('.accordion')
-      expect(scoped_node).to have_content(/swell/i)
-      expect(scoped_node).to have_content(/tides/i)
-      expect(scoped_node).to have_content(/wind/i)
+      expect(scoped_node).to have_content('Swell')
+      expect(scoped_node).to have_content('Tide')
+      expect(scoped_node).to have_content('Wind')
     end
   end
 

@@ -33,7 +33,8 @@ class SpotsController < ApplicationController
   def update
     @spot.update_attributes(spot_params)
     if @spot.valid?
-      redirect_to spot_path(@spot)
+      flash[:success] = "#{ @spot.name } was successfully updated"
+      respond_with { |f| f.js { render 'show', layout: false } }
     else
       render :edit, status: :unprocessable_entity
     end

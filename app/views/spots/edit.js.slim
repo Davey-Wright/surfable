@@ -2,10 +2,4 @@
   $.ajax().done(function(){
     open_modal("#{ j render "edit" }");
     initSpotNewMap();
-    
-    $('form').submit(function(){
-      if($('form #spot_name').val() !== ''){
-        $("#modal").foundation('close');
-      }
-    });
   });
