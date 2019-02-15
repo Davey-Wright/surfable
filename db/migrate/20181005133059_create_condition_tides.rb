@@ -7,6 +7,5 @@ class CreateConditionTides < ActiveRecord::Migration[5.2]
       t.belongs_to :spot, index: true
       t.timestamps
     end
-    add_reference :condition_tides, :condition
   end
 end

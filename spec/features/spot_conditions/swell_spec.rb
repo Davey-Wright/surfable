@@ -44,7 +44,7 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
       swell.max_height = 0
       swell.direction = []
 
-      scoped_node = "#spot_condition_#{swell.id}"
+      scoped_node = "#spot_swell_#{swell.id}"
       expect(scoped_node).to have_content 'N/A'
     end
   end
@@ -98,7 +98,7 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
   describe 'Delete swells' do
     before(:each) do
       @swell = spot.swells.first
-      scoped_node = "#spot_condition_#{@swell.id}"
+      scoped_node = "#spot_swell_#{@swell.id}"
       within(scoped_node) do
         click_on('Delete')
       end
@@ -121,7 +121,7 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
 
   def should_display_all_conditions(page, swells)
     swells.each do |swell|
-      scoped_node = "#spot_condition_#{swell.id}"
+      scoped_node = "#spot_swell_#{swell.id}"
       within scoped_node do
         expect(page.body).to have_content swell.rating
         expect(page.body).to have_content swell.min_period
@@ -135,7 +135,7 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
 
   def should_display_all_attributes(page)
     swell = spot.swells.last
-    scoped_node = "#spot_condition_#{swell.id}"
+    scoped_node = "#spot_swell_#{swell.id}"
     within scoped_node do
       expect(page.body).to have_css 'li.star_4'
       expect(page.body).to have_content 'Minimum Height 123'

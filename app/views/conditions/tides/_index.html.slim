@@ -1,20 +1,32 @@
-h2.major
-  | Tide Conditions
+li(class='accordion-item' data-accordion-item)
+  a(id='accordion-tides' class='accordion-title' href='#') Tide
+  div(class='accordion-content' data-tab-content)
 
-- @spot.tide.each do |tide|
-  ul
-    li= "Rating #{ tide.rating }"
+    - if @spot.tide.nil?
+      = link_to 'Add new conditions',
+        new_spot_conditions_tide_path(@spot),
+        class: 'columns new_tide_btn',
+        remote: true
+    - else
+      ul id="spot_tide"
+        li Rising tide offset surf times
+        = display_tide_offset_values('rising')
 
-    li Rising tide offset surf times
-    - tide.rising.each do |t|
-      = "#{ t } "
+        li Dropping tide offset surf times
+        = display_tide_offset_values('dropping')
 
-    li Dropping tide offset surf times
-    - tide.dropping.each do |t|
-      = "#{ t } "
+        li Sizes
+        - @spot.tide.size.each do |value|
+          = "#{ value } "
 
-    li Sizes
-    - tide.size.each do |t|
-      = "#{ t } "
+        = link_to 'Edit',
+          edit_spot_conditions_tide_path(@spot, @spot.tide),
+          class: 'columns delete_condition',
+          remote: true
 
-    = link_to 'Delete', spot_conditions_tide_path(@spot, tide), method: :delete, class: 'columns delete_condition', remote: true
+        = link_to 'Delete',
+          spot_conditions_tide_path(@spot, @spot.tide),
+          method: :delete,
+          class: 'columns delete_condition',
+          remote: true,
+          data: { confirm: { text: "Are you sure you want to delete the tide conditions?" } }

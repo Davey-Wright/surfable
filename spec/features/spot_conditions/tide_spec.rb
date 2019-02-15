@@ -2,103 +2,148 @@ require 'rails_helper'
 
 # Test
   # Read
-    # swell conditions displayed after user clicks swell on accordion
-      # all swells are displayed
+    # tide conditions displayed after user clicks tide on accordion
+      # all tides are displayed
       # all condition attributes are displayed
 
   # Create
-    # Add new spot button displays form with swell attribute fields
+    # Add new spot button displays form with tide attribute fields
       # creates spot successfully when required fields filled and form submitted
-        # spot page updated after swell created
+        # spot page updated after tide created
 
-      # swell not created when required form fields not filled in and form submitted
+      # tide not created when required form fields not filled in and form submitted
         # form displays validation errors
 
   # Delete
     # click delete displays confirmation modal
-      # successfully deletes swell after user clicks confirm
-      # unsuccessfully deletes swell after user clicks cancel
+      # successfully deletes tide after user clicks confirm
+      # unsuccessfully deletes tide after user clicks cancel
 
-feature 'User can Create, Read, Delete swell conditions', js: true do
+feature 'User can Create, Read, Delete tide conditions', js: true do
   let(:spot) do
     FactoryBot.create(:spot_with_conditions)
   end
 
-  before(:each) do
+  before(:each) do |test|
+    @tide = spot.tide
     login_as(spot.user)
-    visit spot_path(spot)
-    within 'ul.accordion' do
-      click_on('Swell')
-    end
+    visit_spot unless test.metadata[:no_tide]
   end
 
-  describe 'Read swells' do
-    scenario 'user views their spots swell conditions' do
-      swells = spot.swells
+  describe 'Read tide' do
+    scenario 'with tide conditions currently saved' do
+      expect(page).to_not have_link 'Add new conditions'
+      should_display_all_attributes(page)
+    end
+
+    scenario 'without tide conditions saved', :no_tide do
+      spot.tide = nil
+      visit_spot
       expect(page).to have_link 'Add new conditions'
-      should_display_all_conditions(page, swells)
     end
 
-    scenario 'user reads attributes with nil values' do
-      swell = spot.swells.first
-      swell.max_height = 0
-      swell.direction = []
-
-      scoped_node = "#spot_condition_#{swell.id}"
-      expect(scoped_node).to have_content 'N/A'
+    scenario 'attributes with nil values' do
+      within '#spot_tide' do
+        expect(page).to have_content 'Not Defined'
+      end
     end
   end
 
-  describe 'Create swells' do
+  describe 'Create tide' do
     context 'successfully' do
-      scenario 'when user fills required form fields and submits form' do
+      scenario 'when user fills required form fields and submits form', :no_tide do
+        spot.tide = nil
+        visit_spot
         click_on('Add new conditions')
-        within '#new_condition_swell' do
-          # rating attribute
-          choose(option: 4)
-          fill_in 'Min Height', with: 123
-          fill_in 'Max Height', with: 456
-          fill_in 'Min Period', with: 789
-          find('label', text: 'Nw').click
+        within '#new_condition_tide' do
+          within '.condition_tide_rising' do
+            first(:label, 'Low').click
+            first(:label, '1st').click
+            first(:label, '2nd').click
+            first(:label, 'Mid').click
+          end
+          within '.condition_tide_dropping' do
+            first(:label, 'Low').click
+            first(:label, '1st').click
+            first(:label, '2nd').click
+            first(:label, 'Mid').click
+          end
+          first(:label, '7').click
+          first(:label, '8').click
+          first(:label, '9').click
           click_on('Add Conditions')
         end
 
-        expect(page).to have_content "Successfully added swell conditions to #{spot.name}"
+        expect(page).to have_content "Successfully added Tide conditions to #{spot.name}"
         within 'ul.accordion' do
-          click_on('Swell')
+          click_on('Tide')
         end
-
         should_display_all_attributes(page)
       end
     end
 
     context 'unsuccessfully' do
-      scenario 'when user skips required form fields and submits form' do
+      scenario 'when user skips required form fields and submits form', :no_tide do
+        spot.tide = nil
+        visit_spot
         click_on('Add new conditions')
-        within '#new_condition_swell' do
+        within '#new_condition_tide' do
           click_on('Add Conditions')
         end
-        assert page.has_content? 'Please review the problems below:'
-        expect(page).to have_content "Rating can't be blank"
-        expect(page).to have_content "Min height can't be blank"
-        expect(page).to have_content "Min period can't be blank"
-      end
 
-      scenario 'when user resets form' do
-        click_on('Add new conditions')
-        within '#new_condition_swell' do
-          fill_in 'Min Height', with: 'dummy data'
-          click_on('Reset')
-        end
-        expect(page).to_not have_content 'dummy data'
+        assert page.has_text? 'Please review the problems below:'
+        expect(page).to have_content "Size can't be blank"
       end
     end
   end
 
-  describe 'Delete swells' do
+  describe 'Update tide' do
     before(:each) do
-      @swell = spot.swells.first
-      scoped_node = "#spot_condition_#{@swell.id}"
+      within '#spot_tide' do
+        click_on('Edit')
+        @scoped_form = "#edit_condition_tide_#{spot.tide.id}"
+      end
+    end
+
+    context 'successfully' do
+      scenario 'when user fills required form fields and submits form' do
+        within @scoped_form do
+          within '.condition_tide_rising' do
+            first(:label, 'Low').click
+            first(:label, '1st').click
+            first(:label, '2nd').click
+            first(:label, 'Mid').click
+          end
+          first(:label, '7').click
+          first(:label, '8').click
+          click_on('Update Conditions')
+        end
+
+        expect(page).to have_text 'Tide conditions were successfully updated'
+        within 'ul.accordion' do
+          click_on('Tide')
+        end
+        should_display_updated_attributes(page)
+      end
+    end
+
+    context 'unsuccessfully' do
+      scenario 'when user skips required form fields and submits form' do
+        within @scoped_form do
+          first(:label, '7').click
+          first(:label, '8').click
+          first(:label, '9').click
+          click_on('Update Conditions')
+        end
+        expect(page).to have_text 'Please review the problems below:'
+        expect(page).to have_content "Size can't be blank"
+      end
+    end
+  end
+
+  describe 'Delete tide' do
+    before(:each) do
+      scoped_node = '#spot_tide'
       within(scoped_node) do
         click_on('Delete')
       end
@@ -106,43 +151,37 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
 
     scenario 'successfully' do
       click_on('Confirm')
-      assert page.has_no_text? @swell.min_height
-      assert page.has_no_text? @swell.min_period
+      assert page.has_no_text? '7 8 9'
+      assert page.has_no_text? 'low 1st 2nd Mid'
     end
 
     scenario 'cancels delete' do
       click_on('Cancel')
-      expect(page.body).to have_content @swell.rating
-      expect(page.body).to have_content @swell.min_period
-      expect(page.body).to have_content @swell.min_height
-      expect(page.body).to have_content @swell.max_height
+      should_display_all_attributes(page)
     end
   end
 
-  def should_display_all_conditions(page, swells)
-    swells.each do |swell|
-      scoped_node = "#spot_condition_#{swell.id}"
-      within scoped_node do
-        expect(page.body).to have_content swell.rating
-        expect(page.body).to have_content swell.min_period
-        expect(page.body).to have_content swell.min_height
-        expect(page.body).to have_content swell.max_height
-        expect(page.body).to have_content swell.direction.first
-        expect(page).to have_link 'Delete'
-      end
+  def visit_spot
+    visit spot_path(spot)
+    within 'ul.accordion' do
+      click_on('Tide')
     end
   end
 
   def should_display_all_attributes(page)
-    swell = spot.swells.last
-    scoped_node = "#spot_condition_#{swell.id}"
+    scoped_node = '#spot_tide'
     within scoped_node do
-      expect(page.body).to have_css 'li.star_4'
-      expect(page.body).to have_content 'Minimum Height 123'
-      expect(page.body).to have_content 'Maximum Height 456'
-      expect(page.body).to have_content 'Minimum Period 789'
-      expect(page.body).to have_content 'NW'
+      expect(page.body).to have_content 'Low 1st 2nd Mid'
+      expect(page.body).to have_content '7 8 9'
       expect(page).to have_link('Delete')
+    end
+  end
+
+  def should_display_updated_attributes(page)
+    scoped_node = '#spot_tide'
+    within scoped_node do
+      expect(page.body).to_not have_content 'Low 1st 2nd Mid'
+      expect(page.body).to_not have_content '7, 8'
     end
   end
 end

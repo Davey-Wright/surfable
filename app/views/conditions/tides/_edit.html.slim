@@ -1,25 +1,22 @@
 h2.major
   | Tide Conditions
-
-= simple_form_for(@tide, url: spot_conditions_tides_path(@spot.id), remote: true, html: { class: 'check_label_form' }) do |f|
+= simple_form_for(@tide, url: spot_conditions_tide_path(@spot.id, @spot.tide), remote: true, html: { method: :put, class: 'check_label_form' }) do |f|
   = f.error_notification
   .form-inputs
     = f.input :rising,
       as: :check_boxes,
       collection: Condition::Tide.position_rising_options,
-      label: 'Position (rising tide times)',
-      error: "Rising tide times can't be blank"
-      
+      label: 'Position (rising tide times)'
+
     = f.input :dropping,
       as: :check_boxes,
       collection: Condition::Tide.position_dropping_options,
-      label: 'Position (dropping tide times)',
-      error: "Dropping tide times can't be blank"
+      label: 'Position (dropping tide times)'
 
     = f.input :size,
       as: :check_boxes,
       collection: Condition::Tide.size_options
 
   .form-actions
-    = f.button :submit, "Add Conditions"
+    = f.button :submit, "Update Conditions"
     = button_tag 'Reset', type: :reset, class: 'button'

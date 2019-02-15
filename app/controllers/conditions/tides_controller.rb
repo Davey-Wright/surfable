@@ -1,21 +1,17 @@
 class Conditions::TidesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_spot
-  before_action :set_tide, only: [:destroy]
+  before_action :set_tide, only: [:edit, :update, :destroy]
 
   respond_to :html, :js
 
-  def index
-    respond_with { |f| f.js { render 'index', layout: false } }
-  end
-
   def new
-    @tide = @spot.tide.new
+    @tide = @spot.build_tide
     respond_with { |f| f.js { render 'new', layout: false } }
   end
 
   def create
-    @tide = @spot.tide.create(tide_params)
+    @tide = @spot.create_tide(tide_params)
     if @tide.valid?
       flash[:success] = "Successfully added Tide conditions to #{ @tide.spot.name }"
       respond_with { |f| f.js { render 'spots/show', layout: false } }
@@ -24,16 +20,30 @@ class Conditions::TidesController < ApplicationController
     end
   end
 
+  def edit
+    respond_with { |f| f.js { render 'edit', layout: false } }
+  end
+
+  def update
+    @tide.update_attributes(tide_params)
+    if @tide.valid?
+      flash[:success] = "Tide conditions were successfully updated"
+      respond_with { |f| f.js { render 'spots/show', layout: false } }
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @tide.destroy
-    respond_with { |f| f.js { render 'index', layout: false } }
+    flash[:success] = "Successfully deleted Swell conditions from #{ @tide.spot.name }"
+    respond_with { |f| f.js { render 'spots/show', layout: false } }
   end
 
   private
 
     def tide_params
       params.require(:condition_tide).permit(
-        :rating,
         rising: [],
         dropping: [],
         size: []
@@ -48,7 +58,7 @@ class Conditions::TidesController < ApplicationController
     end
 
     def set_tide
-      @tide = Condition::Tide.find_by_id(params[:id])
+      @tide = @spot.tide
       if @tide.blank? || @tide.spot.user != current_user
         return render_404
       end

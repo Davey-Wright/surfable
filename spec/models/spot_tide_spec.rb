@@ -4,7 +4,6 @@ RSpec.describe Condition::Tide, type: :model do
 
   subject { Condition::Tide.create({
       spot: FactoryBot.create(:spot),
-      rating: 3,
       rising: [1, 2, 3],
       dropping: [1, 2, 3],
       size: ['all']
@@ -30,8 +29,8 @@ RSpec.describe Condition::Tide, type: :model do
       is_expected.to be_valid
     end
 
-    it 'is not valid with no rating' do
-      subject.rating = ['']
+    it 'is not valid with no sizes' do
+      subject.size = ['']
       is_expected.to_not be_valid
     end
 

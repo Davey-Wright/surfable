@@ -8,7 +8,7 @@ li(class='accordion-item' data-accordion-item)
       remote: true
 
     - @spot.swells.each do |swell|
-      ul id="spot_condition_#{ swell.id }"
+      ul id="spot_swell_#{ swell.id }"
         li class="star_#{ swell.rating }" Rating
         li= "Minimum Height #{ swell.min_height }"
         li= "Maximum Height #{ swell.max_height }"
