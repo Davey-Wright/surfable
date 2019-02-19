@@ -59,11 +59,11 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
           fill_in 'Min Height', with: 123
           fill_in 'Max Height', with: 456
           fill_in 'Min Period', with: 789
-          find('label', text: 'Nw').click
+          find('label', text: 'NW').click
           click_on('Add Conditions')
         end
 
-        expect(page).to have_content "Successfully added swell conditions to #{spot.name}"
+        expect(page).to have_content "Successfully added Swell conditions to #{spot.name}"
         within 'ul.accordion' do
           click_on('Swell')
         end
@@ -78,7 +78,7 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
         within '#new_condition_swell' do
           click_on('Add Conditions')
         end
-        assert page.has_content? 'Please review the problems below:'
+        assert_text 'Please review the problems below:'
         expect(page).to have_content "Rating can't be blank"
         expect(page).to have_content "Min height can't be blank"
         expect(page).to have_content "Min period can't be blank"
@@ -123,7 +123,6 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
     swells.each do |swell|
       scoped_node = "#spot_swell_#{swell.id}"
       within scoped_node do
-        expect(page.body).to have_content swell.rating
         expect(page.body).to have_content swell.min_period
         expect(page.body).to have_content swell.min_height
         expect(page.body).to have_content swell.max_height
@@ -138,9 +137,9 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
     scoped_node = "#spot_swell_#{swell.id}"
     within scoped_node do
       expect(page.body).to have_css 'li.star_4'
-      expect(page.body).to have_content 'Minimum Height 123'
-      expect(page.body).to have_content 'Maximum Height 456'
-      expect(page.body).to have_content 'Minimum Period 789'
+      expect(page.body).to have_content '123'
+      expect(page.body).to have_content '456'
+      expect(page.body).to have_content '789'
       expect(page.body).to have_content 'NW'
       expect(page).to have_link('Delete')
     end

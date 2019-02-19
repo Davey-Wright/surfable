@@ -91,7 +91,7 @@ feature 'User can Create, Read, Delete tide conditions', js: true do
           click_on('Add Conditions')
         end
 
-        assert page.has_text? 'Please review the problems below:'
+        assert_text 'Please review the problems below:'
         expect(page).to have_content "Size can't be blank"
       end
     end

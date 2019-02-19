@@ -26,7 +26,8 @@ class Conditions::WindsController < ApplicationController
 
   def destroy
     @wind.destroy
-    respond_with { |f| f.js { render 'index', layout: false } }
+    flash[:success] = "Successfully deleted Wind conditions from #{ @wind.spot.name }"
+    respond_with { |f| f.js { render 'spots/show', layout: false } }
   end
 
   private
