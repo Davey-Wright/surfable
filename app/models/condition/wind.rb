@@ -5,7 +5,7 @@ module Condition
     before_validation :remove_nil_values_from_arrays
 
     validates :direction, presence: true
-    validates :speed, presence: true
+    validates :max_speed, presence: true
     validates :rating, presence: true
 
     def self.name_options

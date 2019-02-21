@@ -10,17 +10,17 @@ RSpec.describe Surfable::Matchers::Winds do
     forecast_stub = day_forecast_stub
     let(:forecast_day) { Forecast::Day.new(forecast_stub) }
 
-    context 'speed' do
+    context 'speed doesnt match any spot conditions' do
       it {
         forecast_stub.hours.each do |hour|
           hour.wind[:speed] = 50
-          hour.wind[:gusts] = 30
+          hour.wind[:gusts] = 100
           hour.wind[:direction] = 270
         end
         expect(subject.forecast.length).to eq(0) }
     end
 
-    context 'direction' do
+    context 'direction doesnt match any spot conditions' do
       it {
         forecast_stub.hours.each do |hour|
           hour.wind[:speed] = 3
@@ -52,7 +52,7 @@ RSpec.describe Surfable::Matchers::Winds do
     end
 
     context 'with multiple blocks of surfable times' do
-      it { forecast_stub.hours[4].wind[:speed] = 50
+      it { forecast_stub.hours[4].wind[:speed] = 100
         expect(subject.forecast.length).to eq(2)
       }
     end

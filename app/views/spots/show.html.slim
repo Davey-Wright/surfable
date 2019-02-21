@@ -19,33 +19,23 @@
         li
           h2 Wave Break Type
           ul
-            - @spot.wave_break_type.each do |x|
-              li
-                p = x
+            = display_attribute(@spot.wave_break_type)
         li
           h2 Wave Shape
           ul
-            - @spot.wave_shape.each do |x|
-              li
-                p = x
+            = display_attribute(@spot.wave_shape)
         li
           h2 Wave Length
           ul
-            - @spot.wave_length.each do |x|
-              li
-                p = x
+            = display_attribute(@spot.wave_length)
         li
           h2 Wave Speed
           ul
-            - @spot.wave_speed.each do |x|
-              li
-                p = x
+            = display_attribute(@spot.wave_speed)
         li
           h2 Wave Direction
           ul
-            - @spot.wave_direction.each do |x|
-              li
-                p = x
+            = display_attribute(@spot.wave_direction)
 
   h2 Conditions
 

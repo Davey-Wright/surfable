@@ -4,6 +4,6 @@ FactoryBot.define do
     rating { 4 }
     name { ['onshore'] }
     direction { ['nw', 'n', 'w', 'sw'] }
-    speed { 4 }
+    max_speed { 4 }
   end
 end

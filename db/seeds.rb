@@ -21,23 +21,7 @@ porthcawl = demo_user.spots.create({
 porthcawl.create_tide({
   rising: [1, 2, 3, 4, 5],
   dropping: [1, 2, 3, 4, 5],
-  size: [5, 6, 7, 8]
-  })
-
-porthcawl.swells.create({
-  rating: 1,
-  min_height: 1,
-  max_height: nil,
-  min_period: 1,
-  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw']
-  })
-
-porthcawl.swells.create({
-  rating: 4,
-  min_height: 3,
-  max_height: nil,
-  min_period: 10,
-  direction: ['w', 'sw', 's']
+  size: [5, 6, 7, 8, 9]
   })
 
 porthcawl.swells.create({
@@ -45,28 +29,50 @@ porthcawl.swells.create({
   min_height: 6,
   max_height: nil,
   min_period: 12,
-  direction: ['w', 'sw', 's']
+  direction: ['S', 'SW', 'W', 'NW', 'N']
   })
 
-porthcawl.winds.create({
-  rating: 4,
-  name: ['onshore'],
-  direction: ['w', 'sw', 's'],
-  speed: 5
+porthcawl.swells.create({
+  rating: 3,
+  min_height: 3,
+  max_height: nil,
+  min_period: 10,
+  direction: ['S', 'SW', 'W', 'NW', 'N']
   })
 
 porthcawl.winds.create({
   rating: 5,
   name: ['onshore'],
-  direction: ['w', 'sw', 's'],
-  speed: 3
+  max_speed: 5,
+  direction: ['NW', 'SE', 'S', 'SW', 'W']
   })
 
 porthcawl.winds.create({
-  rating: 1,
-  name: ['strong onshore'],
-  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw'],
-  speed: 100
+  rating: 3,
+  name: ['onshore'],
+  max_speed: 10,
+  direction: ['NW', 'W', 'SW', 'S']
+  })
+
+porthcawl.winds.create({
+  rating: 5,
+  name: ['offshore'],
+  max_speed: 15,
+  direction: ['NE', 'E', 'SE' ]
+  })
+
+porthcawl.winds.create({
+  rating: 3,
+  name: ['offshore'],
+  max_speed: 30,
+  direction: ['N', 'NE', 'E', 'SE' ]
+  })
+
+porthcawl.winds.create({
+  rating: 3,
+  name: ['sideshore'],
+  max_speed: 30,
+  direction: ['N', 'S']
   })
 
 # Ogmore
@@ -84,15 +90,15 @@ ogmore = demo_user.spots.create({
 ogmore.create_tide({
   rising: [5, 6],
   dropping: [1, 2],
-  size: [7, 8]
+  size: [7, 8, 9]
   })
 
 ogmore.swells.create({
-  rating: 1,
-  min_height: 1,
+  rating: 5,
+  min_height: 6,
   max_height: nil,
-  min_period: 1,
-  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw']
+  min_period: 12,
+  direction: ['S', 'SW', 'W', 'NW']
   })
 
 ogmore.swells.create({
@@ -100,51 +106,35 @@ ogmore.swells.create({
   min_height: 3,
   max_height: nil,
   min_period: 10,
-  direction: ['w', 'sw', 's']
-  })
-
-ogmore.swells.create({
-  rating: 4,
-  min_height: 5,
-  max_height: nil,
-  min_period: 12,
-  direction: ['w', 'sw', 's']
-  })
-
-ogmore.swells.create({
-  rating: 5,
-  min_height: 7,
-  max_height: nil,
-  min_period: 12,
-  direction: ['w', 'sw', 's']
-  })
-
-ogmore.winds.create({
-  rating: 1,
-  name: ['strong onshore'],
-  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw'],
-  speed: 100
-  })
-
-ogmore.winds.create({
-  rating: 4,
-  name: ['onshore'],
-  direction: ['w', 'sw', 'nw'],
-  speed: 5
+  direction: ['S', 'SW', 'W', 'NW']
   })
 
 ogmore.winds.create({
   rating: 5,
   name: ['onshore'],
-  direction: ['w', 'sw', 'nw'],
-  speed: 3
+  max_speed: 5,
+  direction: ['NW', 'SW', 'W']
+  })
+
+ogmore.winds.create({
+  rating: 3,
+  name: ['onshore'],
+  max_speed: 10,
+  direction: ['NW', 'W', 'SW', 'S']
   })
 
 ogmore.winds.create({
   rating: 5,
   name: ['offshore'],
-  direction: ['ne', 'e', 'se', 's'],
-  speed: 15
+  max_speed: 15,
+  direction: ['NE', 'E', 'SE', 'S' ]
+  })
+
+ogmore.winds.create({
+  rating: 3,
+  name: ['offshore'],
+  max_speed: 30,
+  direction: ['NE', 'E', 'SE', 'S']
   })
 
 
@@ -167,55 +157,54 @@ southerndown.create_tide({
   })
 
 southerndown.swells.create({
-  rating: 1,
-  min_height: 1,
+  rating: 5,
+  min_height: 8,
   max_height: nil,
-  min_period: 1,
-  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw']
+  min_period: 12,
+  direction: ['S', 'SW', 'W', 'NW', 'N']
   })
 
 southerndown.swells.create({
   rating: 3,
-  min_height: 3,
+  min_height: 5,
   max_height: nil,
   min_period: 10,
-  direction: ['w', 'sw', 's']
-  })
-
-southerndown.swells.create({
-  rating: 5,
-  min_height: 6,
-  max_height: nil,
-  min_period: 12,
-  direction: ['w', 'sw', 's']
-  })
-
-southerndown.winds.create({
-  rating: 4,
-  name: ['onshore'],
-  direction: ['w', 'sw', 's'],
-  speed: 5
+  direction: ['S', 'SW', 'W', 'NW', 'N']
   })
 
 southerndown.winds.create({
   rating: 5,
   name: ['onshore'],
-  direction: ['w', 'sw', 's'],
-  speed: 3
+  max_speed: 5,
+  direction: ['NW', 'SE', 'S', 'SW', 'W']
+  })
+
+southerndown.winds.create({
+  rating: 3,
+  name: ['onshore'],
+  max_speed: 10,
+  direction: ['NW', 'W', 'SW', 'S']
   })
 
 southerndown.winds.create({
   rating: 5,
   name: ['offshore'],
-  direction: ['ne', 'e', 'se'],
-  speed: 20
+  max_speed: 15,
+  direction: ['NE', 'E', 'SE' ]
   })
 
 southerndown.winds.create({
-  rating: 1,
-  name: ['strong onshore'],
-  direction: ['n', 'ne', 'e', 's', 'sw', 'w', 'nw'],
-  speed: 100
+  rating: 3,
+  name: ['offshore'],
+  max_speed: 30,
+  direction: ['N', 'NE', 'E', 'SE' ]
+  })
+
+southerndown.winds.create({
+  rating: 3,
+  name: ['sideshore'],
+  max_speed: 30,
+  direction: ['N', 'S']
   })
 
 # Llanttwit
@@ -230,30 +219,28 @@ demo_user.spots.create({
   wave_direction: ['right']
   })
 
-
-
-
-
-def create_conditions_for(spot)
-  spot.swells.create({
-      rating: 4,
-      min_height: 4,
-      max_height: nil,
-      min_period: 10,
-      direction: ['w', 'sw', 's']
-    })
-
-  spot.tide.create({
-      rating: 3,
-      rising: [1, 2, 3],
-      dropping: [1, 2, 3],
-      size: [5, 6, 7, 8]
-    })
-
-  spot.wind_conditions.create({
-      rating: 5,
-      name: ['offshore'],
-      direction: ['w', 'sw', 's'],
-      speed: 13
-    })
-end
+#
+#
+# def create_conditions_for(spot)
+#   spot.swells.create({
+#       rating: 4,
+#       min_height: 4,
+#       max_height: nil,
+#       min_period: 10,
+#       direction: ['S', 'SW', 'W']
+#     })
+#
+#   spot.tide.create({
+#       rating: 3,
+#       rising: [1, 2, 3],
+#       dropping: [1, 2, 3],
+#       size: [5, 6, 7, 8]
+#     })
+#
+#   spot.wind_conditions.create({
+#       rating: 5,
+#       name: ['offshore'],
+#       direction: ['S', 'SW', 'W'],
+#       speed: 13
+#     })
+# end

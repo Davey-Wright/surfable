@@ -24,8 +24,8 @@ module Surfable
         spot_forecast = []
         @spots.each do |spot|
           next if spot.tide.nil? || spot.swells.blank? || spot.winds.blank?
-          forecast = Surfable::SpotForecaster.call(spot, day).forecast
-          spot_forecast.push Surfable::SpotForecaster.call(spot, day) if !forecast.nil?
+          surfable = Surfable::SpotForecaster.call(spot, day)
+          spot_forecast.push surfable if !surfable.forecast.nil?
         end
         return spot_forecast
       end

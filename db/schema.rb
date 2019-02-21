@@ -34,8 +34,6 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
     t.bigint "spot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "condition_id"
-    t.index ["condition_id"], name: "index_condition_tides_on_condition_id"
     t.index ["spot_id"], name: "index_condition_tides_on_spot_id"
   end
 
@@ -43,7 +41,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
     t.integer "rating", null: false
     t.string "name", default: [], array: true
     t.string "direction", default: [], array: true
-    t.integer "speed"
+    t.integer "max_speed"
     t.bigint "spot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

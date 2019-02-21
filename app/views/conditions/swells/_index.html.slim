@@ -11,12 +11,10 @@ li(class='accordion-item' data-accordion-item)
       - @spot.swells.each do |swell|
         ul id="spot_swell_#{ swell.id }"
           li class="star_#{ swell.rating }" Rating
-          li= "Minimum Height #{ swell.min_height }"
-          li= "Maximum Height #{ swell.max_height }"
-          li= "Minimum Period #{ swell.min_period }"
-          li Direction
-          - swell.direction.each do |direction|
-            = "#{ direction }, "
+          li= "Minimum Height: #{ swell.min_height }"
+          li= "Maximum Height: #{ display_attribute(swell.max_height) }"
+          li= "Minimum Period: #{ swell.min_period }"
+          li= "Direction: #{display_attribute(swell.direction)}"
 
           = link_to 'Delete',
             spot_conditions_swell_path(@spot, swell),

@@ -4,7 +4,7 @@ class CreateConditionWinds < ActiveRecord::Migration[5.2]
       t.integer :rating, null: false
       t.string :name, default: [], array: true
       t.string :direction, default: [], array: true
-      t.integer :speed
+      t.integer :max_speed
       t.belongs_to :spot, index: true
       t.timestamps
     end

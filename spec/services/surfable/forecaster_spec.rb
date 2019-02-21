@@ -9,17 +9,18 @@ RSpec.describe Surfable::Forecaster do
   }
   subject { described_class.call(spots, forecast) }
 
-  describe 'surfable forecast with real forecast' do
-    let(:spots) { FactoryBot.create(:spot_with_conditions) }
-    let(:forecast) {
-      f = Forecast::Mappers.call
-      forecast = Forecast::Days.new(f)
-    }
-    it {
-      expect(subject.forecast.length).to eq(5)
-      expect(subject.forecast.first[:spots].length).to eq(1)
-    }
-  end
+  # describe 'surfable forecast with forecast' do
+  #   let(:spots) { FactoryBot.create(:spot_with_conditions) }
+  #
+  #   let(:forecast) {
+  #     f = Forecast::Mappers.call
+  #     forecast = Forecast::Days.new(f)
+  #   }
+  #   it {
+  #     expect(subject.forecast.length).to eq(5)
+  #     expect(subject.forecast.first[:spots].length).to eq(1)
+  #   }
+  # end
 
   describe 'surfable forecast for multiple spots' do
     let(:spots) { 3.times.collect { FactoryBot.create(:spot_with_conditions) } }

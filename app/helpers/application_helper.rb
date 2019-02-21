@@ -19,12 +19,26 @@ module ApplicationHelper
   end
 
   def display_tide_offset_values(type)
-    str = ''
     if @spot.tide[type].empty?
-      str = 'Not Defined'
+      'Not Defined'
     else
+      str = ''
       @spot.tide[type].each { |value| str += "#{tide_offsets_value(type, value)} " }
+      return str
     end
-    return str
+  end
+
+  def display_attribute(att)
+    if att.is_a? Array
+      if att.empty?
+        'Not Defined'
+      else
+        str = ''
+        att.each { |prop| str += "#{prop} " }
+        return str
+      end
+    else
+      att.nil? ? 'Not Defined' : att
+    end
   end
 end

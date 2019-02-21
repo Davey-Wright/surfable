@@ -34,7 +34,7 @@ class Conditions::WindsController < ApplicationController
 
     def wind_params
       params.require(:condition_wind).permit(
-        :rating, :speed, name: [], direction: []
+        :rating, :max_speed, name: [], direction: []
       )
     end
 

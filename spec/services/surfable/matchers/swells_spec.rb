@@ -11,7 +11,7 @@ RSpec.describe Surfable::Matchers::Swells do
     let(:forecast_day) { Forecast::Day.new(forecast_stub) }
 
     context 'height' do
-      it { forecast_stub.hours.each { |hour| hour.swell[:height] = 1 }
+      it { forecast_stub.hours.each { |hour| hour.swell[:height] = 0.5 }
         expect(subject.forecast.length).to eq(0) }
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Surfable::Matchers::Swells do
     end
 
     context 'with multiple blocks of surfable times' do
-      it { forecast_stub.hours[4].swell[:height] = 1
+      it { forecast_stub.hours[4].swell[:height] = 0.5
         expect(subject.forecast.length).to eq(2)
       }
     end

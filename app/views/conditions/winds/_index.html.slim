@@ -19,7 +19,7 @@ li(class='accordion-item' data-accordion-item)
           - wind.direction.each do |direction|
             = " #{ direction }"
 
-          li= "Speed #{ wind.speed } mph"
+          li= "Max Speed #{ wind.max_speed } mph"
 
           = link_to 'Delete',
             spot_conditions_wind_path(@spot, wind),

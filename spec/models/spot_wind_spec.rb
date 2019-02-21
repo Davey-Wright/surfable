@@ -7,7 +7,7 @@ RSpec.describe Condition::Wind, type: :model do
       rating: 3,
       name: ['onshore'],
       direction: ['n', 'ne', 'e'],
-      speed: 20
+      max_speed: 20
     })
   }
 
@@ -26,7 +26,7 @@ RSpec.describe Condition::Wind, type: :model do
     end
 
     it 'is not valid with no speed' do
-      subject.speed = nil
+      subject.max_speed = nil
       is_expected.to_not be_valid
     end
 

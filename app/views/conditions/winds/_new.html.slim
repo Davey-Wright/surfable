@@ -12,7 +12,8 @@ h2.major
     = f.input :direction,
       as: :check_boxes,
       collection: Condition.direction_options
-    = f.input :speed
+    = f.input :max_speed,
+      label: 'Max Speed'
 
   .form-actions
     = f.button :submit, "Add Conditions"

@@ -26,14 +26,14 @@ FactoryBot.define do
           min_height: 1,
           max_height: nil,
           min_period: 4,
-          direction: ['n', 'ne', 'e', 'w', 'sw', 'w', 's']
+          direction: ['n', 'ne', 'e', 'se', 's', 'sw', 'w', ]
           })
         create(:wind_conditions, {
           spot: spot,
           rating: 1,
           name: ['onshore'],
-          speed: 50,
-          direction: ['n', 'ne', 'e', 'w', 'sw', 'w', 's']
+          max_speed: 50,
+          direction: ['n', 'ne', 'se', 's', 'sw', 'w']
           })
       end
     end
