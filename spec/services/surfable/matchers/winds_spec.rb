@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'support/day_forecast_stub'
 
 RSpec.describe Surfable::Matchers::Winds do
-
   let(:spot) { FactoryBot.create(:spot_with_conditions) }
   subject { described_class.call(spot, forecast_day) }
 
@@ -15,9 +14,10 @@ RSpec.describe Surfable::Matchers::Winds do
         forecast_stub.hours.each do |hour|
           hour.wind[:speed] = 50
           hour.wind[:gusts] = 100
-          hour.wind[:direction] = 270
+          hour.wind[:direction] = 90
         end
-        expect(subject.forecast.length).to eq(0) }
+        expect(subject.forecast.length).to eq(0)
+      }
     end
 
     context 'direction doesnt match any spot conditions' do
@@ -25,9 +25,10 @@ RSpec.describe Surfable::Matchers::Winds do
         forecast_stub.hours.each do |hour|
           hour.wind[:speed] = 3
           hour.wind[:gusts] = 2
-          hour.wind[:direction] = 90
+          hour.wind[:direction] = 270
         end
-        expect(subject.forecast.length).to eq(0) }
+        expect(subject.forecast.length).to eq(0)
+      }
     end
   end
 
@@ -39,23 +40,24 @@ RSpec.describe Surfable::Matchers::Winds do
       forecast_stub.hours.each do |hour|
         hour.wind[:speed] = 3
         hour.wind[:gusts] = 2
-        hour.wind[:direction] = 270
+        hour.wind[:direction] = 90
       end
-      expect(subject.forecast.length).to eq(1) }
+      expect(subject.forecast.length).to eq(1)
+    }
 
     it 'should only forecast highest rated spot condtions' do
-      lowest_rating = spot.winds.min_by { |e| e.rating }.rating
-      highest_rating = spot.winds.max_by { |e| e.rating }.rating
+      lowest_rating = spot.winds.min_by(&:rating).rating
+      highest_rating = spot.winds.max_by(&:rating).rating
       ratings = subject.forecast.first.collect { |f| f[:rating] }
       expect(ratings.exclude?(lowest_rating)).to eq(true)
       expect(ratings.include?(highest_rating)).to eq(true)
     end
 
     context 'with multiple blocks of surfable times' do
-      it { forecast_stub.hours[4].wind[:speed] = 100
+      it {
+        forecast_stub.hours[4].wind[:speed] = 100
         expect(subject.forecast.length).to eq(2)
       }
     end
   end
-
 end

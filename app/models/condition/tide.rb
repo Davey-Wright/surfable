@@ -5,12 +5,8 @@ module Condition
 
     validates :size, presence: true
 
-    def self.position_rising_options
-      [['Low', 0], ['1st', 1], ['2nd', 2], ['Mid', 3], ['4th', 4], ['5th', 5], ['High', 6]]
-    end
-
-    def self.position_dropping_options
-      [['High', 0], ['1st', 1], ['2nd', 2], ['Mid', 3], ['4th', 4], ['5th', 5], ['Low', 6]]
+    def self.position_offset_options
+      [['1st', 1], ['2nd', 2], ['3rd', 3], ['4th', 4], ['5th', 5], ['6th', 6]]
     end
 
     def self.size_options

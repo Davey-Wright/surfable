@@ -6,13 +6,13 @@ h2.major
   .form-inputs
     = f.input :rising,
       as: :check_boxes,
-      collection: Condition::Tide.position_rising_options,
+      collection: Condition::Tide.position_offset_options,
       label: 'Position (rising tide times)',
       error: "Rising tide times can't be blank"
-      
+
     = f.input :dropping,
       as: :check_boxes,
-      collection: Condition::Tide.position_dropping_options,
+      collection: Condition::Tide.position_offset_options,
       label: 'Position (dropping tide times)',
       error: "Dropping tide times can't be blank"
 

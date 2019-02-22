@@ -52,7 +52,7 @@ def swell
   swell = Forecast::Mappers.swell_struct.new
   swell[:height] = 5
   swell[:period] = 12
-  swell[:direction] = 250
+  swell[:direction] = 70
   swell
 end
 
@@ -60,6 +60,6 @@ def wind
   wind = Forecast::Mappers.wind_struct.new
   wind[:speed] = 3
   wind[:gusts] = 5
-  wind[:direction] = 315
+  wind[:direction] = 120
   wind
 end

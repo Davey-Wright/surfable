@@ -41,21 +41,21 @@ module Surfable
        def forecast_direction(d)
          direction = case d
            when (0..22) || (337..360)
-             'N'
-           when 23..68
-             'NE'
-           when 69..112
-             'E'
-           when 113..157
-             'SE'
-           when 158..202
              'S'
-           when 203..247
+           when 23..68
              'SW'
-           when 248..292
+           when 69..112
              'W'
-           when 293..337
+           when 113..157
              'NW'
+           when 158..202
+             'N'
+           when 203..247
+             'NE'
+           when 248..292
+             'E'
+           when 293..337
+             'SE'
          end
          direction
        end
