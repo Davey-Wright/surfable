@@ -2,28 +2,15 @@ require 'rails_helper'
 require 'support/day_forecast_stub'
 
 RSpec.describe Surfable::Forecaster do
+  let(:forecast) do
+    forecast_stub = Array.new(5) { day_forecast_stub }
+    Forecast::Days.new(forecast_stub)
+  end
 
-  let(:forecast) {
-    f = 5.times.collect { day_forecast_stub }
-    Forecast::Days.new(f)
-  }
   subject { described_class.call(spots, forecast) }
 
-  # describe 'surfable forecast with forecast' do
-  #   let(:spots) { FactoryBot.create(:spot_with_conditions) }
-  #
-  #   let(:forecast) {
-  #     f = Forecast::Mappers.call
-  #     forecast = Forecast::Days.new(f)
-  #   }
-  #   it {
-  #     expect(subject.forecast.length).to eq(5)
-  #     expect(subject.forecast.first[:spots].length).to eq(1)
-  #   }
-  # end
-
   describe 'surfable forecast for multiple spots' do
-    let(:spots) { 3.times.collect { FactoryBot.create(:spot_with_conditions) } }
+    let(:spots) { Array.new(3) { FactoryBot.create(:spot_with_conditions) } }
 
     context 'all spots are surfable' do
       it {

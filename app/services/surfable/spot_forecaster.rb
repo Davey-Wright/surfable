@@ -75,7 +75,7 @@ module Surfable
           h[:rating] if (n & [*h[:hour]..h[:hour]+2]).present?
         end
         rating.compact!
-        return rating.inject(:+).to_f / rating.size unless rating.nil?
+        return rating.inject(:+).to_i / rating.size unless rating.nil?
       end
 
       def set_forecast_values(new_hours, f)
