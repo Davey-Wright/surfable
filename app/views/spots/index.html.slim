@@ -2,8 +2,7 @@
   script
     |
       document.addEventListener("turbolinks:load", function(){
-        #{ spots_lat_lng = @spots.map { |s| [s.latitude, s.longitude] } }
-        initSpotIndexMap(#{ spots_lat_lng.to_json.html_safe });
+        initSpotIndexMap(#{ @spots_map.to_json.html_safe });
       });
 
 .row

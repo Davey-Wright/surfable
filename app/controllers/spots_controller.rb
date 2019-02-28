@@ -5,6 +5,11 @@ class SpotsController < ApplicationController
 
   def index
     @spots = current_user.spots.all
+    @spots_map = @spots.map do |s|
+      spot = s.attributes
+      spot['path'] = spot_path(s)
+      spot
+    end
   end
 
   def new

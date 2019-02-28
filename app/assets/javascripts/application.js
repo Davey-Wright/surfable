@@ -73,17 +73,20 @@ function initSpotIndexMap(spots) {
 
   for(var i = 0; i < spots.length; i++){
     var spot = spots[i];
-    var lat = (Math.round(parseFloat(spot[0])*1000000))/1000000;
-    var lng = (Math.round(parseFloat(spot[1])*1000000))/1000000;
+    var lat = (Math.round(parseFloat(spot.latitude)*1000000))/1000000;
+    var lng = (Math.round(parseFloat(spot.longitude)*1000000))/1000000;
 
     var marker = new google.maps.Marker({
+      spot_name: spot.name,
+      spot_path: spot.path,
       position: {lat: lat, lng: lng},
-      map: map
+      map: map,
     })
 
-    marker.addListener('click', function(){
+    marker.addListener('click', function(e){
+      let spot_link = `<div id='infowindow'><a href="${this.spot_path}">${this.spot_name}</a></div>`;
       infowindow.close();
-      infowindow.setContent( "<div id='infowindow'> Melaka Broo </div>");
+      infowindow.setContent(spot_link);
       infowindow.open(map, this);
     });
   }
@@ -144,7 +147,6 @@ function initSpotNewMap() {
   });
 
   function refreshMarker(){
-    console.log('change')
     var lat = document.getElementById('spot_latitude').value,
         lng = document.getElementById('spot_longitude').value;
     var myCoords = new google.maps.LatLng(lat, lng);
