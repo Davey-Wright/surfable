@@ -1,26 +1,22 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'New User registration', js: true do
-
+feature 'New user registration', js: true do
   before(:each) do
     visit root_path
     click_on('Sign Up')
   end
 
-  describe 'user resets form' do
-    it {
+  context 'unsuccessfull' do
+    scenario 'when user resets form' do
       within('#new_user') do
-        fill_form
+        fill_form('surfable@demo.com')
         click_on('Reset')
       end
       expect(page).to have_current_path(root_path)
-      expect_user_count_to_be(0)
-    }
-  end
+    end
 
-  describe 'user submits incomplete form' do
-    it {
+    scenario 'when user submits incomplete form' do
       within('#new_user') do
         click_on('Sign up')
       end
@@ -29,60 +25,89 @@ feature 'New User registration', js: true do
       expect(page).to have_content(/email can't be blank/i)
       expect(page).to have_content(/email can't be blank/i)
       expect(page).to have_content(/password can't be blank/i)
-      expect_user_count_to_be(0)
-    }
-  end
+    end
 
-  describe 'user submits complete form' do
-    it {
+    scenario 'when password is to short' do
       within('#new_user') do
-        fill_form
+        fill_in 'user_first_name', with: 'salty'
+        fill_in 'user_last_name', with: 'dog'
+        fill_in 'user_email', with: 'surfable@demo.com'
+        fill_in 'user_password', with: 'sasa'
+        fill_in 'user_password_confirmation', with: 'sasa'
+        click_on('Sign up')
+        expect(page).to have_content(/password is too short/i)
+      end
+    end
+
+    scenario 'users password and password confirmation dont match' do
+      within('#new_user') do
+        fill_in 'user_first_name', with: 'salty'
+        fill_in 'user_last_name', with: 'dog'
+        fill_in 'user_email', with: 'surfable@demo.com'
+        fill_in 'user_password', with: 'saltysender'
+        fill_in 'user_password_confirmation', with: 'invalidconfirmation'
+        click_on('Sign up')
+        expect(page).to have_content(/password confirmation doesn't match password/i)
+      end
+    end
+
+    scenario 'when user tries to register with an email that is already registered' do
+      email = 'surfable@demo.com'
+      FactoryBot.create(:user, email: email)
+      within('#new_user') do
+        fill_form(email)
         click_on('Sign up')
       end
-      expect(page.body).to have_content(/surfable forecast/i)
-    }
-  end
+      expect(page).to have_content(/email has already been taken/i)
+    end
 
-  describe 'sign up with google' do
-    it {
-      omniauth_stub(provider: :google_oauth2)
-      click_on('Sign up with Google')
-      expect(page.body).to have_content(/surfable forecast/i)
-    }
-  end
-
-  describe 'sign up with facebook' do
-    it {
-      omniauth_stub(provider: :facebook)
-      click_on('Sign up with Facebook')
-      expect(page.body).to have_content(/surfable forecast/i)
-    }
-  end
-
-  describe 'with facebook auth using existing email' do
-    it {
-      FactoryBot.create(:user, { email: 'saltydog@test.com' })
+    scenario 'when user tries to register with facebook auth using a registered email' do
+      FactoryBot.create(:user, email: 'saltydog@test.com')
       omniauth_stub(provider: :facebook)
       click_on('Sign up with Facebook')
       expect(page).to have_content('Email has already been taken')
-    }
+    end
   end
 
-  def fill_form
+  context 'successfully' do
+    scenario 'user submits complete form' do
+      email = 'saltydog@demo.com'
+      within('#new_user') do
+        fill_form(email)
+        click_on('Sign up')
+      end
+      expect(page).to have_content(/you have successfully signed up. welcome to surfable!/i)
+      delivers_email_to(email)
+    end
+
+    scenario 'sign up with google' do
+      email = omniauth_stub[:info][:email]
+      omniauth_stub(provider: :google_oauth2)
+      click_on('Sign up with Google')
+      expect(page).to have_content(/successfully logged in from google/i)
+      delivers_email_to(email)
+    end
+
+    scenario 'sign up with facebook' do
+      omniauth_stub(provider: :facebook)
+      email = omniauth_stub[:info][:email]
+      click_on('Sign up with Facebook')
+      expect(page).to have_content(/successfully logged in from facebook/i)
+      delivers_email_to(email)
+    end
+  end
+
+  def fill_form(email)
     fill_in 'user_first_name', with: 'salty'
     fill_in 'user_last_name', with: 'dog'
-    fill_in 'user_email', with: 'saltydog@test.com'
+    fill_in 'user_email', with: email
     fill_in 'user_password', with: 'saltysender'
     fill_in 'user_password_confirmation', with: 'saltysender'
   end
 
-  def expect_user_count_to_be(n)
-    user = User.all
-    expect(user.count).to eq(n)
+  def delivers_email_to(email)
+    message = ActionMailer::Base.deliveries.last
+    expect(message.to.first).to eq(email)
+    expect(message.subject).to eq('Welcome to Surfable!')
   end
-
-  def user_sign_up_expectations(page)
-    expect(page.body).to have_content(/surfable forecast/i)
-  end
-
 end

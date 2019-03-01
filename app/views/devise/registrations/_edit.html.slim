@@ -14,24 +14,14 @@ h2
         autofocus: true,
         input_html: { autocomplete: "last-name" }
       = f.input :email, required: true, autofocus: true
-      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-        p
-          | Currently waiting confirmation for:
-          = resource.unconfirmed_email
-      = f.input :new_password,
-        hint: "leave it blank if you don't want to change it",
-        required: false,
-        input_html: { autocomplete: "new-password" }
-      = f.input :new_password_confirmation,
-        required: false,
-        input_html: { autocomplete: "new-password" }
+
+      = f.input :password,
+        hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
+      = f.input :password_confirmation
+
       = f.input :current_password,
         hint: "we need your current password to confirm your changes",
-        required: true,
-        input_html: { autocomplete: "current-password" }
+        required: true
     .form-actions
-      = f.button :submit, "Update"
-h3
-  | Cancel my account
-
-= link_to "Delete my account", user_confirm_destroy_path(resource)
+      = f.button :submit, "Update Account"
+      = link_to 'Cancel', user_path(@user), class: 'button'

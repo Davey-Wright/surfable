@@ -1,65 +1,101 @@
 require 'rails_helper'
 require 'support/omniauth_stub'
 
-feature 'update', type: :feature do
-  scenario 'user has registered with OAuth and is on dashboard' do
-    visit new_user_registration_path
-    omniauth_stub(provider: :facebook)
-    click_on('Sign in with Facebook')
+feature 'User updates account details', type: :feature, js: true do
+  let(:user) { FactoryBot.create(:user) }
+
+  before(:each) do
+    login_as user
+    visit(user_path(user))
     click_on('Settings')
-    expect(page).not_to have_selector('#edit_user')
-    expect(page).to have_content('Delete my account')
   end
 
-  scenario 'user is on dashboard and clicks edit button' do
-    user = create_and_login_user
-    visit user_path(user)
-    click_on('Settings')
-    expect(page).to have_current_path(edit_user_registration_path)
-  end
-
-  scenario 'user cancels update' do
-    user = create_and_login_user
-    visit edit_user_registration_path(user)
-    click_on('Go back')
-    expect(page).to have_current_path(user_path(user))
-    expect(page).to have_content(user.first_name, user.last_name)
-  end
-
-  scenario 'user submits incomplete update form' do
-    user = create_and_login_user
-    visit edit_user_registration_path(user)
-    within('#edit_user') do
-      fill_in 'user_first_name', with: ''
-      fill_in 'user_last_name', with: ''
-      fill_in 'user_email', with: ''
-      fill_in 'user_current_password', with: ''
-      click_on('Update')
+  context 'unsuccessfully' do
+    scenario 'when user cancels form' do
+      within('#edit_user') do
+        click_link('Cancel')
+      end
+      expect(page).to have_current_path(user_path(user))
     end
-    expect(page).to have_content("First name can't be blank")
-    expect(page).to have_content("Last name can't be blank")
-    expect(page).to have_content("Email can't be blank")
-    expect(page).to have_content("Current password can't be blank")
+
+    scenario 'when user submits incomplete form' do
+      within('#edit_user') do
+        fill_in 'user_first_name', with: ''
+        fill_in 'user_last_name', with: ''
+        fill_in 'user_email', with: ''
+        fill_in 'user_password', with: ''
+        fill_in 'user_password_confirmation', with: ''
+        fill_in 'user_current_password', with: ''
+        click_on('Update Account')
+      end
+      expect(page).to have_content(/first name can't be blank/i)
+      expect(page).to have_content(/last name can't be blank/i)
+      expect(page).to have_content(/email can't be blank/i)
+      expect(page).to have_content(/current password can't be blank/i)
+    end
+
+    scenario 'when new password and new password confirmation dont match' do
+      within('#edit_user') do
+        fill_in 'user_first_name', with: 'Melaka'
+        fill_in 'user_last_name', with: 'Shaka'
+        fill_in 'user_email', with: 'surfable@demo.com'
+        fill_in 'user_password', with: 'saltysender'
+        fill_in 'user_password_confirmation', with: 'invalidconfirmation'
+        fill_in 'user_current_password', with: 'saltysender'
+        click_on('Update Account')
+      end
+      expect(page).to have_content(/password confirmation doesn't match password/i)
+    end
+
+    scenario 'when new password is to short' do
+      within('#edit_user') do
+        fill_in 'user_first_name', with: 'Melaka'
+        fill_in 'user_last_name', with: 'Shaka'
+        fill_in 'user_email', with: 'surfable@demo.com'
+        fill_in 'user_password', with: 'sasa'
+        fill_in 'user_password_confirmation', with: 'sasa'
+        fill_in 'user_current_password', with: 'saltysender'
+        click_on('Update Account')
+      end
+      expect(page).to have_content(/password is too short/i)
+    end
+
+    scenario 'user tries to change email to already registered email' do
+      other_user = FactoryBot.create(:user, email: 'surf_sender@demo.com')
+      fill_form(other_user.email)
+      expect(page).to have_content(/email has already been taken/i)
+    end
+
+    scenario 'when current password is incorrect' do
+      within('#edit_user') do
+        fill_in 'user_first_name', with: 'Melaka'
+        fill_in 'user_last_name', with: 'Shaka'
+        fill_in 'user_email', with: 'surfable@demo.com'
+        fill_in 'user_password', with: 'saltysender'
+        fill_in 'user_password_confirmation', with: 'saltysender'
+        fill_in 'user_current_password', with: 'invalidpassword'
+        click_on('Update Account')
+        expect(page).to have_content(/current password is invalid/i)
+      end
+    end
   end
 
-  scenario 'user updates account details' do
-    user = create_and_login_user
-    visit edit_user_registration_path(user)
+  context 'successfully' do
+    scenario 'when user submits valid form' do
+      fill_form 'surfable@demo.com'
+      expect(page).to have_content(/Your account has been updated successfully/i)
+    end
+  end
+
+  def fill_form(email)
     within('#edit_user') do
       fill_in 'user_first_name', with: 'salty'
       fill_in 'user_last_name', with: 'dog'
-      fill_in 'user_email', with: 'saltydog@test.com'
+      fill_in 'user_email', with: email
+      fill_in 'user_password', with: 'newpassword'
+      fill_in 'user_password_confirmation', with: 'newpassword'
       fill_in 'user_current_password', with: 'saltysender'
-      click_on('Update')
+      click_on('Update Account')
     end
-    expect(page).to have_content('Your account has been updated successfully.')
-    expect(page).to have_current_path(user_path(user))
   end
-
-  def create_and_login_user
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-    user
-  end
-
 end

@@ -2,6 +2,14 @@ module Users
   class RegistrationsController < Devise::RegistrationsController
     respond_to :html, :js
 
+    def send_update_confirmation
+      UserMailer.update_confirmation(self).deliver
+    end
+
+    def send_delete_confirmation
+      UserMailer.delete_confirmation(self).deliver
+    end
+
     def new
       build_resource
       yield resource if block_given?
@@ -17,6 +25,7 @@ module Users
           set_flash_message! :notice, :signed_up
           sign_up(resource_name, resource)
           sign_in_and_redirect @user, event: :authentication
+          UserMailer.sign_up_confirmation(@user).deliver_later
         else
           set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
           expire_data_after_sign_in!
@@ -62,7 +71,7 @@ module Users
       end
 
       def account_update_params
-        params.require(:user).permit(:first_name, :last_name, :email, :current_password)
+        params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
       end
 
       def after_sign_up_path_for(resource)

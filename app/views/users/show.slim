@@ -1,6 +1,10 @@
 h1 Shwmae #{@user.first_name} #{@user.last_name}
 
 - if @user.provider == nil
-  = link_to 'Edit', edit_user_registration_path,
+  = link_to 'Settings', edit_user_registration_path,
     class: 'columns new_spot_btn',
     remote: true
+
+h3
+  | Cancel my account
+/ = link_to "Delete my account", user_confirm_destroy_path(resource)

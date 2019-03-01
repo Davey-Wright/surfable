@@ -20,4 +20,4 @@
                   = surfable_forecast.values.each do |time|
                   /   p "#{ time.first } - #{ time.last }"
     - else
-      p You don't have any surf spots or conditions to check. Add them here
+      p Get started and add your favorite spots to your forecasts by adding them #{link_to 'here', new_spot_path, class: 'columns new_spot_btn', remote: true}

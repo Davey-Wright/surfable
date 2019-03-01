@@ -15,6 +15,7 @@ module Users
       if @user.persisted?
         set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
         sign_in_and_redirect @user, event: :authentication
+        UserMailer.sign_up_confirmation(@user).deliver_later
       else
         session["devise.#{provider.downcase}_data"] = request.env['omniauth.auth']
         notices = flash[:notice].to_a.concat resource.errors.full_messages

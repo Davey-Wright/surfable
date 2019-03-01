@@ -2,6 +2,14 @@ require 'rails_helper'
 require 'support/omniauth_stub'
 
 feature 'delete', js: true do
+  let(:user) { FactoryBot.create(:user) }
+
+  before(:each) do
+    login_as user
+    visit(user_path(user))
+    click_on('Delete my Account')
+  end
+
   scenario 'user deletes account' do
     user = create_and_login_user
     click_on_delete_my_account(user)
