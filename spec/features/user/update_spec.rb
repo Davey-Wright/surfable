@@ -3,6 +3,16 @@ require 'support/omniauth_stub'
 
 feature 'User updates account details', type: :feature, js: true do
   let(:user) { FactoryBot.create(:user) }
+  let(:oauth_user) { FactoryBot.create(:user, provider: 'facebook') }
+
+  context 'OAuth users' do
+    scenario 'cannot update account details' do
+      login_as oauth_user
+      visit(user_path(oauth_user))
+      click_on('Settings')
+      expect(page).to_not have_css('#edit_user')
+    end
+  end
 
   before(:each) do
     login_as user
@@ -83,7 +93,7 @@ feature 'User updates account details', type: :feature, js: true do
   context 'successfully' do
     scenario 'when user submits valid form' do
       fill_form 'surfable@demo.com'
-      expect(page).to have_content(/Your account has been updated successfully/i)
+      expect(page).to have_content(/your account has been updated successfully/i)
     end
   end
 

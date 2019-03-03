@@ -7,9 +7,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
-  get 'users/:id/confirm_destroy', to: 'users#confirm_destroy', as: 'user_confirm_destroy'
-
-  resources :users, only: [:show, :destroy]
+  resources :users, only: [:show]
 
   get '/forecast' => 'static_pages#forecast'
 

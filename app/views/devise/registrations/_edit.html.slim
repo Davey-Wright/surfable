@@ -1,5 +1,4 @@
-h2
-  = "Edit #{ @user.first_name }"
+h2 Account Settings
 
 - if @user.provider.nil?
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, remote: true }) do |f|
@@ -25,3 +24,11 @@ h2
     .form-actions
       = f.button :submit, "Update Account"
       = link_to 'Cancel', user_path(@user), class: 'button'
+
+h2 Not Happy?
+= link_to "Delete my Account",
+  user_registration_path(resource),
+  method: :delete,
+  remote: true,
+  class: 'button alert',
+  data: { confirm: { text: "Are you sure you want to delete your account?" } }

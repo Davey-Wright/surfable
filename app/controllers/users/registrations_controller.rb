@@ -59,9 +59,13 @@ module Users
       else
         clean_up_passwords resource
         set_minimum_password_length
-        # respond_with resource
         respond_with { |f| f.js { render 'edit', layout: false } }
       end
+    end
+
+    def destroy
+      resource.destroy
+      redirect_to root_path
     end
 
     private
