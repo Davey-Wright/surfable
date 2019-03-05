@@ -24,8 +24,8 @@ module Users
         if resource.active_for_authentication?
           set_flash_message! :notice, :signed_up
           sign_up(resource_name, resource)
-          sign_in_and_redirect @user, event: :authentication
-          UserMailer.sign_up_confirmation(@user).deliver_later
+          sign_in_and_redirect resource, event: :authentication
+          UserMailer.sign_up_confirmation(resource).deliver_later
         else
           set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
           expire_data_after_sign_in!
@@ -55,7 +55,7 @@ module Users
           set_flash_message :notice, flash_key
         end
         bypass_sign_in resource, scope: resource_name
-        after_update_path_for(@user)
+        after_update_path_for(resource)
       else
         clean_up_passwords resource
         set_minimum_password_length
@@ -64,8 +64,10 @@ module Users
     end
 
     def destroy
-      resource.destroy
-      redirect_to root_path
+      if resource.destroy
+        redirect_to root_path
+        UserMailer.delete_confirmation(resource).deliver_now
+      end
     end
 
     private
