@@ -6,9 +6,9 @@ module Users
       omniauth_callback('Facebook')
     end
 
-    def google_oauth2
-      omniauth_callback('Google')
-    end
+    # def google_oauth2
+    #   omniauth_callback('Google')
+    # end
 
     def omniauth_callback(provider)
       @user = User.from_omniauth(request.env['omniauth.auth'])

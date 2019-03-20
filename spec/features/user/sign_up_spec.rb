@@ -80,14 +80,6 @@ feature 'New user registration', js: true do
       delivers_email_to(email)
     end
 
-    scenario 'sign up with google' do
-      email = omniauth_stub[:info][:email]
-      omniauth_stub(provider: :google_oauth2)
-      click_on('Sign up with Google')
-      expect(page).to have_content(/successfully logged in from google/i)
-      delivers_email_to(email)
-    end
-
     scenario 'sign up with facebook' do
       omniauth_stub(provider: :facebook)
       email = omniauth_stub[:info][:email]

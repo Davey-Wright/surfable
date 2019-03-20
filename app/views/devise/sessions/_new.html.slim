@@ -4,7 +4,7 @@ h2.major
 .social_sign_up_links
   - if devise_mapping.omniauthable?
     - resource_class.omniauth_providers.each do |provider|
-      = link_to "Log in with #{provider == :google_oauth2 ? 'Google' : 'Facebook'}", omniauth_authorize_path(resource_name, provider), class: 'button'
+      = link_to "Log in with #{'Facebook' if provider == :facebook}", omniauth_authorize_path(resource_name, provider), class: 'button'
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), remote: true) do |f|
   = f.error_notification
