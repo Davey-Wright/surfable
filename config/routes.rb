@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show]
 
   get '/forecast' => 'static_pages#forecast'
+  get '/demo' => 'static_pages#demo'
 
   resources :spots do
     namespace :conditions do

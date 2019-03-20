@@ -47,7 +47,6 @@ gem 'jquery-rails', '~> 4.0', '>= 4.0.5'
 # User Authentication
 gem 'devise'
 gem 'omniauth-facebook'
-gem 'omniauth-google-oauth2'
 gem 'draper'
 gem 'httparty'
 

@@ -1,8 +1,9 @@
 demo_user = User.create({
-  email: 'surfable@demo.com',
+  email: 'demo_user@surfable.io',
   password: 'demosender',
   first_name: 'Rikter',
   last_name: 'Sender',
+  demo: true
 })
 
 

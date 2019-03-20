@@ -2,14 +2,6 @@ module Users
   class RegistrationsController < Devise::RegistrationsController
     respond_to :html, :js
 
-    def send_update_confirmation
-      UserMailer.update_confirmation(self).deliver
-    end
-
-    def send_delete_confirmation
-      UserMailer.delete_confirmation(self).deliver
-    end
-
     def new
       build_resource
       yield resource if block_given?

@@ -3,7 +3,7 @@ html
   head
     meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
     / <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
-    title Saltydog
+    title Surfable
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -24,32 +24,11 @@ html
     body.surfable-wrapper
       p.notice= notice
       p.alert= alert
-      - if user_signed_in?
-        .top-bar
-          = image_tag "logo.png", class: 'logo'
-          ul.menu.primary-nav.menu-hover-lines
-            li.active
-              = link_to 'Forecast', forecast_path
-            li
-              = link_to 'Spots', spots_path
-            li
-              = link_to 'Dashboard', user_path(current_user)
-            li
-              = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
-            li.off-canvas-content data-off-canvas-content=""
-              button.button data-toggle="offCanvas" type="button"
-                span.menu-icon
-                span Menu
 
-            #offCanvas.off-canvas.position-right data-off-canvas=""
-              ul.menu.vertical
-                li
-                  = link_to 'Forecast', forecast_path
-                li
-                  = link_to 'Spots', spots_path
-                li
-                  = link_to 'Dashboard', user_path(current_user)
-                li
-                  = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'
+      - if user_signed_in?
+        - if current_user.demo
+          = render 'layouts/demo_navigation'
+        - else
+          = render 'layouts/user_navigation'
 
     = yield

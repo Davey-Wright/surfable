@@ -1,8 +1,10 @@
 class StaticPagesController < ApplicationController
   before_action :authenticate_user!, only: :forecast
+  before_action :set_demo_user, only: [:home, :demo_forecast, :demo_spot_index, :demo_spot_show]
   respond_to :html, :js
 
   def home
+    sign_out(current_user) if current_user == set_demo_user
     redirect_to forecast_path(current_user) if user_signed_in?
   end
 
@@ -14,6 +16,12 @@ class StaticPagesController < ApplicationController
     else
       return @surfable = false
     end
+  end
+
+  def demo
+    demo_user = set_demo_user
+    sign_in(demo_user)
+    redirect_to forecast_path
   end
 
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
@@ -34,4 +42,9 @@ class StaticPagesController < ApplicationController
     @devise_mapping ||= Devise.mappings[:user]
   end
 
+  private
+
+    def set_demo_user
+      User.where(email: 'demo_user@surfable.io').first
+    end
 end

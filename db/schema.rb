@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_225605) do
     t.datetime "updated_at", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
+    t.boolean "demo", default: false
     t.string "provider"
     t.string "uid"
     t.index ["email"], name: "index_users_on_email", unique: true
