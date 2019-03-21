@@ -22,45 +22,44 @@ module Forecast
 
       private
 
-        def day_mapper(date)
-          day = Forecast::Mappers.day_struct.new
-          day.date = date
-          hours = http_res.select { |res| date == get_date(res) }
-          day.hours = hours.map { |res| hours_mapper(res) }
-          day
-        end
+      def day_mapper(date)
+        day = Forecast::Mappers.day_struct.new
+        day.date = date
+        hours = http_res.select { |res| date == get_date(res) }
+        day.hours = hours.map { |res| hours_mapper(res) }
+        day
+      end
 
-        def hours_mapper(res)
-          hour = Forecast::Mappers.hour_struct.new
-          hour.value = Time.at(res['localTimestamp'])
-          hour.swell = swell_mapper(res)
-          hour.wind = wind_mapper(res)
-          hour
-        end
+      def hours_mapper(res)
+        hour = Forecast::Mappers.hour_struct.new
+        hour.value = Time.at(res['localTimestamp'])
+        hour.swell = swell_mapper(res)
+        hour.wind = wind_mapper(res)
+        hour
+      end
 
-        def swell_mapper(res)
-          swell = Forecast::Mappers.swell_struct.new
-          key = res['swell']['components']['primary']
-          swell.height = key['height']
-          swell.period = key['period']
-          swell.direction = key['direction']
-          swell
-        end
+      def swell_mapper(res)
+        swell = Forecast::Mappers.swell_struct.new
+        key = res['swell']['components']['primary']
+        swell.height = key['height']
+        swell.period = key['period']
+        swell.direction = key['direction']
+        swell
+      end
 
-        def wind_mapper(res)
-          wind = Forecast::Mappers.wind_struct.new
-          key = res['wind']
-          wind.speed = key['speed']
-          wind.gusts = key['gusts']
-          wind.direction = key['direction']
-          wind
-        end
+      def wind_mapper(res)
+        wind = Forecast::Mappers.wind_struct.new
+        key = res['wind']
+        wind.speed = key['speed']
+        wind.gusts = key['gusts']
+        wind.direction = key['direction']
+        wind
+      end
 
-        def get_date(res)
-          # Time.at(res['localTimestamp'])
-          Time.at(res['localTimestamp']).strftime('%F')
-        end
-
+      def get_date(res)
+        # Time.at(res['localTimestamp'])
+        Time.at(res['localTimestamp']).strftime('%F')
+      end
     end
   end
 end

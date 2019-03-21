@@ -15,7 +15,6 @@ module Forecast
         end
         ForecastResponse.new(day, response)
       end
-
     end
   end
 end

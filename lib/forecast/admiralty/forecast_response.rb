@@ -27,14 +27,13 @@ module Forecast
 
       private
 
-        def tide_mapper(res)
-          tide = Forecast::Mappers.tide_struct.new
-          tide.type = res['EventType'] == 'HighWater' ? 'high' : 'low'
-          tide.height = res['Height'].round(2)
-          tide.time = Time.parse(res['DateTime'])
-          tide
-        end
-
+      def tide_mapper(res)
+        tide = Forecast::Mappers.tide_struct.new
+        tide.type = res['EventType'] == 'HighWater' ? 'high' : 'low'
+        tide.height = res['Height'].round(2)
+        tide.time = Time.parse(res['DateTime'])
+        tide
+      end
     end
   end
 end

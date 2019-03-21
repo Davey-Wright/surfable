@@ -30,7 +30,6 @@ module Forecast
         zone = 'London'
         Time.use_zone(zone) { Time.zone.parse(time) }
       end
-
     end
   end
 end
