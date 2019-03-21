@@ -31,6 +31,5 @@ module UserAuthentication
         auth.info.last_name
       end
     end
-
   end
 end

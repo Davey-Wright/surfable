@@ -32,17 +32,16 @@ module Forecast
 
     private
 
-      def magicseaweed
-        MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY']).response.mapper
-      end
+    def magicseaweed
+      MagicSeaweed::ForecastRequest.new(ENV['MSW_KEY']).response.mapper
+    end
 
-      def tides(days)
-        Admiralty::ForecastRequest.new(days).response.mapper
-      end
+    def tides(days)
+      Admiralty::ForecastRequest.new(days).response.mapper
+    end
 
-      def sunrise_sunset(days)
-        days.each { |day| SunriseSunset::ForecastRequest.new(day).response.mapper }
-      end
+    def sunrise_sunset(days)
+      days.each { |day| SunriseSunset::ForecastRequest.new(day).response.mapper }
+    end
   end
-
 end
