@@ -1,10 +1,10 @@
 class StaticPagesController < ApplicationController
   before_action :authenticate_user!, only: :forecast
-  before_action :set_demo_user, only: [:home, :demo_forecast, :demo_spot_index, :demo_spot_show]
+  before_action :set_demo_user, only: %i[home demo]
   respond_to :html, :js
 
   def home
-    sign_out(current_user) if current_user == set_demo_user
+    sign_out(current_user) if current_user == @demo_user
     redirect_to forecast_path(current_user) if user_signed_in?
   end
 
@@ -19,7 +19,7 @@ class StaticPagesController < ApplicationController
   end
 
   def demo
-    demo_user = set_demo_user
+    demo_user = @demo_user
     sign_in(demo_user)
     redirect_to forecast_path
   end
@@ -44,7 +44,7 @@ class StaticPagesController < ApplicationController
 
   private
 
-    def set_demo_user
-      User.where(email: 'demo_user@surfable.io').first
-    end
+  def set_demo_user
+    @demo_user = User.where(email: 'demo_user@surfable.io').first
+  end
 end

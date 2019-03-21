@@ -7,7 +7,6 @@ module Users
     end
 
     def omniauth_callback(provider)
-      binding.pry
       @user = User.from_omniauth(request.env['omniauth.auth'])
       if @user.persisted?
         set_flash_message(:notice, :success, kind: provider) if is_navigational_format?

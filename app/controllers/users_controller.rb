@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @user = set_user or not_found
+    @user = set_user || not_found
   end
 
   private

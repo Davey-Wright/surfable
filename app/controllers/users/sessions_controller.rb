@@ -1,6 +1,5 @@
 module Users
   class SessionsController < Devise::SessionsController
-
     def new
       self.resource = resource_class.new(sign_in_params)
       clean_up_passwords(resource)
@@ -13,13 +12,12 @@ module Users
 
     private
 
-    def after_sign_in_path_for(user)
+    def after_sign_in_path_for
       forecast_path
     end
 
-    def after_sign_out_path_for(resource)
+    def after_sign_out_path_for
       root_path
     end
-
   end
 end

@@ -19,6 +19,10 @@ feature 'User logs in', js: true do
       expect(page).to have_content('Invalid Email or Password.')
       expect(page).to have_current_path(root_path)
     end
+    
+    scenario 'user forgets password' do
+      pending
+    end
   end
 
   context 'successfully' do

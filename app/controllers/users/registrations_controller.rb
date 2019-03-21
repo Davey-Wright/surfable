@@ -64,20 +64,24 @@ module Users
 
     private
 
-      def sign_up_params
-        params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
-      end
+    def sign_up_params
+      params.require(:user).permit(
+        :first_name, :last_name, :email, :password, :password_confirmation
+      )
+    end
 
-      def account_update_params
-        params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
-      end
+    def account_update_params
+      params.require(:user).permit(
+        :first_name, :last_name, :email, :password, :password_confirmation, :current_password
+      )
+    end
 
-      def after_sign_up_path_for(resource)
-        return redirect_to forecast_path if is_navigational_format?
-      end
+    def after_sign_up_path_for
+      return redirect_to forecast_path if is_navigational_format?
+    end
 
-      def after_update_path_for(user)
-        return redirect_to user_path(user) if is_navigational_format?
-      end
+    def after_update_path_for(user)
+      return redirect_to user_path(user) if is_navigational_format?
+    end
   end
 end
