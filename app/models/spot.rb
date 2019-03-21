@@ -12,30 +12,29 @@ class Spot < ApplicationRecord
 
   def self.wave_attribute_options
     {
-      break_type: ['beach', 'point', 'reef'],
-      direction: ['left', 'right'],
-      length: ['short', 'average', 'long'],
-      shape: ['crumbling', 'steep', 'hollow'],
-      speed: ['slow', 'average', 'fast']
+      break_type: %w[beach point reef],
+      direction: %w[left right],
+      length: %w[short average long],
+      shape: %w[crumbling steep hollow],
+      speed: %w[slow average fast]
     }
   end
 
   def slug
-    name.downcase.gsub(' ', '-').gsub("'", '')
+    name.downcase.tr(' ', '-').tr("'", '')
   end
 
   def to_param
-    param = "#{id}-#{slug.parameterize}"
+    "#{id}-#{slug.parameterize}"
   end
 
   private
 
-    def trim_attributes
-      wave_break_type.reject!(&:blank?)
-      wave_shape.reject!(&:blank?)
-      wave_direction.reject!(&:blank?)
-      wave_length.reject!(&:blank?)
-      wave_speed.reject!(&:blank?)
-    end
-
+  def trim_attributes
+    wave_break_type.reject!(&:blank?)
+    wave_shape.reject!(&:blank?)
+    wave_direction.reject!(&:blank?)
+    wave_length.reject!(&:blank?)
+    wave_speed.reject!(&:blank?)
+  end
 end

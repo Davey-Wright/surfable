@@ -5,8 +5,7 @@ module Forecast
     attr_reader :days
 
     def initialize(data)
-      @days = data.map{ |day| Day.new day }
+      @days = data.map { |day| Day.new day }
     end
   end
-
 end

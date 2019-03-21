@@ -9,14 +9,14 @@ module Condition
     validates :rating, presence: true
 
     def self.name_options
-      ['onshore', 'crossshore', 'offshore']
+      %w[onshore crossshore offshore]
     end
 
     private
 
-      def remove_nil_values_from_arrays
-        direction.reject!(&:blank?)
-        name.reject!(&:blank?)
-      end
+    def remove_nil_values_from_arrays
+      direction.reject!(&:blank?)
+      name.reject!(&:blank?)
+    end
   end
 end

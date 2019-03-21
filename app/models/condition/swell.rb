@@ -9,8 +9,9 @@ module Condition
     before_validation :remove_nil_values_from_arrays
 
     private
-      def remove_nil_values_from_arrays
-        direction.reject!(&:blank?)
-      end
+
+    def remove_nil_values_from_arrays
+      direction.reject!(&:blank?)
+    end
   end
 end

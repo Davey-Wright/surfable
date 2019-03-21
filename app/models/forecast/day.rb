@@ -4,7 +4,7 @@ module Forecast
 
     def initialize(data)
       @date = Time.parse(data.date)
-      @hours = data.hours.map{ |hour| Hour.new(self, hour) }
+      @hours = data.hours.map { |hour| Hour.new(self, hour) }
       @tides = Tide.new(self, data.tides)
       @first_light = Time.at(data.first_light)
       @sunrise = Time.at(data.sunrise)

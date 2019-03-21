@@ -4,6 +4,6 @@ module Condition
   end
 
   def self.direction_options
-    ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
+    %w[N NE E SE S SW W NW]
   end
 end

@@ -15,5 +15,4 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     UserAuthentication::Omniauth.call(self, auth)
   end
-
 end

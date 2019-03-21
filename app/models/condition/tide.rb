@@ -14,10 +14,11 @@ module Condition
     end
 
     private
-      def remove_nil_values_from_arrays
-        rising.reject!(&:blank?)
-        dropping.reject!(&:blank?)
-        size.reject!(&:blank?)
-      end
+
+    def remove_nil_values_from_arrays
+      rising.reject!(&:blank?)
+      dropping.reject!(&:blank?)
+      size.reject!(&:blank?)
+    end
   end
 end
