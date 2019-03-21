@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Condition::Tide, type: :model do
-
-  subject { Condition::Tide.create({
+  subject do
+    Condition::Tide.create(
       spot: FactoryBot.create(:spot),
       rising: [1, 2, 3],
       dropping: [1, 2, 3],
       size: ['all']
-    })
-  }
+    )
+  end
 
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }

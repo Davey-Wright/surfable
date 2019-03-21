@@ -5,6 +5,6 @@ FactoryBot.define do
     min_height { 5 }
     max_height { nil }
     min_period { 10 }
-    direction { ['W', 'SW', 'S'] }
+    direction { %w[W SW S] }
   end
 end

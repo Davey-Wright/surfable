@@ -3,9 +3,9 @@ FactoryBot.define do
     sequence :email do |n|
       "saltydog#{n}@test.com"
     end
-    password {'saltysender'}
-    first_name {'salty'}
-    last_name {'dog'}
+    password { 'saltysender' }
+    first_name { 'salty' }
+    last_name { 'dog' }
 
     factory :user_with_spot do
       after(:build) do |user|

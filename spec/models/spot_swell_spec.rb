@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Condition::Swell, type: :model do
-
-  subject { Condition::Swell.create({
+  subject do
+    Condition::Swell.create(
       spot: FactoryBot.create(:spot),
       rating: 3,
       min_height: 5,
       max_height: nil,
       min_period: 10,
-      direction: ['w', 'sw', 's']
-    })
-  }
+      direction: %w[w sw s]
+    )
+  end
 
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }
@@ -41,7 +41,6 @@ RSpec.describe Condition::Swell, type: :model do
       subject.save
       expect(subject.direction.count).to eq(0)
     end
-
   end
 
   describe 'Testing' do

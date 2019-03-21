@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe UserMailer, type: :mailer do
   describe 'send mail to a user on' do
-
     context 'sign up' do
       it 'should send a sign up confirmation' do
         user = FactoryBot.create(:user)
@@ -35,6 +34,5 @@ RSpec.describe UserMailer, type: :mailer do
         expect(email.subject).to eq('Your account has been successfully deleted')
       end
     end
-
   end
 end

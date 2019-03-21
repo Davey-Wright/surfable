@@ -1,45 +1,81 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  subject do
+    described_class.new(
+      first_name: 'Demo',
+      last_name: 'Surfable',
+      email: 'demo@surfable.com',
+      password: 'demosender'
+    )
+  end
 
-  # describe 'Associations' do
-  #   it { is_expected.to have_many(:spots).dependent(:delete_all) }
-  # end
+  describe 'Associations' do
+    it { is_expected.to have_many(:spots).dependent(:delete_all) }
+  end
 
-  describe 'create new user' do
-    context 'with missing required properties' do
-      it 'should not add user to db' do
-        User.create(first_name: '', last_name: '', email: '', password: '')
-        expect(User.count).to eq(0)
-      end
+  describe 'Validations' do
+    it 'is valid with valid attributes' do
+      expect(subject).to be_valid
     end
 
-    context 'with all required properties' do
-      it 'should add user to db' do
-        user = FactoryBot.create(:user)
-        expect(User.count).to eq(1)
-      end
+    it 'is not valid without a first name' do
+      subject.first_name = nil
+      expect(subject).to_not be_valid
+    end
+
+    it 'is not valid without a last name' do
+      subject.last_name = nil
+      expect(subject).to_not be_valid
+    end
+
+    it 'is not valid without an email' do
+      subject.email = nil
+      expect(subject).to_not be_valid
+    end
+
+    it 'is not valid without a password' do
+      subject.password = nil
+      expect(subject).to_not be_valid
     end
   end
 
-  describe 'update user' do
-    context 'with missing required properties' do
-      it 'should not add user to db' do
-        @user = FactoryBot.create(:user)
+  describe 'CRUD' do
+    context 'Create' do
+      it 'Does not create new spot when invalid' do
+        subject.first_name = nil
+        expect(subject.save).to be(false)
+        expect(User.all.count).to eq(0)
+      end
+
+      it 'Creates a new spot when valid' do
+        expect(subject.save).to be(true)
+        expect(User.all.count).to eq(1)
       end
     end
 
-    context 'with all required properties' do
-      it 'should add user to db' do
+    context 'Update' do
+      it 'Does not update spot when invalid' do
+        subject.save
+        expect(subject.update_attributes(first_name: nil)).to eq(false)
+        subject.reload
+        expect(subject.first_name).to_not eq(nil)
+      end
 
+      it 'Updates spot when valid' do
+        subject.save
+        expect(subject.update_attributes(first_name: 'Melaka')).to eq(true)
+        expect(subject.first_name).to eq('Melaka')
+      end
+    end
+
+    context 'Delete' do
+      it 'Deletes all child associations' do
+        subject.save
+        subject.destroy
+        expect(User.all.count).to eq(0)
+        expect(Spot.all.count).to eq(0)
       end
     end
   end
-
-  describe 'delete user' do
-    context 'should remove user from db' do
-      user = FactoryBot.create(:user)
-    end
-  end
-
 end

@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Condition::Wind, type: :model do
-
-  subject { Condition::Wind.create({
+  subject do
+    Condition::Wind.create(
       spot: FactoryBot.create(:spot),
       rating: 3,
       name: ['onshore'],
-      direction: ['n', 'ne', 'e'],
+      direction: %w[n ne e],
       max_speed: 20
-    })
-  }
+    )
+  end
 
   describe 'Associations' do
     it { is_expected.to belong_to(:spot) }
@@ -49,5 +49,4 @@ RSpec.describe Condition::Wind, type: :model do
       expect(FactoryBot.build(:wind_conditions)).to be_valid
     end
   end
-
 end
