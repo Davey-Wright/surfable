@@ -1,6 +1,6 @@
 def day_forecast_stub
   day = Forecast::Mappers.day_struct.new
-  day[:date] = "2018-11-06"
+  day[:date] = '2018-11-06'
   day[:tides] = tides
   day[:hours] = hours
   day[:first_light] = Time.parse('Tue, 06 Nov 2018 06:42:16 GMT +00:00')
