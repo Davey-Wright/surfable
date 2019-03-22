@@ -1,20 +1,18 @@
 module ApplicationHelper
   def tide_offsets_value(type, value)
     case value
-    when 0
-      type == 'rising' ? 'Low' : 'High'
-    when 6
-      type == 'rising' ? 'High' : 'Low'
     when 1
       '1st'
     when 2
       '2nd'
     when 3
-      'Mid'
+      '3rd'
     when 4
       '4th'
     when 5
       '5th'
+    when 6
+      '6th'
     end
   end
 

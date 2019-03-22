@@ -11,8 +11,4 @@ class User < ApplicationRecord
   def remember_me
     true
   end
-
-  def self.from_omniauth(auth)
-    UserAuthentication::Omniauth.call(self, auth)
-  end
 end

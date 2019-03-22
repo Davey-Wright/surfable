@@ -27,14 +27,12 @@ feature 'User can Create, Read, Delete wind conditions', js: true do
   before(:each) do
     login_as(spot.user)
     visit spot_path(spot)
-    within 'ul.accordion' do
-      click_on('Wind')
-    end
   end
 
   describe 'Read winds' do
     scenario 'user views their spots wind conditions' do
       winds = spot.winds
+      click_and_view_winds
       expect(page).to have_link 'Add new conditions'
       should_display_all_conditions(page, winds)
     end
@@ -43,6 +41,7 @@ feature 'User can Create, Read, Delete wind conditions', js: true do
   describe 'Create winds' do
     context 'successfully' do
       scenario 'when user fills required form fields and submits form' do
+        click_and_view_winds
         click_on('Add new conditions')
         within '#new_condition_wind' do
           choose(option: 4)
@@ -61,14 +60,17 @@ feature 'User can Create, Read, Delete wind conditions', js: true do
 
     context 'unsuccessfully' do
       scenario 'when user skips required form fields and submits form' do
+        click_and_view_winds
         click_on('Add new conditions')
         within '#new_condition_wind' do
           click_on('Add Conditions')
+          have_css('.form_errors', text: 'Please review the problems below:')
+          have_css('.condition_wind_rating .invalid-feedback',
+            text: "Rating can't be blank")
+          have_css('.condition_wind_direction .invalid-feedback',
+            text: "Direction can't be blank")
+          have_css('.condition_wind_max_speed', text: "Max speed can't be blank")
         end
-        assert_text 'Please review the problems below:'
-        expect(page).to have_content "Rating can't be blank"
-        expect(page).to have_content "Max speed can't be blank"
-        expect(page).to have_content "Direction can't be blank"
       end
     end
   end
@@ -77,6 +79,7 @@ feature 'User can Create, Read, Delete wind conditions', js: true do
     before(:each) do
       @wind = spot.winds.first
       scoped_node = "#spot_wind_#{@wind.id}"
+      click_and_view_winds
       within(scoped_node) do
         click_on('Delete')
       end
@@ -94,6 +97,12 @@ feature 'User can Create, Read, Delete wind conditions', js: true do
       expect(page.body).to have_content @wind.max_speed
       expect(page.body).to have_content @wind.direction.first
       expect(page.body).to have_content @wind.name.first
+    end
+  end
+
+  def click_and_view_winds
+    within 'ul.accordion' do
+      click_on('Wind')
     end
   end
 
@@ -115,7 +124,7 @@ feature 'User can Create, Read, Delete wind conditions', js: true do
     within scoped_node do
       expect(page.body).to have_css 'li.star_3'
       expect(page.body).to have_text '4'
-      expect(page.body).to have_text 'nw'
+      expect(page.body).to have_text 'NW'
       expect(page).to have_link('Delete')
     end
   end

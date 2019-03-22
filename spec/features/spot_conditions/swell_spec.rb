@@ -27,13 +27,11 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
   before(:each) do
     login_as(spot.user)
     visit spot_path(spot)
-    within 'ul.accordion' do
-      click_on('Swell')
-    end
   end
 
   describe 'Read swells' do
     scenario 'user views their spots swell conditions' do
+     click_and_view_swells
       swells = spot.swells
       expect(page).to have_link 'Add new conditions'
       should_display_all_conditions(page, swells)
@@ -43,15 +41,19 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
       swell = spot.swells.first
       swell.max_height = 0
       swell.direction = []
-
       scoped_node = "#spot_swell_#{swell.id}"
-      expect(scoped_node).to have_content 'N/A'
+
+      click_and_view_swells
+      within scoped_node do
+        page.find("li", text: 'Not Defined')
+      end
     end
   end
 
   describe 'Create swells' do
     context 'successfully' do
       scenario 'when user fills required form fields and submits form' do
+       click_and_view_swells
         click_on('Add new conditions')
         within '#new_condition_swell' do
           # rating attribute
@@ -64,27 +66,26 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
         end
 
         expect(page).to have_content "Successfully added Swell conditions to #{spot.name}"
-        within 'ul.accordion' do
-          click_on('Swell')
-        end
-
+        click_and_view_swells
         should_display_all_attributes(page)
       end
     end
 
     context 'unsuccessfully' do
       scenario 'when user skips required form fields and submits form' do
+        click_and_view_swells
         click_on('Add new conditions')
         within '#new_condition_swell' do
           click_on('Add Conditions')
+          have_css('.form_errors', text: 'Please review the problems below:')
+          have_css('.invalid-feedback', text: "Rating can't be blank")
+          have_css('.condition_swell_min_height .error', text: "Min height can't be blank")
+          have_css('.condition_swell_min_period .error', text: "Min period can't be blank")
         end
-        assert_text 'Please review the problems below:'
-        expect(page).to have_content "Rating can't be blank"
-        expect(page).to have_content "Min height can't be blank"
-        expect(page).to have_content "Min period can't be blank"
       end
 
       scenario 'when user resets form' do
+       click_and_view_swells
         click_on('Add new conditions')
         within '#new_condition_swell' do
           fill_in 'Min Height', with: 'dummy data'
@@ -97,6 +98,7 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
 
   describe 'Delete swells' do
     before(:each) do
+     click_and_view_swells
       @swell = spot.swells.first
       scoped_node = "#spot_swell_#{@swell.id}"
       within(scoped_node) do
@@ -116,6 +118,12 @@ feature 'User can Create, Read, Delete swell conditions', js: true do
       expect(page.body).to have_content @swell.min_period
       expect(page.body).to have_content @swell.min_height
       expect(page.body).to have_content @swell.max_height
+    end
+  end
+
+  def click_and_view_swells
+    within 'ul.accordion' do
+      click_on('Swell')
     end
   end
 
