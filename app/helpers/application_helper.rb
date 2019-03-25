@@ -29,14 +29,19 @@ module ApplicationHelper
   def display_attribute(att)
     if att.is_a? Array
       if att.empty?
-        'Not Defined'
+        not_defined
       else
-        str = ''
-        att.each { |prop| str += "#{prop} " }
-        str
+        list = "<ul>"
+        att.each { |a| list += "<li>#{a}</li>" }
+        list += "</ul>"
+        return list.html_safe
       end
     else
-      att.nil? ? 'Not Defined' : att
+      not_defined
     end
+  end
+
+  def not_defined
+    return "<p>Not Defined</p>".html_safe
   end
 end

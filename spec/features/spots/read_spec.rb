@@ -54,10 +54,10 @@ feature 'User views spot', js: true do
     end
 
     scenario 'user reads attributes with nil values' do
+      spot.update_attribute(:wave_shape, nil)
+      spot.reload
       visit spot_path(spot)
-      spot.wave_shape = nil
-      spot_info = page.find('.spot_info')
-      expect(spot_info).to have_content 'N/A'
+      find(:css, '.wave_shape > p', text: 'Not Defined')
     end
 
     scenario 'when user is logged in they can view a spot' do

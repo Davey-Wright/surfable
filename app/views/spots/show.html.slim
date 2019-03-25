@@ -16,26 +16,25 @@
         = link_to 'Edit', edit_spot_path(@spot), class: 'columns edit_spot_btn', remote: true
         = link_to "Delete", spot_path(@spot), method: :delete, data: { confirm: { text: "Are you sure you want to delete the spot #{ @spot.name }?" } }
       ul
-        li
+        li.wave_break_type
           h2 Wave Break Type
-          ul
-            = display_attribute(@spot.wave_break_type)
-        li
+          = display_attribute(@spot.wave_break_type)
+
+        li.wave_shape
           h2 Wave Shape
-          ul
-            = display_attribute(@spot.wave_shape)
-        li
+          = display_attribute(@spot.wave_shape)
+
+        li.wave_length
           h2 Wave Length
-          ul
-            = display_attribute(@spot.wave_length)
-        li
+          = display_attribute(@spot.wave_length)
+
+        li.wave_speed
           h2 Wave Speed
-          ul
-            = display_attribute(@spot.wave_speed)
-        li
+          = display_attribute(@spot.wave_speed)
+          
+        li.wave_direction
           h2 Wave Direction
-          ul
-            = display_attribute(@spot.wave_direction)
+          = display_attribute(@spot.wave_direction)
 
   h2 Conditions
 

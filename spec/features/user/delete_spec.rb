@@ -22,15 +22,7 @@ feature 'User deletes account', js: true do
 
   context 'successfully' do
     scenario 'when user clicks confirm' do
-      within '.modal_content' do
-        click_on('Confirm')
-      end
-
-      message = ActionMailer::Base.deliveries.last
-      expect(message.to.first).to eq(email)
-      expect(message.subject).to eq('Your account was successfully deleted')
-
-      delivers_email_to(user.email)
+      click_link('Confirm')
       expect(page).to have_current_path(root_path)
     end
   end

@@ -58,14 +58,14 @@ feature 'New user registration', js: true do
         fill_form(email)
         click_on('Sign up')
       end
-      expect(page).to have_content(/email has already been taken/i)
+      page.find(:css, '.user_email .error', text: 'Email has already been taken')
     end
 
     scenario 'when user tries to register with facebook auth using a registered email' do
       FactoryBot.create(:user, email: 'saltydog@test.com')
       omniauth_stub(provider: :facebook)
       click_on('Sign up with Facebook')
-      expect(page).to have_content('Email has already been taken')
+      page.find(:css, '.user_email .error', text: 'Email has already been taken')
     end
   end
 

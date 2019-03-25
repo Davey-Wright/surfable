@@ -58,7 +58,7 @@ module Users
     def destroy
       if resource.destroy
         redirect_to root_path
-        UserMailer.delete_confirmation(resource).deliver_now
+        UserMailer.delete_confirmation(resource).deliver_later
       end
     end
 
