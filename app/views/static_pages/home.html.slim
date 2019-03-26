@@ -1,17 +1,10 @@
-div#wrapper
-  header#header
-    .logo
-      span.icon.fa-diamond
-    .content
-      .inner
-        h1
-          | Surfable
-        p
-          | An open source project for surfers in South Wales, UK
-          br
-          |  cep quam augue vel Feugiat Aliquam egestas.
+div.main-content
+  div.flex-container.flex-dir-column
+    header
+      = image_tag "logo.png", class: 'logo'
+
     nav
-      ul
+      ul.menu.primary-nav.menu-hover-lines.user-navigation.flex-container.align-center
         li
           = link_to 'Demo', demo_path
         li
@@ -19,5 +12,8 @@ div#wrapper
         li
           = link_to 'Log In', new_user_session_path, remote: true
 
-  footer#footer
-    p.copyright&copy; Davey Wright 2018
+    main
+      p Surfable is an open source project developed for surfers in South Wales, UK. It is designed to forecast a surfers favorite spots for their preferred conditions.
+
+    footer
+      p.copyright&copy; Davey Wright 2018

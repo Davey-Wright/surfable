@@ -21,7 +21,7 @@ html
         span(aria-hidden='true') &times;
       .modal_content
 
-    body(class="#{body_css_class}")
+    body(id="#{body_css_id}")
       p.notice= notice
       p.alert= alert
 
@@ -31,4 +31,4 @@ html
         - else
           = render 'layouts/user_navigation'
 
-    = yield
+      = yield

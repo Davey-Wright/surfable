@@ -3,12 +3,22 @@
 @import 'navigation';
 @import 'spots';
 @import 'mixins/item_circle.scss';
+@import 'static_pages';
 
 @font-face {
   font-family: 'Bellota';
   src:font_url('bellota/Bellota-Bold.otf');
   font-weight: normal;
   font-style: normal;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+ul {
+  list-style: none;
 }
 
 .notice {
@@ -25,10 +35,6 @@ html, body {
 
 h2 {
   font-size: 1.5rem;
-}
-
-body {
-  padding: 4.8rem 0;
 }
 
 abbr[title], abbr[data-original-title] {
