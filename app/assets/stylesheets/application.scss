@@ -4,6 +4,7 @@
 @import 'spots';
 @import 'mixins/item_circle.scss';
 @import 'static_pages';
+@import 'form';
 
 @font-face {
   font-family: 'Bellota';
@@ -210,8 +211,6 @@ a {
 }
 
 .form-actions {
-  padding-top: 1rem;
-  border-top: 1px solid black;
   margin-top: 1rem;
   text-transform: uppercase;
 }

@@ -1,12 +1,5 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
-    respond_to :html, :js
-
-    def new
-      build_resource
-      yield resource if block_given?
-      respond_with { |f| f.js { render 'new', layout: false } }
-    end
 
     def create
       build_resource(sign_up_params)
@@ -28,10 +21,6 @@ module Users
         set_minimum_password_length
         respond_with { |f| f.js { render 'new', layout: false } }
       end
-    end
-
-    def edit
-      respond_with { |f| f.js { render 'edit', layout: false } }
     end
 
     def update

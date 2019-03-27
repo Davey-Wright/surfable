@@ -1,23 +1,36 @@
-h2.major
-  | Log In
+div.main-content
+  div.flex-container.flex-dir-column
 
-.social_sign_up_links
-  - if devise_mapping.omniauthable?
-    - resource_class.omniauth_providers.each do |provider|
-      = link_to "Log in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: 'button'
+    = link_to 'x', root_path, class: 'back-button'
 
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name), remote: true) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email,
-      required: true,
-      autofocus: true,
-      input_html: { autocomplete: "email" }
-    = f.input :password,
-      required: true,
-      input_html: { autocomplete: "current-password" }
+    div.login-box
+      h1.login-box-title Log In
 
-  .form-actions
-    = f.button :submit, "Log in"
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        = f.error_notification
+        .form-inputs
+          = f.input :email,
+            label: false,
+            placeholder: 'Email',
+            required: true,
+            autofocus: true,
+            input_html: { autocomplete: "email" }
 
-= link_to "Forgot your password?", new_user_password_path, data: { remote: true, target: 'modal' }
+          = f.input :password,
+            label: false,
+            placeholder: 'Password',
+            required: true,
+            input_html: { autocomplete: "current-password" }
+
+        .form-actions
+          = f.button :submit, "log in", class: 'login-box-submit-button'
+
+        p.or or
+
+        - if devise_mapping.omniauthable?
+          - resource_class.omniauth_providers.each do |provider|
+            = link_to "Log in with #{provider.to_s.titleize}",
+              omniauth_authorize_path(resource_name, provider),
+              class: 'login-box-social-button-facebook'
+
+        = link_to "Forgot your password?", new_user_password_path

@@ -43,6 +43,7 @@ gem 'foundation-rails', '~> 6.5', '>= 6.5.1.0'
 gem 'sprockets-es6', '~> 0.9.2'
 gem 'autoprefixer-rails'
 gem 'jquery-rails', '~> 4.0', '>= 4.0.5'
+gem 'turbolinks-animate', '~> 1.0'
 
 # User Authentication
 gem 'devise'

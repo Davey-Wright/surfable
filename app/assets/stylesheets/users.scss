@@ -1,4 +1,44 @@
 // devise overrides
+#users_registrations_new, #users_sessions_new, #users_passwords_new {
+  background: url('jeremy-bishop-664695-unsplash.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  .main-content {
+    background: white;
+    width: 100%;
+    padding: 3em 2em;
+
+    @include breakpoint(medium only) {
+      > div {
+        width: 50%;
+        margin: auto;
+      }
+    }
+
+    @include breakpoint(large) {
+      width: 500px;
+      height: 100%;
+      padding: 4em;
+
+      div {
+        height: 100%;
+      }
+    }
+
+    .back-button {
+      font-size: 1.5em;
+      font-weight: 100;
+      margin-left: auto;
+
+      &:hover {
+        font-weight: 200;
+      }
+    }
+  }
+}
 
 .notice, .alert {
   margin-bottom: 0px;
