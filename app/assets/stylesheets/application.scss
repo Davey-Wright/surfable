@@ -6,7 +6,6 @@
 @import 'form';
 @import 'forecasts';
 @import 'navigation';
-@import 'icons';
 
 @font-face {
   font-family: 'Bellota';
@@ -15,8 +14,22 @@
   font-style: normal;
 }
 
+html {
+  font-size: 14px;
+
+  @include breakpoint(large){
+    font-size: 16px;
+  }
+}
+
+svg {
+  height: 1.5rem;
+  width: auto;
+}
+
 .wrapper {
-  padding: 2em;
+  padding: 1.5em;
+
   @include breakpoint(medium) {
     padding: 4em;
   }
@@ -29,6 +42,10 @@ img {
 
 ul {
   list-style: none;
+}
+
+small {
+  font-size: 70%;
 }
 
 .notice {

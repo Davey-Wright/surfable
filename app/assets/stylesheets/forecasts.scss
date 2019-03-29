@@ -1,12 +1,68 @@
+// overrides
+
+#forecast {
+  .rating {
+    margin-bottom: 0px;
+  }
+}
+
 #forecast {
   ul {
     list-style: none;
   }
 
-  .conditions ul li {
-    padding-left: 1em;
+  section {
+    padding: .5em 0 .5em 1em;
   }
-  .conditions ul li:first-child {
-    padding-left: 0px;
+
+  .night-hours {
+    background: #eee;
+  }
+
+  .tide-daylight {
+    margin-left: 2em;
+  }
+
+  .conditions {
+    margin-left: 2em;
+
+    ul:last-child {
+      margin-left: 2em;
+    }
+
+    ul:first-child {
+      li {
+        padding-left: 1.5em;
+      }
+    }
+
+    ul li {
+      padding-left: .5em;
+    }
+
+    ul li:first-child {
+      padding-left: 0px;
+    }
+  }
+  .date .icon {
+    margin-right: 1em;
+  }
+
+  .hours {
+    padding-left: 1.6em;
+  }
+
+  .swell li, .wind li {
+    font-weight: bold;
+
+    small {
+      font-weight: 400;
+    }
+  }
+
+  
+
+  .rating svg{
+    opacity: 0.05;
   }
 }

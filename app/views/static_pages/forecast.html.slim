@@ -3,13 +3,16 @@ div#forecast.row.flex-container
     h1 Forecast
     - @forecast.days.each do |day|
       div.day
-        p = day.date.strftime('%A, %B %-d')
-        ul
+        p.date.flex-container
+          span.icon
+            = icon('calendar')
+          = day.date.strftime('%A, %B %-d')
+        ul.hours
           - day.hours.each do |hour|
             li
-              section.hour.row.flex-container
+              section(class="hour row flex-container #{ night_hours?(day, hour) }")
                 div.flex-container.flex-dir-column
-                  span.clock
+                  span.icon
                   p = hour.value.strftime('%H')
 
                 div.conditions.flex-container.align-justify
@@ -22,17 +25,19 @@ div#forecast.row.flex-container
                         = hour.swell.period
                         small s
                       li.icon
-                        / = hour.swell.direction
-                        = icon('swell_arrow')
+                        = icon('swell_arrow',
+                          { rotate: "#{ hour.swell.direction }" })
                     div
-                      p.star shaka
+                      p.icon.rating
+                        - 5.times do
+                          = icon('star')
                   ul.wind.flex-container
                     li.flex-container
                       = hour.wind.speed
                       small mph
                     li.icon
-                      / = hour.wind.direction
-                      = icon('wind_arrow_v1')
+                      = icon('wind_arrow_v1',
+                        { rotate: "#{ hour.wind.direction }"})
 
         div.tide-daylight.flex-container
           ul.tides

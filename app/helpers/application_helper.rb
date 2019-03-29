@@ -4,45 +4,23 @@ module ApplicationHelper
     id = [controller_path.split('/'), action_name].flatten.join('_')
   end
 
-  def icon(name)
+  def icon(name, opts={})
     file_path = "#{Rails.root}/app/assets/images/icons/svg/#{name}.svg"
-    return File.read(file_path).html_safe if File.exists?(file_path)
+    file = File.read(file_path).html_safe if File.exists?(file_path)
+    doc = Nokogiri::HTML::DocumentFragment.parse file
+    svg = doc.at_css 'svg'
+    rotate_icon(svg, opts) if opts[:rotate].present?
+    doc.to_html.html_safe
   end
 
-  # def primary_navigation_links
-  #   if body_id == 'static_pages_home'
-  #     [
-  #       { text: 'Demo', href: demo_path },
-  #       { text: 'Sign Up', href: new_user_registration_path },
-  #       { text: 'Log In', href: new_user_session_path}
-  #     ]
-  #   elsif body_id == 'static_pages_forecast'
-  #     [
-  #       { text: 'Home', href: root_path },
-  #       { text: 'Forecast', href: forecast_path },
-  #       { text: 'Spots', href: spots_path },
-  #       { text: 'Sign Up', href: new_user_registration_path }
-  #     ]
-  #   end
-  #   links = {
-  #     demo: [
-  #       { text: 'Home', href: root_path },
-  #       { text: 'Forecast', href: forecast_path },
-  #       { text: 'Spots', href: spots_path },
-  #       { text: 'Sign Up', href: new_user_registration_path }
-  #     ],
-  #     user: [
-  #       { text: 'Forecast', href: forecast_path },
-  #       { text: 'Spots', href: spots_path },
-  #       { text: 'Dashboard', href: user_path(current_user) },
-  #       { text: 'Sign Out',
-  #         href: destroy_user_session_path,
-  #         method: :delete,
-  #         id: 'sign_out'
-  #       }
-  #     ]
-  #   }
-  # end
+  def rotate_icon(svg, opts)
+    deg = opts[:rotate].to_i
+    svg['style'] = "transform: rotate(#{deg}deg);"
+  end
+
+  def night_hours?(day, hour)
+    return 'night-hours' if hour.value < day.first_light || hour.value > day.last_light
+  end
 
   def tide_offsets_value(type, value)
     case value
