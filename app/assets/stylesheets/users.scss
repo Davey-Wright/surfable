@@ -6,7 +6,11 @@
   -o-background-size: cover;
   background-size: cover;
 
-  .main-content {
+  .primary-nav {
+    display: none;
+  }
+
+  .wrapper {
     background: white;
     width: 100%;
     padding: 3em 2em;

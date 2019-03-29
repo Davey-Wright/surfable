@@ -1,16 +1,24 @@
 @import 'foundation_and_overrides';
 @import 'users';
-@import 'navigation';
 @import 'spots';
 @import 'mixins/item_circle.scss';
 @import 'static_pages';
 @import 'form';
+@import 'forecasts';
+@import 'navigation';
 
 @font-face {
   font-family: 'Bellota';
   src:font_url('bellota/Bellota-Bold.otf');
   font-weight: normal;
   font-style: normal;
+}
+
+.wrapper {
+  padding: 2em;
+  @include breakpoint(medium) {
+    padding: 4em;
+  }
 }
 
 img {
@@ -84,61 +92,6 @@ a {
   margin: 2.5rem 0 .5rem 0;
 }
 
-
-// nav
-.surfable-wrapper {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.top-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: white;
-  margin-bottom: 3.6rem;
-  ul {
-    background: white;
-  }
-}
-
-.top-bar .menu {
-  margin-top: 3.2rem;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto;
-  height: 12.8rem;
-}
-
-.primary-nav .off-canvas-content{
-  display: none;
-}
-
-.nav-title {
-  display: flex;
-  align-items: baseline;
-
-  h2 {
-    font-family: 'Bellota';
-    font-size: 3rem;
-    margin-bottom: 0rem;
-    margin-right: .25rem;
-  }
-
-  span {
-    font-size: 2.5rem;
-  }
-
-  p {
-    margin-left: .5rem;
-    margin-bottom: 0rem;
-    font-weight: 300;
-    font-size: 1.25rem;
-    text-transform: capitalize;
-  }
-}
 
 // modal
 #modal {

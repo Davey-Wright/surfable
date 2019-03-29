@@ -5,13 +5,12 @@
   -o-background-size: cover;
   background-size: cover;
 
-  .main-content {
+  .wrapper {
     background: white;
     width: 100%;
-    padding: 3em 2em;
 
     @include breakpoint(medium only) {
-      > div {
+      > .primary-nav {
         width: 50%;
         margin: auto;
       }
@@ -20,9 +19,8 @@
     @include breakpoint(large) {
       width: 500px;
       height: 100%;
-      padding: 4em;
 
-      div {
+      #primar-navigation {
         height: 100%;
       }
     }
@@ -30,31 +28,10 @@
     .close-button {
       font-size: 2em;
     }
-  }
-
-  .main-content div {
-
-    ul li {
-      line-height: 2em;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    nav {
-      margin-bottom: 2.5em;
-    }
-
-    header {
-      margin-bottom: 3.2em;
-    }
-
-    main {
-      margin-bottom: 1em;
-    }
 
     footer {
-      margin-top: auto;
+      position: absolute;
+      bottom: 4em;
     }
-
   }
 }

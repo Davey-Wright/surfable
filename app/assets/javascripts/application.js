@@ -20,8 +20,16 @@
 
 $(document).on('turbolinks:load', function() {
   $(document).foundation().confirmWithReveal();
+  set_active_nav_link();
 });
 
+let set_active_nav_link = function(){
+  $('.primary-nav li').each(function(i, el){
+    if($(el).find('a').attr('href') == window.location.pathname){
+      $(el).addClass('active');
+    }
+  })
+}
 
 let open_modal = function(content, callback){
   let $modal = $('#modal'),

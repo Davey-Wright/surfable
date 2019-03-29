@@ -60,4 +60,28 @@ $menu-hover-lines-border-width: .2rem;
   }
 }
 
-.primary-navi
+.primary-nav {
+  text-align: center;
+  margin-bottom: 3.6em;
+
+  ul li {
+    line-height: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  header {
+    .logo {
+      max-width: 200px;
+      margin-bottom: 2.8em;
+    }
+  }
+
+  main {
+    margin-bottom: 1em;
+  }
+
+  footer {
+    margin-top: auto;
+  }
+}

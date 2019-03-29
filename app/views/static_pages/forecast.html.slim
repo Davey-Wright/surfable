@@ -1,23 +1,57 @@
-.row
-  .columns.medium-6
-    = image_tag 'chart.gif'
+div#forecast.row.flex-container
+  div.columns.small-12.medium-6
+    h1 Forecast
+    - @forecast.days.each do |day|
+      div.day
+        p = day.date.strftime('%A, %B %-d')
+        ul
+          - day.hours.each do |hour|
+            li.surf-wind
+              section.hour.row.flex-container
+                div.flex-container.flex-dir-column
+                  span.clock
+                  p = hour.value.strftime('%H')
 
-  .columns.medium-6
-    h1.surfable_forecast Surfable Forecast
+                div.conditions.flex-container.align-justify
+                  ul.swell.flex-container.flex-dir-column
+                    div.flex-container
+                      li.flex-container
+                        = hour.swell.height
+                        small ft
+                      li.flex-container
+                        = hour.swell.period
+                        small s
+                      li.arrow = hour.swell.direction
+                    div
+                      p.star shaka
+                  ul.wind.flex-container.align-justify
+                    li.flex-container
+                      = hour.wind.speed
+                      small mph
+                    li.arrow = hour.wind.direction
 
-    - if @surfable
-      - @surfable.forecast.each do |surfable|
-        li
-          h2 = surfable[:date]
+        div.tide-daylight.flex-container
+          ul.tides
+            - day.tides.data.each do |tide|
+              li.flex-container
+                p = "#{tide.type} tide"
+                p = tide.time.strftime('%H:%M')
+                p = tide.height
 
-          - if !surfable[:spots].blank?
-            - surfable[:spots].each do |spot|
-              - spot.forecast.each do |surfable_forecast|
-                li
-                  = link_to spot.spot.name, spot_path(spot.spot.id)
-                  p = surfable_forecast.rating
-                  p = surfable_forecast.tide
-                  = surfable_forecast.values.each do |time|
-                  /   p "#{ time.first } - #{ time.last }"
-    - else
-      p Get started and add your favorite spots to your forecasts by adding them #{link_to 'here', new_spot_path, class: 'columns new_spot_btn', remote: true}
+          ul.daylight
+            span.sunrise-icon
+            li.flex-container
+              p first light
+              = day.first_light.strftime('%H:%M')
+            li.flex-container
+              p sunrise
+              = day.sunrise.strftime('%H:%M')
+            li.flex-container
+              p sunset
+              = day.sunset.strftime('%H:%M')
+            li.flex-container
+              p last light
+              = day.last_light.strftime('%H:%M')
+
+  div.columns.small-12.medium-6
+    h1 Surfable Forecast

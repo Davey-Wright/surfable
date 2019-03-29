@@ -1,9 +1,43 @@
 module ApplicationHelper
-  def body_css_id
-    @body_css_id ||= []
-    view_css_id = [controller_path.split('/'), action_name].flatten.join('_')
-    @body_css_id.unshift(view_css_id).join(' ')
+  def body_id
+    id ||= []
+    id = [controller_path.split('/'), action_name].flatten.join('_')
   end
+
+  # def primary_navigation_links
+  #   if body_id == 'static_pages_home'
+  #     [
+  #       { text: 'Demo', href: demo_path },
+  #       { text: 'Sign Up', href: new_user_registration_path },
+  #       { text: 'Log In', href: new_user_session_path}
+  #     ]
+  #   elsif body_id == 'static_pages_forecast'
+  #     [
+  #       { text: 'Home', href: root_path },
+  #       { text: 'Forecast', href: forecast_path },
+  #       { text: 'Spots', href: spots_path },
+  #       { text: 'Sign Up', href: new_user_registration_path }
+  #     ]
+  #   end
+  #   links = {
+  #     demo: [
+  #       { text: 'Home', href: root_path },
+  #       { text: 'Forecast', href: forecast_path },
+  #       { text: 'Spots', href: spots_path },
+  #       { text: 'Sign Up', href: new_user_registration_path }
+  #     ],
+  #     user: [
+  #       { text: 'Forecast', href: forecast_path },
+  #       { text: 'Spots', href: spots_path },
+  #       { text: 'Dashboard', href: user_path(current_user) },
+  #       { text: 'Sign Out',
+  #         href: destroy_user_session_path,
+  #         method: :delete,
+  #         id: 'sign_out'
+  #       }
+  #     ]
+  #   }
+  # end
 
   def tide_offsets_value(type, value)
     case value

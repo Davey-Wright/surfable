@@ -21,14 +21,23 @@ html
         span(aria-hidden='true') &times;
       .modal_content
 
-    body(id="#{body_css_id}")
+    body(id="#{body_id}")
       p.notice= notice
       p.alert= alert
 
-      - if user_signed_in?
-        - if current_user.demo
-          = render 'layouts/demo_navigation'
-        - else
-          = render 'layouts/user_navigation'
+      div.wrapper
+        header
+          div.primary-nav.flex-container.flex-dir-column
+            header
+              = image_tag "logo.png", class: 'logo'
+              
+              - if user_signed_in?
+                - if current_user.demo
+                  = render 'layouts/demo_navigation'
+                - else
+                  = render 'layouts/user_navigation'
+              - else
+                = render 'layouts/primary_navigation'
 
-      = yield
+        div.main-content
+          = yield

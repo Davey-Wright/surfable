@@ -14,7 +14,7 @@ class StaticPagesController < ApplicationController
     if !@forecast.nil? && !@spots.empty?
       @surfable = Surfable::Forecaster.call(@spots, @forecast)
     else
-      return @surfable = false
+      return @surfable = nil
     end
   end
 

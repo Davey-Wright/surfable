@@ -1,26 +1,10 @@
-.top-bar
-  = image_tag "logo.png", class: 'logo'
-  ul.menu.primary-nav.menu-hover-lines.demo-navigation
+nav
+  ul.menu.primary-nav.menu-hover-lines.user-navigation.flex-container.align-center
     li
       = link_to 'Home', root_path
-    li.active
+    li.forecast
       = link_to 'Forecast', forecast_path
-    li
+    li.spots
       = link_to 'Spots', spots_path
     li
-      = link_to 'Sign Up', new_user_registration_path, remote: true
-    li.off-canvas-content data-off-canvas-content=""
-      button.button data-toggle="offCanvas" type="button"
-        span.menu-icon
-        span Menu
-
-    #offCanvas.off-canvas.position-right data-off-canvas=""
-      ul.menu.vertical
-        li
-          = link_to 'Home', root_path
-        li.active
-          = link_to 'Forecast', forecast_path
-        li
-          = link_to 'Spots', spots_path
-        li
-          = link_to 'Sign Up', new_user_registration_path, remote: true
+      = link_to 'Sign Up', new_user_registration_path

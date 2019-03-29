@@ -1,0 +1,12 @@
+#forecast {
+  ul {
+    list-style: none;
+  }
+
+  .conditions ul li {
+    padding-left: 1em;
+  }
+  .conditions ul li:first-child {
+    padding-left: 0px;
+  }
+}
