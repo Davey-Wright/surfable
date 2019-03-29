@@ -4,6 +4,11 @@ module ApplicationHelper
     id = [controller_path.split('/'), action_name].flatten.join('_')
   end
 
+  def icon(name)
+    file_path = "#{Rails.root}/app/assets/images/icons/svg/#{name}.svg"
+    return File.read(file_path).html_safe if File.exists?(file_path)
+  end
+
   # def primary_navigation_links
   #   if body_id == 'static_pages_home'
   #     [

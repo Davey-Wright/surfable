@@ -6,7 +6,7 @@ div#forecast.row.flex-container
         p = day.date.strftime('%A, %B %-d')
         ul
           - day.hours.each do |hour|
-            li.surf-wind
+            li
               section.hour.row.flex-container
                 div.flex-container.flex-dir-column
                   span.clock
@@ -21,14 +21,18 @@ div#forecast.row.flex-container
                       li.flex-container
                         = hour.swell.period
                         small s
-                      li.arrow = hour.swell.direction
+                      li.icon
+                        / = hour.swell.direction
+                        = icon('swell_arrow')
                     div
                       p.star shaka
-                  ul.wind.flex-container.align-justify
+                  ul.wind.flex-container
                     li.flex-container
                       = hour.wind.speed
                       small mph
-                    li.arrow = hour.wind.direction
+                    li.icon
+                      / = hour.wind.direction
+                      = icon('wind_arrow_v1')
 
         div.tide-daylight.flex-container
           ul.tides
